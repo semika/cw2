@@ -94,5 +94,34 @@ namespace cw2.transaction
         {
 
         }
+
+        private void onBtnOneOffChanged(object sender, EventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+            if (radioButton.Checked)
+            {
+                lblOccurence.Visible = false;
+                cmbOccurence.Visible = false;
+                cmbOccurence.Text = null;
+            }
+            else
+            {
+
+            }
+        }
+
+        private void onrBtnRecurrenceChanged(object sender, EventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+            if (radioButton.Checked)
+            {
+                lblOccurence.Visible = true;
+                cmbOccurence.Visible = true;
+            }
+            else
+            {
+
+            }
+        }
     }
 }

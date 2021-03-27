@@ -31,13 +31,24 @@ namespace cw2.transaction
         {
             this.groupTransactionDraft = new System.Windows.Forms.GroupBox();
             this.groupAddEditTransaction = new System.Windows.Forms.GroupBox();
-            this.cmbOccurence = new System.Windows.Forms.ComboBox();
-            this.rBtnRecurrence = new System.Windows.Forms.RadioButton();
+            this.lblDayOfYearMonth = new System.Windows.Forms.Label();
+            this.cmdMonthOfYear = new System.Windows.Forms.ComboBox();
+            this.txtDayOfYear = new System.Windows.Forms.TextBox();
+            this.lblDayOfYearDay = new System.Windows.Forms.Label();
+            this.lblDayOfYear = new System.Windows.Forms.Label();
+            this.txtDayOfMonth = new System.Windows.Forms.TextBox();
+            this.lblDayOfMonthDay = new System.Windows.Forms.Label();
+            this.cmbDayOfWeek = new System.Windows.Forms.ComboBox();
+            this.rBtnGroupType = new System.Windows.Forms.GroupBox();
             this.rBtnOneOff = new System.Windows.Forms.RadioButton();
-            this.txtTxnAmount = new System.Windows.Forms.TextBox();
-            this.txtTxnTitle = new System.Windows.Forms.TextBox();
+            this.rBtnRecurrence = new System.Windows.Forms.RadioButton();
+            this.rBtnGroupIncomeExpense = new System.Windows.Forms.GroupBox();
             this.rBtnExpense = new System.Windows.Forms.RadioButton();
             this.rBtnIncome = new System.Windows.Forms.RadioButton();
+            this.dtpExpireDate = new System.Windows.Forms.DateTimePicker();
+            this.cmbOccurence = new System.Windows.Forms.ComboBox();
+            this.txtTxnAmount = new System.Windows.Forms.TextBox();
+            this.txtTxnTitle = new System.Windows.Forms.TextBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.lblExpireDate = new System.Windows.Forms.Label();
             this.lblDayOfWeek = new System.Windows.Forms.Label();
@@ -46,20 +57,9 @@ namespace cw2.transaction
             this.lblTxnDate = new System.Windows.Forms.Label();
             this.lblDayOfMonth = new System.Windows.Forms.Label();
             this.lblTxnTitle = new System.Windows.Forms.Label();
-            this.dtpExpireDate = new System.Windows.Forms.DateTimePicker();
-            this.rBtnGroupIncomeExpense = new System.Windows.Forms.GroupBox();
-            this.rBtnGroupType = new System.Windows.Forms.GroupBox();
-            this.cmbDayOfWeek = new System.Windows.Forms.ComboBox();
-            this.lblDayOfMonthDay = new System.Windows.Forms.Label();
-            this.txtDayOfMonth = new System.Windows.Forms.TextBox();
-            this.lblDayOfYear = new System.Windows.Forms.Label();
-            this.lblDayOfYearDay = new System.Windows.Forms.Label();
-            this.txtDayOfYear = new System.Windows.Forms.TextBox();
-            this.cmdMonthOfYear = new System.Windows.Forms.ComboBox();
-            this.lblDayOfYearMonth = new System.Windows.Forms.Label();
             this.groupAddEditTransaction.SuspendLayout();
-            this.rBtnGroupIncomeExpense.SuspendLayout();
             this.rBtnGroupType.SuspendLayout();
+            this.rBtnGroupIncomeExpense.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupTransactionDraft
@@ -103,23 +103,82 @@ namespace cw2.transaction
             this.groupAddEditTransaction.Text = "Add/Edit Transaction";
             this.groupAddEditTransaction.Enter += new System.EventHandler(this.groupAddEditTransaction_Enter);
             // 
-            // cmbOccurence
+            // lblDayOfYearMonth
             // 
-            this.cmbOccurence.FormattingEnabled = true;
-            this.cmbOccurence.Location = new System.Drawing.Point(202, 269);
-            this.cmbOccurence.Name = "cmbOccurence";
-            this.cmbOccurence.Size = new System.Drawing.Size(200, 21);
-            this.cmbOccurence.TabIndex = 16;
+            this.lblDayOfYearMonth.AutoSize = true;
+            this.lblDayOfYearMonth.Location = new System.Drawing.Point(280, 378);
+            this.lblDayOfYearMonth.Name = "lblDayOfYearMonth";
+            this.lblDayOfYearMonth.Size = new System.Drawing.Size(54, 13);
+            this.lblDayOfYearMonth.TabIndex = 27;
+            this.lblDayOfYearMonth.Text = "On Month";
             // 
-            // rBtnRecurrence
+            // cmdMonthOfYear
             // 
-            this.rBtnRecurrence.AutoSize = true;
-            this.rBtnRecurrence.Location = new System.Drawing.Point(90, 16);
-            this.rBtnRecurrence.Name = "rBtnRecurrence";
-            this.rBtnRecurrence.Size = new System.Drawing.Size(81, 17);
-            this.rBtnRecurrence.TabIndex = 15;
-            this.rBtnRecurrence.Text = "Recurrence";
-            this.rBtnRecurrence.UseVisualStyleBackColor = true;
+            this.cmdMonthOfYear.FormattingEnabled = true;
+            this.cmdMonthOfYear.Location = new System.Drawing.Point(335, 373);
+            this.cmdMonthOfYear.Name = "cmdMonthOfYear";
+            this.cmdMonthOfYear.Size = new System.Drawing.Size(67, 21);
+            this.cmdMonthOfYear.TabIndex = 26;
+            // 
+            // txtDayOfYear
+            // 
+            this.txtDayOfYear.Location = new System.Drawing.Point(203, 373);
+            this.txtDayOfYear.Name = "txtDayOfYear";
+            this.txtDayOfYear.Size = new System.Drawing.Size(49, 20);
+            this.txtDayOfYear.TabIndex = 25;
+            // 
+            // lblDayOfYearDay
+            // 
+            this.lblDayOfYearDay.AutoSize = true;
+            this.lblDayOfYearDay.Location = new System.Drawing.Point(151, 381);
+            this.lblDayOfYearDay.Name = "lblDayOfYearDay";
+            this.lblDayOfYearDay.Size = new System.Drawing.Size(43, 13);
+            this.lblDayOfYearDay.TabIndex = 24;
+            this.lblDayOfYearDay.Text = "On Day";
+            // 
+            // lblDayOfYear
+            // 
+            this.lblDayOfYear.AutoSize = true;
+            this.lblDayOfYear.Location = new System.Drawing.Point(52, 381);
+            this.lblDayOfYear.Name = "lblDayOfYear";
+            this.lblDayOfYear.Size = new System.Drawing.Size(63, 13);
+            this.lblDayOfYear.TabIndex = 23;
+            this.lblDayOfYear.Text = "Day of Year";
+            // 
+            // txtDayOfMonth
+            // 
+            this.txtDayOfMonth.Location = new System.Drawing.Point(203, 347);
+            this.txtDayOfMonth.Name = "txtDayOfMonth";
+            this.txtDayOfMonth.Size = new System.Drawing.Size(49, 20);
+            this.txtDayOfMonth.TabIndex = 22;
+            // 
+            // lblDayOfMonthDay
+            // 
+            this.lblDayOfMonthDay.AutoSize = true;
+            this.lblDayOfMonthDay.Location = new System.Drawing.Point(151, 348);
+            this.lblDayOfMonthDay.Name = "lblDayOfMonthDay";
+            this.lblDayOfMonthDay.Size = new System.Drawing.Size(43, 13);
+            this.lblDayOfMonthDay.TabIndex = 21;
+            this.lblDayOfMonthDay.Text = "On Day";
+            // 
+            // cmbDayOfWeek
+            // 
+            this.cmbDayOfWeek.FormattingEnabled = true;
+            this.cmbDayOfWeek.Location = new System.Drawing.Point(202, 305);
+            this.cmbDayOfWeek.Name = "cmbDayOfWeek";
+            this.cmbDayOfWeek.Size = new System.Drawing.Size(200, 21);
+            this.cmbDayOfWeek.TabIndex = 20;
+            // 
+            // rBtnGroupType
+            // 
+            this.rBtnGroupType.Controls.Add(this.rBtnOneOff);
+            this.rBtnGroupType.Controls.Add(this.rBtnRecurrence);
+            this.rBtnGroupType.Location = new System.Drawing.Point(203, 198);
+            this.rBtnGroupType.Name = "rBtnGroupType";
+            this.rBtnGroupType.Size = new System.Drawing.Size(199, 56);
+            this.rBtnGroupType.TabIndex = 19;
+            this.rBtnGroupType.TabStop = false;
+            this.rBtnGroupType.Text = "Type";
             // 
             // rBtnOneOff
             // 
@@ -132,20 +191,29 @@ namespace cw2.transaction
             this.rBtnOneOff.TabStop = true;
             this.rBtnOneOff.Text = "One-Off";
             this.rBtnOneOff.UseVisualStyleBackColor = true;
+            this.rBtnOneOff.CheckedChanged += new System.EventHandler(this.onBtnOneOffChanged);
             // 
-            // txtTxnAmount
+            // rBtnRecurrence
             // 
-            this.txtTxnAmount.Location = new System.Drawing.Point(202, 99);
-            this.txtTxnAmount.Name = "txtTxnAmount";
-            this.txtTxnAmount.Size = new System.Drawing.Size(200, 20);
-            this.txtTxnAmount.TabIndex = 13;
+            this.rBtnRecurrence.AutoSize = true;
+            this.rBtnRecurrence.Location = new System.Drawing.Point(90, 16);
+            this.rBtnRecurrence.Name = "rBtnRecurrence";
+            this.rBtnRecurrence.Size = new System.Drawing.Size(81, 17);
+            this.rBtnRecurrence.TabIndex = 15;
+            this.rBtnRecurrence.Text = "Recurrence";
+            this.rBtnRecurrence.UseVisualStyleBackColor = true;
+            this.rBtnRecurrence.CheckedChanged += new System.EventHandler(this.onrBtnRecurrenceChanged);
             // 
-            // txtTxnTitle
+            // rBtnGroupIncomeExpense
             // 
-            this.txtTxnTitle.Location = new System.Drawing.Point(202, 29);
-            this.txtTxnTitle.Name = "txtTxnTitle";
-            this.txtTxnTitle.Size = new System.Drawing.Size(200, 20);
-            this.txtTxnTitle.TabIndex = 12;
+            this.rBtnGroupIncomeExpense.Controls.Add(this.rBtnExpense);
+            this.rBtnGroupIncomeExpense.Controls.Add(this.rBtnIncome);
+            this.rBtnGroupIncomeExpense.Location = new System.Drawing.Point(202, 134);
+            this.rBtnGroupIncomeExpense.Name = "rBtnGroupIncomeExpense";
+            this.rBtnGroupIncomeExpense.Size = new System.Drawing.Size(200, 49);
+            this.rBtnGroupIncomeExpense.TabIndex = 18;
+            this.rBtnGroupIncomeExpense.TabStop = false;
+            this.rBtnGroupIncomeExpense.Text = "Income/Expense";
             // 
             // rBtnExpense
             // 
@@ -169,6 +237,37 @@ namespace cw2.transaction
             this.rBtnIncome.Text = "Income";
             this.rBtnIncome.UseVisualStyleBackColor = true;
             this.rBtnIncome.CheckedChanged += new System.EventHandler(this.rBtnIncome_CheckedChanged);
+            // 
+            // dtpExpireDate
+            // 
+            this.dtpExpireDate.CustomFormat = "MM/dd/yyyyy";
+            this.dtpExpireDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpExpireDate.Location = new System.Drawing.Point(202, 417);
+            this.dtpExpireDate.Name = "dtpExpireDate";
+            this.dtpExpireDate.Size = new System.Drawing.Size(109, 20);
+            this.dtpExpireDate.TabIndex = 17;
+            // 
+            // cmbOccurence
+            // 
+            this.cmbOccurence.FormattingEnabled = true;
+            this.cmbOccurence.Location = new System.Drawing.Point(202, 269);
+            this.cmbOccurence.Name = "cmbOccurence";
+            this.cmbOccurence.Size = new System.Drawing.Size(200, 21);
+            this.cmbOccurence.TabIndex = 16;
+            // 
+            // txtTxnAmount
+            // 
+            this.txtTxnAmount.Location = new System.Drawing.Point(202, 99);
+            this.txtTxnAmount.Name = "txtTxnAmount";
+            this.txtTxnAmount.Size = new System.Drawing.Size(200, 20);
+            this.txtTxnAmount.TabIndex = 13;
+            // 
+            // txtTxnTitle
+            // 
+            this.txtTxnTitle.Location = new System.Drawing.Point(202, 29);
+            this.txtTxnTitle.Name = "txtTxnTitle";
+            this.txtTxnTitle.Size = new System.Drawing.Size(200, 20);
+            this.txtTxnTitle.TabIndex = 12;
             // 
             // dateTimePicker1
             // 
@@ -242,103 +341,6 @@ namespace cw2.transaction
             this.lblTxnTitle.TabIndex = 0;
             this.lblTxnTitle.Text = "Title";
             // 
-            // dtpExpireDate
-            // 
-            this.dtpExpireDate.CustomFormat = "MM/dd/yyyyy";
-            this.dtpExpireDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpExpireDate.Location = new System.Drawing.Point(202, 417);
-            this.dtpExpireDate.Name = "dtpExpireDate";
-            this.dtpExpireDate.Size = new System.Drawing.Size(109, 20);
-            this.dtpExpireDate.TabIndex = 17;
-            // 
-            // rBtnGroupIncomeExpense
-            // 
-            this.rBtnGroupIncomeExpense.Controls.Add(this.rBtnExpense);
-            this.rBtnGroupIncomeExpense.Controls.Add(this.rBtnIncome);
-            this.rBtnGroupIncomeExpense.Location = new System.Drawing.Point(202, 134);
-            this.rBtnGroupIncomeExpense.Name = "rBtnGroupIncomeExpense";
-            this.rBtnGroupIncomeExpense.Size = new System.Drawing.Size(200, 49);
-            this.rBtnGroupIncomeExpense.TabIndex = 18;
-            this.rBtnGroupIncomeExpense.TabStop = false;
-            this.rBtnGroupIncomeExpense.Text = "Income/Expense";
-            // 
-            // rBtnGroupType
-            // 
-            this.rBtnGroupType.Controls.Add(this.rBtnOneOff);
-            this.rBtnGroupType.Controls.Add(this.rBtnRecurrence);
-            this.rBtnGroupType.Location = new System.Drawing.Point(203, 198);
-            this.rBtnGroupType.Name = "rBtnGroupType";
-            this.rBtnGroupType.Size = new System.Drawing.Size(199, 56);
-            this.rBtnGroupType.TabIndex = 19;
-            this.rBtnGroupType.TabStop = false;
-            this.rBtnGroupType.Text = "Type";
-            // 
-            // cmbDayOfWeek
-            // 
-            this.cmbDayOfWeek.FormattingEnabled = true;
-            this.cmbDayOfWeek.Location = new System.Drawing.Point(202, 305);
-            this.cmbDayOfWeek.Name = "cmbDayOfWeek";
-            this.cmbDayOfWeek.Size = new System.Drawing.Size(200, 21);
-            this.cmbDayOfWeek.TabIndex = 20;
-            // 
-            // lblDayOfMonthDay
-            // 
-            this.lblDayOfMonthDay.AutoSize = true;
-            this.lblDayOfMonthDay.Location = new System.Drawing.Point(151, 348);
-            this.lblDayOfMonthDay.Name = "lblDayOfMonthDay";
-            this.lblDayOfMonthDay.Size = new System.Drawing.Size(43, 13);
-            this.lblDayOfMonthDay.TabIndex = 21;
-            this.lblDayOfMonthDay.Text = "On Day";
-            // 
-            // txtDayOfMonth
-            // 
-            this.txtDayOfMonth.Location = new System.Drawing.Point(203, 347);
-            this.txtDayOfMonth.Name = "txtDayOfMonth";
-            this.txtDayOfMonth.Size = new System.Drawing.Size(49, 20);
-            this.txtDayOfMonth.TabIndex = 22;
-            // 
-            // lblDayOfYear
-            // 
-            this.lblDayOfYear.AutoSize = true;
-            this.lblDayOfYear.Location = new System.Drawing.Point(52, 381);
-            this.lblDayOfYear.Name = "lblDayOfYear";
-            this.lblDayOfYear.Size = new System.Drawing.Size(63, 13);
-            this.lblDayOfYear.TabIndex = 23;
-            this.lblDayOfYear.Text = "Day of Year";
-            // 
-            // lblDayOfYearDay
-            // 
-            this.lblDayOfYearDay.AutoSize = true;
-            this.lblDayOfYearDay.Location = new System.Drawing.Point(151, 381);
-            this.lblDayOfYearDay.Name = "lblDayOfYearDay";
-            this.lblDayOfYearDay.Size = new System.Drawing.Size(43, 13);
-            this.lblDayOfYearDay.TabIndex = 24;
-            this.lblDayOfYearDay.Text = "On Day";
-            // 
-            // txtDayOfYear
-            // 
-            this.txtDayOfYear.Location = new System.Drawing.Point(203, 373);
-            this.txtDayOfYear.Name = "txtDayOfYear";
-            this.txtDayOfYear.Size = new System.Drawing.Size(49, 20);
-            this.txtDayOfYear.TabIndex = 25;
-            // 
-            // cmdMonthOfYear
-            // 
-            this.cmdMonthOfYear.FormattingEnabled = true;
-            this.cmdMonthOfYear.Location = new System.Drawing.Point(335, 373);
-            this.cmdMonthOfYear.Name = "cmdMonthOfYear";
-            this.cmdMonthOfYear.Size = new System.Drawing.Size(67, 21);
-            this.cmdMonthOfYear.TabIndex = 26;
-            // 
-            // lblDayOfYearMonth
-            // 
-            this.lblDayOfYearMonth.AutoSize = true;
-            this.lblDayOfYearMonth.Location = new System.Drawing.Point(280, 378);
-            this.lblDayOfYearMonth.Name = "lblDayOfYearMonth";
-            this.lblDayOfYearMonth.Size = new System.Drawing.Size(54, 13);
-            this.lblDayOfYearMonth.TabIndex = 27;
-            this.lblDayOfYearMonth.Text = "On Month";
-            // 
             // FormNewTransaction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -351,10 +353,10 @@ namespace cw2.transaction
             this.Load += new System.EventHandler(this.onNewTransactionFormLoad);
             this.groupAddEditTransaction.ResumeLayout(false);
             this.groupAddEditTransaction.PerformLayout();
-            this.rBtnGroupIncomeExpense.ResumeLayout(false);
-            this.rBtnGroupIncomeExpense.PerformLayout();
             this.rBtnGroupType.ResumeLayout(false);
             this.rBtnGroupType.PerformLayout();
+            this.rBtnGroupIncomeExpense.ResumeLayout(false);
+            this.rBtnGroupIncomeExpense.PerformLayout();
             this.ResumeLayout(false);
 
         }
