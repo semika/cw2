@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="cw.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CW_CONTACT">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NAME" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="ADDRESS" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="EMAIL" Type="varchar" MaxLength="50" />
+    <Property Name="TEL" Type="varchar" MaxLength="50" />
+    <Property Name="TYPE" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'IIT-EAD.dbo.USER' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="USER">
+    <Key>
+      <PropertyRef Name="ID" />
+      <PropertyRef Name="USER_NAME" />
+    </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
+    <Property Name="USER_NAME" Type="nchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityContainer Name="cwStoreContainer">
+    <EntitySet Name="CW_CONTACT" EntityType="Self.CW_CONTACT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USER" EntityType="Self.USER" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [USER].[ID] AS [ID], 
+    [USER].[USER_NAME] AS [USER_NAME]
+    FROM [dbo].[USER] AS [USER]</DefiningQuery>
+    </EntitySet>
+  </EntityContainer>
+</Schema>
