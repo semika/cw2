@@ -57,11 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="common\DBConnection.cs" />
+    <Compile Include="common\GenericTransformer.cs" />
     <Compile Include="Contact.cs">
       <DependentUpon>EntityModel.tt</DependentUpon>
     </Compile>
     <Compile Include="contact\ContactDao.cs" />
-    <Compile Include="contact\ContactDTO.cs" />
+    <Compile Include="contact\ContactDto.cs" />
     <Compile Include="contact\ContactService.cs" />
     <Compile Include="contact\ContactTransformer.cs" />
     <Compile Include="EntityModel.Context.cs">
@@ -99,12 +100,22 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Transaction.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="TransactionInstance.cs">
+      <DependentUpon>EntityModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="transaction\FormNewTransaction.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="transaction\FormNewTransaction.Designer.cs">
       <DependentUpon>FormNewTransaction.cs</DependentUpon>
     </Compile>
+    <Compile Include="transaction\TransactionDao.cs" />
+    <Compile Include="transaction\TransactionDto.cs" />
+    <Compile Include="transaction\TransactionService.cs" />
+    <Compile Include="transaction\TransactionTransformer.cs" />
     <EmbeddedResource Include="FormExplorer.resx">
       <DependentUpon>FormExplorer.cs</DependentUpon>
     </EmbeddedResource>

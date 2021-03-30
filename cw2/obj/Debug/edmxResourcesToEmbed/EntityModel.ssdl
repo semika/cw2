@@ -11,7 +11,32 @@
     <Property Name="Tel" Type="varchar" MaxLength="50" />
     <Property Name="Type" Type="varchar" MaxLength="50" />
   </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="varchar" MaxLength="500" Nullable="false" />
+    <Property Name="Amount" Type="float" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="ExpireDate" Type="date" />
+    <Property Name="Type" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="Occurence" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="RecurrenceType" Type="varchar" MaxLength="10" />
+    <Property Name="OnDate" Type="int" />
+    <Property Name="OnMonth" Type="int" />
+  </EntityType>
+  <EntityType Name="TransactionInstance">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Transaction_Id" Type="int" Nullable="false" />
+  </EntityType>
   <EntityContainer Name="cw2StoreContainer">
     <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TransactionInstance" EntityType="Self.TransactionInstance" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

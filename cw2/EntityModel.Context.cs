@@ -26,5 +26,7 @@ namespace cw2
         }
     
         public virtual DbSet<Contact> Contacts { get; set; }
+        public virtual DbSet<Transaction> Transactions { get; set; }
+        public virtual DbSet<TransactionInstance> TransactionInstances { get; set; }
     }
 }
