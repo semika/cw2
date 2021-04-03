@@ -56,29 +56,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="common\AppConstant.cs" />
+    <Compile Include="common\CommonUtil.cs" />
+    <Compile Include="common\DataSetProvider.cs" />
     <Compile Include="common\DBConnection.cs" />
     <Compile Include="common\GenericTransformer.cs" />
     <Compile Include="Contact.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="contact\ContactDao.cs" />
     <Compile Include="contact\ContactDto.cs" />
     <Compile Include="contact\ContactService.cs" />
     <Compile Include="contact\ContactTransformer.cs" />
-    <Compile Include="EntityModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.Context.tt</DependentUpon>
+    <Compile Include="Cw2DataSet.cs">
+      <DependentUpon>Cw2DataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="EntityModel.cs">
+    <Compile Include="Cw2DataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>Cw2DataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="EntityModel.Designer.cs">
+    <Compile Include="Entities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
+      <DependentUpon>Entities.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Entities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
     <Compile Include="FormExplorer.cs">
       <SubType>Form</SubType>
@@ -101,10 +112,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Transaction.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="TransactionInstance.cs">
-      <DependentUpon>EntityModel.tt</DependentUpon>
+      <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="transaction\FormNewTransaction.cs">
       <SubType>Form</SubType>
@@ -137,12 +148,23 @@
     <EmbeddedResource Include="transaction\FormNewTransaction.resx">
       <DependentUpon>FormNewTransaction.cs</DependentUpon>
     </EmbeddedResource>
-    <EntityDeploy Include="EntityModel.edmx">
+    <EntityDeploy Include="Entities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EntityModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>Entities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="EntityModel.edmx.diagram">
-      <DependentUpon>EntityModel.edmx</DependentUpon>
+    <None Include="Cw2DataSet.xsc">
+      <DependentUpon>Cw2DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Cw2DataSet.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>Cw2DataSet.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Cw2DataSet.xss">
+      <DependentUpon>Cw2DataSet.xsd</DependentUpon>
+    </None>
+    <None Include="Entities.edmx.diagram">
+      <DependentUpon>Entities.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -161,18 +183,18 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Content Include="EntityModel.Context.tt">
+    <Content Include="Entities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
-      <LastGenOutput>EntityModel.Context.cs</LastGenOutput>
+      <DependentUpon>Entities.edmx</DependentUpon>
+      <LastGenOutput>Entities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="EntityModel.tt">
+    <Content Include="Entities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EntityModel.edmx</DependentUpon>
-      <LastGenOutput>EntityModel.cs</LastGenOutput>
+      <DependentUpon>Entities.edmx</DependentUpon>
+      <LastGenOutput>Entities.cs</LastGenOutput>
     </Content>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

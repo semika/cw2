@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="yes"?>
+<Cw2DataSet xmlns="http://tempuri.org/Cw2DataSet.xsd">
+  <Transaction>
+    <Id>0</Id>
+    <Title>gdfgdf</Title>
+    <Amount>12</Amount>
+    <Date>2021-04-04T01:17:00.899672+05:30</Date>
+    <Type>INCOME</Type>
+    <Occuerence>RECURRENCE</Occuerence>
+    <RecurrenceType>Yearly</RecurrenceType>
+    <OnDate>1</OnDate>
+    <OnMonth>6</OnMonth>
+  </Transaction>
+</Cw2DataSet>

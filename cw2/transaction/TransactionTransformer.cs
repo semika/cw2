@@ -16,6 +16,7 @@ namespace cw2.transaction
             dto.Id = domain.Id;
             dto.Occurence = domain.Occurence;
             dto.OnDate = domain.OnDate;
+            dto.ExpireDate = domain.ExpireDate; 
             dto.OnMonth = domain.OnMonth;
             dto.RecurrenceType = domain.RecurrenceType;
             dto.Title = domain.Title;
@@ -34,7 +35,8 @@ namespace cw2.transaction
             domain.Id = dto.Id;
             domain.Occurence = dto.Occurence;
             domain.OnDate = dto.OnDate;
-            domain.OnMonth = dto.OnMonth;
+            domain.ExpireDate = dto.ExpireDate;
+            domain.OnMonth = dto.OnMonth;  
             domain.RecurrenceType = dto.RecurrenceType;
             domain.Title = dto.Title;
             domain.Type = dto.Type;

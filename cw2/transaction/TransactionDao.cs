@@ -47,16 +47,16 @@ namespace cw2.transaction
             return transaction;
         }
 
-        public List<Transaction> getAllContacts()
+        public List<Transaction> getAllTransactions()
         {
-            List<Transaction> contactList = new List<Transaction>();
+            List<Transaction> transactionList = new List<Transaction>();
 
             using (Entities db = new Entities())
             {
-                contactList = db.Transactions.ToList<Transaction>();
+                transactionList = db.Transactions.ToList<Transaction>();
             }
 
-            return contactList;
+            return transactionList;
         }
 
         public void delete(int id)
@@ -72,6 +72,43 @@ namespace cw2.transaction
                 db.Transactions.Remove(transaction);
                 db.SaveChanges();
             }
+        }
+
+        public TransactionInstance saveTransactionInstace(TransactionInstance transactionInstance)
+        {
+            try
+            {
+                using (Entities db = new Entities())
+                {
+                    if (transactionInstance.Id == 0) //Add new record
+                    {
+                        db.Entry(transactionInstance).State = EntityState.Added;
+                        db.TransactionInstances.Add(transactionInstance);
+                    }
+                    else
+                    {
+                        db.Entry(transactionInstance).State = EntityState.Modified;
+                    }
+
+                    db.SaveChanges();
+                }
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+
+            return transactionInstance;
         }
     }
 }

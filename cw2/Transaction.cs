@@ -14,6 +14,12 @@ namespace cw2
     
     public partial class Transaction
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Transaction()
+        {
+            this.TransactionInstances = new HashSet<TransactionInstance>();
+        }
+    
         public int Id { get; set; }
         public string Title { get; set; }
         public double Amount { get; set; }
@@ -22,7 +28,10 @@ namespace cw2
         public string Type { get; set; }
         public string Occurence { get; set; }
         public string RecurrenceType { get; set; }
-        public Nullable<int> OnDate { get; set; }
-        public Nullable<int> OnMonth { get; set; }
+        public int OnDate { get; set; }
+        public int OnMonth { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TransactionInstance> TransactionInstances { get; set; }
     }
 }

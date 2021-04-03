@@ -4,6 +4,10 @@
     <EntitySet Name="Contacts" EntityType="cw2.Contact" />
     <EntitySet Name="Transactions" EntityType="cw2.Transaction" />
     <EntitySet Name="TransactionInstances" EntityType="cw2.TransactionInstance" />
+    <AssociationSet Name="FK_TransactionInstance_Transaction" Association="cw2.FK_TransactionInstance_Transaction">
+      <End Role="Transaction" EntitySet="Transactions" />
+      <End Role="TransactionInstance" EntitySet="TransactionInstances" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Contact">
     <Key>
@@ -29,14 +33,28 @@
     <Property Name="Occurence" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="RecurrenceType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="OnDate" Type="Int32" />
-    <Property Name="OnMonth" Type="Int32" />
+    <Property Name="OnMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="TransactionInstances" Relationship="cw2.FK_TransactionInstance_Transaction" FromRole="Transaction" ToRole="TransactionInstance" />
   </EntityType>
   <EntityType Name="TransactionInstance">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="Transaction_Id" Type="Int32" Nullable="false" />
+    <Property Name="TransactionId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Transaction" Relationship="cw2.FK_TransactionInstance_Transaction" FromRole="TransactionInstance" ToRole="Transaction" />
   </EntityType>
+  <Association Name="FK_TransactionInstance_Transaction">
+    <End Type="cw2.Transaction" Role="Transaction" Multiplicity="1" />
+    <End Type="cw2.TransactionInstance" Role="TransactionInstance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Transaction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TransactionInstance">
+        <PropertyRef Name="TransactionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

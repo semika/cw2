@@ -24,19 +24,35 @@
     <Property Name="Occurence" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="RecurrenceType" Type="varchar" MaxLength="10" />
     <Property Name="OnDate" Type="int" />
-    <Property Name="OnMonth" Type="int" />
+    <Property Name="OnMonth" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="TransactionInstance">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Date" Type="date" Nullable="false" />
-    <Property Name="Transaction_Id" Type="int" Nullable="false" />
+    <Property Name="TransactionId" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="FK_TransactionInstance_Transaction">
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="1" />
+    <End Role="TransactionInstance" Type="Self.TransactionInstance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Transaction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TransactionInstance">
+        <PropertyRef Name="TransactionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="cw2StoreContainer">
     <EntitySet Name="Contact" EntityType="Self.Contact" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TransactionInstance" EntityType="Self.TransactionInstance" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_TransactionInstance_Transaction" Association="Self.FK_TransactionInstance_Transaction">
+      <End Role="Transaction" EntitySet="Transaction" />
+      <End Role="TransactionInstance" EntitySet="TransactionInstance" />
+    </AssociationSet>
   </EntityContainer>
 </Schema>

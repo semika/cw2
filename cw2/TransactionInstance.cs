@@ -16,6 +16,8 @@ namespace cw2
     {
         public int Id { get; set; }
         public System.DateTime Date { get; set; }
-        public int Transaction_Id { get; set; }
+        public int TransactionId { get; set; }
+    
+        public virtual Transaction Transaction { get; set; }
     }
 }

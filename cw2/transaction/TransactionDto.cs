@@ -16,8 +16,8 @@ namespace cw2.transaction
         public string Type { get; set; }
         public string Occurence { get; set; }
         public string RecurrenceType { get; set; }
-        public Nullable<int> OnDate { get; set; }
-        public Nullable<int> OnMonth { get; set; }
+        public int OnDate { get; set; }
+        public int OnMonth { get; set; }
 
     }
 }

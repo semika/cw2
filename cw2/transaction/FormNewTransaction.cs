@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using cw2.common;
 
 namespace cw2.transaction
 {
@@ -24,7 +25,18 @@ namespace cw2.transaction
             pupulateDefault();
             poulateOccurenceDropDown();
             populateMonth();
+            populateGrid();
         }
+
+        private void populateGrid()
+        {
+            dataGridTransaction.AutoGenerateColumns = false;
+            TransactionService service = new TransactionService();
+            List<TransactionDto> transactionList = service.getAllTransactions();
+            dataGridTransaction.DataSource = transactionList;
+            reset();
+        }
+
 
         private void pupulateDefault()
         {
@@ -33,8 +45,6 @@ namespace cw2.transaction
 
             lblRecurrenceType.Visible = false;
             cmbRecurrenceType.Visible = false;
-
-           
 
             lblDay.Visible = false;
             txtDay.Visible = false;
@@ -57,18 +67,24 @@ namespace cw2.transaction
 
         private void populateMonth()
         {
-            cmbMonth.Items.Add("Jan");
-            cmbMonth.Items.Add("Feb");
-            cmbMonth.Items.Add("Mar");
-            cmbMonth.Items.Add("Apr");
-            cmbMonth.Items.Add("May");
-            cmbMonth.Items.Add("Jun");
-            cmbMonth.Items.Add("Jul");
-            cmbMonth.Items.Add("Aug");
-            cmbMonth.Items.Add("Sep");
-            cmbMonth.Items.Add("Oct");
-            cmbMonth.Items.Add("Nov");
-            cmbMonth.Items.Add("Dec");
+            List<KeyValuePair<int, String>> monthOfYear = new List<KeyValuePair<int, string>>();
+            monthOfYear.Add(new KeyValuePair<int, string>(1, "Jan"));
+            monthOfYear.Add(new KeyValuePair<int, string>(2, "Feb"));
+            monthOfYear.Add(new KeyValuePair<int, string>(3, "Mar"));
+            monthOfYear.Add(new KeyValuePair<int, string>(4, "Apr"));
+            monthOfYear.Add(new KeyValuePair<int, string>(5, "May"));
+            monthOfYear.Add(new KeyValuePair<int, string>(6, "Jun"));
+            monthOfYear.Add(new KeyValuePair<int, string>(7, "Jul"));
+            monthOfYear.Add(new KeyValuePair<int, string>(8, "Aug"));
+            monthOfYear.Add(new KeyValuePair<int, string>(9, "Sep"));
+            monthOfYear.Add(new KeyValuePair<int, string>(10, "Oct"));
+            monthOfYear.Add(new KeyValuePair<int, string>(11, "Nov"));
+            monthOfYear.Add(new KeyValuePair<int, string>(12, "Dec"));
+
+            cmbMonth.DataSource = monthOfYear;
+            cmbMonth.DisplayMember = "Value";
+            cmbMonth.ValueMember = "Key";
+
         }
 
         private void rBtnIncome_CheckedChanged(object sender, EventArgs e)
@@ -165,22 +181,77 @@ namespace cw2.transaction
 
         private void onBtnSaveTransactionClick(object sender, EventArgs e)
         {
-            TransactionService transactionService = new TransactionService();
+            if (ValidateChildren(ValidationConstraints.Enabled))
+            {
+                TransactionService transactionService = new TransactionService();
 
-            model.Title = txtTxnTitle.Text;
-            model.Amount = Convert.ToDouble(txtTxnAmount.Text);
-            model.Date = dtpDate.Value;
-            model.ExpireDate = dtpExpireDate.Value;
-            model.Occurence = cmbRecurrenceType.Text;
-            model.RecurrenceType = cmbRecurrenceType.Text;
+                model.Title = txtTxnTitle.Text;
+                model.Amount = Convert.ToDouble(txtTxnAmount.Text);
+                model.Date = dtpDate.Value;
 
+                //set the type field.
+
+                if (rBtnIncome.Checked)
+                {
+                    model.Type = AppConstant.INCOME;
+                }
+                else
+                {
+                    model.Type = AppConstant.EXPENSE;
+                }
+
+                //set occurence field
+
+                if (rBtnOneOff.Checked)
+                {
+                    model.Occurence = AppConstant.ONE_OFF;
+                }
+                else
+                {
+                    model.Occurence = AppConstant.RECURRENCE;
+                }
+
+                model.ExpireDate = dtpExpireDate.Value;
+                model.RecurrenceType = cmbRecurrenceType.Text;
+                model.OnDate = Convert.ToInt32(txtDay.Text);
+                model.OnMonth = Convert.ToInt32(((KeyValuePair<int, string>)cmbMonth.SelectedItem).Key);
+                
+                transactionService.save(model);
+
+                populateGrid();
+            } 
         }
 
         private void reset()
         {
-            txtName.Text = txtAddress.Text = txtTel.Text = txtEmail.Text = cmbType.Text = null;
+            txtTxnTitle.Text = dtpDate.Text = txtTxnAmount.Text = cmbRecurrenceType.Text = dtpExpireDate.Text = txtDay.Text = cmbMonth.Text = null;
             btnSave.Text = "Save";
             model.Id = 0;
+        }
+
+        private void validateTitle(object sender, CancelEventArgs e)
+        {
+            if (string.IsNullOrEmpty(txtTxnTitle.Text))
+            {
+                e.Cancel = true;
+                txtTxnTitle.Focus();
+                errorProvider.SetError(txtTxnTitle, "Title is required");
+            }
+            else
+            {
+                e.Cancel = false;
+                errorProvider.SetError(txtTxnTitle, "");
+            }
+        }
+
+        private void txtTxnTitle_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void onAmountKeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) || e.KeyChar.Equals(".");
         }
     }
 }
