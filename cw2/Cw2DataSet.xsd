@@ -12,7 +12,7 @@
   <xs:element name="Cw2DataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="Cw2DataSet" msprop:Generator_UserDSName="Cw2DataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="Transaction" msprop:Generator_TableClassName="TransactionDataTable" msprop:Generator_TableVarName="tableTransaction" msprop:Generator_RowChangedName="TransactionRowChanged" msprop:Generator_TablePropName="Transaction" msprop:Generator_RowDeletingName="TransactionRowDeleting" msprop:Generator_RowChangingName="TransactionRowChanging" msprop:Generator_RowEvHandlerName="TransactionRowChangeEventHandler" msprop:Generator_RowDeletedName="TransactionRowDeleted" msprop:Generator_RowClassName="TransactionRow" msprop:Generator_UserTableName="Transaction" msprop:Generator_RowEvArgName="TransactionRowChangeEvent">
+        <xs:element name="Transaction" msprop:Generator_TableClassName="TransactionDataTable" msprop:Generator_TableVarName="tableTransaction" msprop:Generator_TablePropName="Transaction" msprop:Generator_RowDeletingName="TransactionRowDeleting" msprop:Generator_RowChangingName="TransactionRowChanging" msprop:Generator_RowEvHandlerName="TransactionRowChangeEventHandler" msprop:Generator_RowDeletedName="TransactionRowDeleted" msprop:Generator_UserTableName="Transaction" msprop:Generator_RowChangedName="TransactionRowChanged" msprop:Generator_RowEvArgName="TransactionRowChangeEvent" msprop:Generator_RowClassName="TransactionRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="1" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
@@ -28,7 +28,7 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
-        <xs:element name="TransactionInstance" msprop:Generator_TableClassName="TransactionInstanceDataTable" msprop:Generator_TableVarName="tableTransactionInstance" msprop:Generator_RowChangedName="TransactionInstanceRowChanged" msprop:Generator_TablePropName="TransactionInstance" msprop:Generator_RowDeletingName="TransactionInstanceRowDeleting" msprop:Generator_RowChangingName="TransactionInstanceRowChanging" msprop:Generator_RowEvHandlerName="TransactionInstanceRowChangeEventHandler" msprop:Generator_RowDeletedName="TransactionInstanceRowDeleted" msprop:Generator_RowClassName="TransactionInstanceRow" msprop:Generator_UserTableName="TransactionInstance" msprop:Generator_RowEvArgName="TransactionInstanceRowChangeEvent">
+        <xs:element name="TransactionInstance" msprop:Generator_TableClassName="TransactionInstanceDataTable" msprop:Generator_TableVarName="tableTransactionInstance" msprop:Generator_TablePropName="TransactionInstance" msprop:Generator_RowDeletingName="TransactionInstanceRowDeleting" msprop:Generator_RowChangingName="TransactionInstanceRowChanging" msprop:Generator_RowEvHandlerName="TransactionInstanceRowChangeEventHandler" msprop:Generator_RowDeletedName="TransactionInstanceRowDeleted" msprop:Generator_UserTableName="TransactionInstance" msprop:Generator_RowChangedName="TransactionInstanceRowChanged" msprop:Generator_RowEvArgName="TransactionInstanceRowChangeEvent" msprop:Generator_RowClassName="TransactionInstanceRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="Id" msdata:AutoIncrement="true" msprop:Generator_ColumnVarNameInTable="columnId" msprop:Generator_ColumnPropNameInRow="Id" msprop:Generator_ColumnPropNameInTable="IdColumn" msprop:Generator_UserColumnName="Id" type="xs:int" />
@@ -47,7 +47,7 @@
       <xs:selector xpath=".//mstns:TransactionInstance" />
       <xs:field xpath="mstns:Id" />
     </xs:unique>
-    <xs:keyref name="FK_Transaction_TransactionInstance" refer="Constraint1" msprop:rel_Generator_UserChildTable="TransactionInstance" msprop:rel_Generator_ChildPropName="GetTransactionInstanceRows" msprop:rel_Generator_UserRelationName="FK_Transaction_TransactionInstance" msprop:rel_Generator_RelationVarName="relationFK_Transaction_TransactionInstance" msprop:rel_Generator_UserParentTable="Transaction" msprop:rel_Generator_ParentPropName="TransactionRow" msdata:UpdateRule="None">
+    <xs:keyref name="FK_Transaction_TransactionInstance" refer="Constraint1" msprop:rel_Generator_UserChildTable="TransactionInstance" msprop:rel_Generator_ChildPropName="GetTransactionInstanceRows" msprop:rel_Generator_UserRelationName="FK_Transaction_TransactionInstance" msprop:rel_Generator_ParentPropName="TransactionRow" msprop:rel_Generator_RelationVarName="relationFK_Transaction_TransactionInstance" msprop:rel_Generator_UserParentTable="Transaction" msdata:UpdateRule="None">
       <xs:selector xpath=".//mstns:TransactionInstance" />
       <xs:field xpath="mstns:TransactionId" />
     </xs:keyref>

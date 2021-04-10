@@ -18,6 +18,7 @@ namespace cw2.transaction
         public FormNewTransaction()
         {
             InitializeComponent();
+            
         }
 
         private void onNewTransactionFormLoad(object sender, EventArgs e)
@@ -36,7 +37,7 @@ namespace cw2.transaction
 
             List<TransactionDto> dataSetList = service.getAllTransactionsFromDataSet();
 
-            dataGridTransaction.DataSource = transactionList;
+            dataGridTransaction.DataSource = dataSetList;
             reset();
         }
 
@@ -199,9 +200,26 @@ namespace cw2.transaction
                 }
 
                 model.ExpireDate = dtpExpireDate.Value;
-                model.RecurrenceType = cmbRecurrenceType.Text;
-                model.OnDate = Convert.ToInt32(txtDay.Text);
-                model.OnMonth = cmbMonth.SelectedItem.ToString();
+
+                if (cmbRecurrenceType.SelectedItem != null)
+                {
+                    model.RecurrenceType = cmbRecurrenceType.SelectedItem.ToString();
+                }
+                
+                if (txtDay.Text.Trim().Length > 0)
+                {
+                    model.OnDate = Convert.ToInt32(txtDay.Text);
+                }
+                else
+                {
+                    model.OnDate = null;
+                }
+                
+                if (cmbMonth.SelectedItem != null)
+                {
+                    model.OnMonth = cmbMonth.SelectedItem.ToString();
+                }
+                
                 model.ExpireDate = dtpExpireDate.Value;
                 
                 transactionService.save(model);

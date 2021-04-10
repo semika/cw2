@@ -6,37 +6,33 @@ using System.Threading.Tasks;
 using cw2.common;
 using System.Data.SqlClient;
 using System.Data;
+using static cw2.Cw2DataSet;
 
 namespace cw2.transaction
 {
     class TransactionDataSetDao
     {
-        public List<TransactionDto> getAllTransactions()
+        public List<TransactionRow> getAllTransactions()
         {
-            List<TransactionDto> transactionList = new List<TransactionDto>();
+            List<TransactionRow> transactionList = new List<TransactionRow>();
 
             DataTable transactionTable = DataSetProvider.Instance.getDataSet().Tables["Transaction"];
 
-            foreach(DataRow row in transactionTable.Rows)
+            foreach(TransactionRow transactionRow in transactionTable.Rows)
             {
-                TransactionDto dto = new TransactionDto();
-
-                dto.Id = Convert.ToInt32(row["Id"]);
-                dto.Title = Convert.ToString(row["Title"]);
-                dto.Amount = Convert.ToDouble(row["Amount"]);
-                dto.Date = Convert.ToDateTime(row["Date"]);
-                dto.Type = Convert.ToString(row["Type"]);
-                dto.Occurence = Convert.ToString(row["Occuerence"]);
-                dto.RecurrenceType = Convert.ToString(row["RecurrenceType"]);
-                dto.OnDate = Convert.ToInt32(row["OnDate"]);
-                dto.OnMonth = Convert.ToString(row["OnMonth"]);
-                dto.ExpireDate = Convert.ToDateTime(row["ExpireDate"]); 
-                
-                transactionList.Add(dto);
-                
+                transactionList.Add(transactionRow);
             }
             
             return transactionList;
+        }
+
+        public TransactionRow findById(int id)
+        {
+            Cw2DataSet dataSet = DataSetProvider.Instance.getDataSet();
+            TransactionRow transactionRow = dataSet.Transaction.FindById(id);
+            TransactionDto dto = new TransactionDto();
+
+            return transactionRow;
         }
     }
 }

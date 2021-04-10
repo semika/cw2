@@ -28,7 +28,7 @@ namespace cw2
         public string Type { get; set; }
         public string Occurence { get; set; }
         public string RecurrenceType { get; set; }
-        public int OnDate { get; set; }
+        public Nullable<int> OnDate { get; set; }
         public string OnMonth { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

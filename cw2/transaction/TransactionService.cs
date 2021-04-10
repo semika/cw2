@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using cw2.common;
+using static cw2.Cw2DataSet;
 
 namespace cw2.transaction
 {
     class TransactionService
     {
 
-        public TransactionDto save(TransactionDto dto)
+        public TransactionDto saveOnDB(TransactionDto dto)
         {
             TransactionDao transactionDao = new TransactionDao();
             TransactionTransformer transformer = new TransactionTransformer();
@@ -19,60 +20,92 @@ namespace cw2.transaction
             if (dto.Id != 0) //Update
             {
                 transaction = transactionDao.findById(dto.Id, false);
+
                 if (!transaction.ExpireDate.Equals(dto.ExpireDate))
                 {
                     //recreate transaction instances
                     transactionDao.clearTransactionInstances(dto.Id);
-                    transformer.dtoToDomain(dto, transaction);
-                    transaction.TransactionInstances.Clear();
-                    saveTransactionInstance(transaction);
+                    //transaction.TransactionInstances.Clear();
                 }
             }
             else //create
             {
                 transaction = new Transaction();
-                transformer.dtoToDomain(dto, transaction);
-                saveTransactionInstance(transaction);
             }
 
-            transaction = transactionDao.save(transaction);
+            transformer.dtoToDomain(dto, transaction);
+            saveTransactionInstance(transaction);
 
-            //save locally
-            //saveLocalCopy(transaction)
+            transaction = transactionDao.save(transaction);
 
             return transformer.domainToDto(transaction);
         }
 
-        private void saveLocalCopy(Transaction transaction)
+        public TransactionDto save(TransactionDto dto)
+        {
+            TransactionDataSetDao transactionDataSetDao = new TransactionDataSetDao();
+            Cw2DataSet dataSet = DataSetProvider.Instance.getDataSet();
+
+            TransactionTransformer transformer = new TransactionTransformer();
+            TransactionRow transactionRow = null; 
+
+            if (dto.Id != 0) //Update
+            {
+                transactionRow = transactionDataSetDao.findById(dto.Id);
+                transformer.dtoToDataSetRow(dto, transactionRow);
+            }
+            else //create
+            {
+                transactionRow = dataSet.Transaction.NewTransactionRow();
+                transformer.dtoToDataSetRow(dto, transactionRow);
+                dataSet.Transaction.AddTransactionRow(transactionRow);
+            }
+
+            dataSet.AcceptChanges();
+            DataSetProvider.Instance.writeDataSet();
+
+            //save data on DB
+            saveOnDB(dto);
+
+            return transformer.dataSetRowToDto(transactionRow);
+        }
+
+        private void saveLocalCopy(TransactionDto dto)
         {
             Cw2DataSet dataSet = DataSetProvider.Instance.getDataSet();
 
             Cw2DataSet.TransactionRow transactionRow = dataSet.Transaction.NewTransactionRow();
-            transactionRow.Amount = transaction.Amount;
-            transactionRow.Title = transaction.Title;
-            transactionRow.Type = transaction.Type;
-            transactionRow.Date = transaction.Date;
-            transactionRow.Occuerence = transaction.Occurence;
-            transactionRow.RecurrenceType = transaction.RecurrenceType;
-            transactionRow.OnDate = transaction.OnDate;
-            transactionRow.OnMonth = transaction.OnMonth;
-            transactionRow.ExpireDate = transaction.ExpireDate;
+            transactionRow.Amount = dto.Amount;
+            transactionRow.Title = dto.Title;
+            transactionRow.Type = dto.Type;
+            transactionRow.Date = dto.Date;
+            transactionRow.Occuerence = dto.Occurence;
+            transactionRow.RecurrenceType = dto.RecurrenceType;
+            transactionRow.OnDate = (int)dto.OnDate;
+            transactionRow.OnMonth = dto.OnMonth;
+            transactionRow.ExpireDate = dto.ExpireDate;
 
             dataSet.Transaction.AddTransactionRow(transactionRow);
 
             //Add transaction instances
-            foreach (TransactionInstance transactionInstance in transaction.TransactionInstances)
+            /*foreach (TransactionInstance transactionInstance in transaction.TransactionInstances)
             {
                 Cw2DataSet.TransactionInstanceRow transactionInstanceRow = dataSet.TransactionInstance.NewTransactionInstanceRow();
                 transactionInstanceRow.Date = transactionInstance.Date;
                 transactionInstanceRow.TransactionRow = transactionRow;
                 dataSet.TransactionInstance.AddTransactionInstanceRow(transactionInstanceRow);
-            }
+            }*/
 
             dataSet.AcceptChanges();
 
             DataSetProvider.Instance.writeDataSet();
           
+        }
+
+        private void updateLocalCopy(TransactionDto dto)
+        {
+            Cw2DataSet dataSet = DataSetProvider.Instance.getDataSet();
+            var x = dataSet.Transaction.FindById(dto.Id);
         }
 
         private void saveTransactionInstance(Transaction transaction)
@@ -108,8 +141,19 @@ namespace cw2.transaction
 
         public List<TransactionDto> getAllTransactionsFromDataSet()
         {
+            TransactionTransformer transformer = new TransactionTransformer();
             TransactionDataSetDao dataSetDao = new TransactionDataSetDao();
-            return dataSetDao.getAllTransactions();
+            List<TransactionRow> transactionRows = dataSetDao.getAllTransactions();
+
+            List<TransactionDto> transactionDtoList = new List<TransactionDto>();
+
+            foreach (var transactionRow in transactionRows)
+            {
+                transactionDtoList.Add(transformer.dataSetRowToDto(transactionRow));
+            }
+
+            return transactionDtoList;
+
         }
 
     }

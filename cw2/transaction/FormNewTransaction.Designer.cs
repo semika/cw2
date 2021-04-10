@@ -190,7 +190,7 @@ namespace cw2.transaction
             this.groupAddEditTransaction.TabIndex = 1;
             this.groupAddEditTransaction.TabStop = false;
             this.groupAddEditTransaction.Text = "Add/Edit Transaction";
-           
+            // 
             // btnReset
             // 
             this.btnReset.Location = new System.Drawing.Point(299, 430);
@@ -303,7 +303,7 @@ namespace cw2.transaction
             this.rBtnIncome.TabStop = true;
             this.rBtnIncome.Text = "Income";
             this.rBtnIncome.UseVisualStyleBackColor = true;
-            
+            // 
             // dtpExpireDate
             // 
             this.dtpExpireDate.CustomFormat = "MM/dd/yyyyy";
