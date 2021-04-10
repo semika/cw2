@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="cw2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="cw2.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Contact">
           <Key>
             <PropertyRef Name="Id" />
@@ -29,7 +29,7 @@
           <Property Name="Occurence" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="RecurrenceType" Type="varchar" MaxLength="10" />
           <Property Name="OnDate" Type="int" />
-          <Property Name="OnMonth" Type="int" />
+          <Property Name="OnMonth" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="TransactionInstance">
           <Key>
@@ -60,8 +60,7 @@
             <End Role="TransactionInstance" EntitySet="TransactionInstance" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="cw2" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -76,21 +75,30 @@
           <Property Name="Tel" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contacts" EntityType="Self.Contact" />
+          <EntitySet Name="Transactions" EntityType="cw2.Transaction" />
+          <EntitySet Name="TransactionInstances" EntityType="cw2.TransactionInstance" />
+          <AssociationSet Name="FK_TransactionInstance_Transaction" Association="cw2.FK_TransactionInstance_Transaction">
+            <End Role="Transaction" EntitySet="Transactions" />
+            <End Role="TransactionInstance" EntitySet="TransactionInstances" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Transaction">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
           <Property Name="Amount" Type="Double" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="ExpireDate" Type="DateTime" Precision="0" />
-          <Property Name="Type" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Occurence" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Occurence" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="RecurrenceType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="OnDate" Type="Int32" />
-          <Property Name="OnMonth" Type="Int32" />
-          <NavigationProperty Name="TransactionInstances" Relationship="Self.FK_TransactionInstance_Transaction" FromRole="Transaction" ToRole="TransactionInstance" />
+          <Property Name="OnMonth" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="TransactionInstances" Relationship="cw2.FK_TransactionInstance_Transaction" FromRole="Transaction" ToRole="TransactionInstance" />
         </EntityType>
         <EntityType Name="TransactionInstance">
           <Key>
@@ -99,11 +107,11 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="TransactionId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Transaction" Relationship="Self.FK_TransactionInstance_Transaction" FromRole="TransactionInstance" ToRole="Transaction" />
+          <NavigationProperty Name="Transaction" Relationship="cw2.FK_TransactionInstance_Transaction" FromRole="TransactionInstance" ToRole="Transaction" />
         </EntityType>
         <Association Name="FK_TransactionInstance_Transaction">
-          <End Role="Transaction" Type="Self.Transaction" Multiplicity="1" />
-          <End Role="TransactionInstance" Type="Self.TransactionInstance" Multiplicity="*" />
+          <End Type="cw2.Transaction" Role="Transaction" Multiplicity="1" />
+          <End Type="cw2.TransactionInstance" Role="TransactionInstance" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Transaction">
               <PropertyRef Name="Id" />
@@ -113,15 +121,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Contacts" EntityType="Self.Contact" />
-          <EntitySet Name="Transactions" EntityType="Self.Transaction" />
-          <EntitySet Name="TransactionInstances" EntityType="Self.TransactionInstance" />
-          <AssociationSet Name="FK_TransactionInstance_Transaction" Association="Self.FK_TransactionInstance_Transaction">
-            <End Role="Transaction" EntitySet="Transactions" />
-            <End Role="TransactionInstance" EntitySet="TransactionInstances" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -143,29 +142,29 @@
           <EntitySetMapping Name="Transactions">
             <EntityTypeMapping TypeName="cw2.Transaction">
               <MappingFragment StoreEntitySet="Transaction">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Occurence" ColumnName="Occurence" />
-                <ScalarProperty Name="RecurrenceType" ColumnName="RecurrenceType" />
-                <ScalarProperty Name="OnDate" ColumnName="OnDate" />
                 <ScalarProperty Name="OnMonth" ColumnName="OnMonth" />
+                <ScalarProperty Name="OnDate" ColumnName="OnDate" />
+                <ScalarProperty Name="RecurrenceType" ColumnName="RecurrenceType" />
+                <ScalarProperty Name="Occurence" ColumnName="Occurence" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="TransactionInstances">
             <EntityTypeMapping TypeName="cw2.TransactionInstance">
               <MappingFragment StoreEntitySet="TransactionInstance">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

@@ -28,10 +28,8 @@ namespace cw2.transaction
             return dto;
         }
 
-        public Transaction dtoToDomain(TransactionDto dto)
+        public Transaction dtoToDomain(TransactionDto dto, Transaction domain)
         {
-            Transaction domain = new Transaction();
-
             domain.Id = dto.Id;
             domain.Occurence = dto.Occurence;
             domain.OnDate = dto.OnDate;

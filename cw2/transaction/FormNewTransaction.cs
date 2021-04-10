@@ -33,6 +33,9 @@ namespace cw2.transaction
             dataGridTransaction.AutoGenerateColumns = false;
             TransactionService service = new TransactionService();
             List<TransactionDto> transactionList = service.getAllTransactions();
+
+            List<TransactionDto> dataSetList = service.getAllTransactionsFromDataSet();
+
             dataGridTransaction.DataSource = transactionList;
             reset();
         }
@@ -67,34 +70,18 @@ namespace cw2.transaction
 
         private void populateMonth()
         {
-            List<KeyValuePair<int, String>> monthOfYear = new List<KeyValuePair<int, string>>();
-            monthOfYear.Add(new KeyValuePair<int, string>(1, "Jan"));
-            monthOfYear.Add(new KeyValuePair<int, string>(2, "Feb"));
-            monthOfYear.Add(new KeyValuePair<int, string>(3, "Mar"));
-            monthOfYear.Add(new KeyValuePair<int, string>(4, "Apr"));
-            monthOfYear.Add(new KeyValuePair<int, string>(5, "May"));
-            monthOfYear.Add(new KeyValuePair<int, string>(6, "Jun"));
-            monthOfYear.Add(new KeyValuePair<int, string>(7, "Jul"));
-            monthOfYear.Add(new KeyValuePair<int, string>(8, "Aug"));
-            monthOfYear.Add(new KeyValuePair<int, string>(9, "Sep"));
-            monthOfYear.Add(new KeyValuePair<int, string>(10, "Oct"));
-            monthOfYear.Add(new KeyValuePair<int, string>(11, "Nov"));
-            monthOfYear.Add(new KeyValuePair<int, string>(12, "Dec"));
-
-            cmbMonth.DataSource = monthOfYear;
-            cmbMonth.DisplayMember = "Value";
-            cmbMonth.ValueMember = "Key";
-
-        }
-
-        private void rBtnIncome_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void groupAddEditTransaction_Enter(object sender, EventArgs e)
-        {
-
+            cmbMonth.Items.Add("January");
+            cmbMonth.Items.Add("February");
+            cmbMonth.Items.Add("March"); 
+            cmbMonth.Items.Add("April"); 
+            cmbMonth.Items.Add("May"); 
+            cmbMonth.Items.Add("June"); 
+            cmbMonth.Items.Add("July"); 
+            cmbMonth.Items.Add("Augest");
+            cmbMonth.Items.Add("September");
+            cmbMonth.Items.Add("October");
+            cmbMonth.Items.Add("November");
+            cmbMonth.Items.Add("December");
         }
 
         private void onBtnOneOffChanged(object sender, EventArgs e)
@@ -214,7 +201,8 @@ namespace cw2.transaction
                 model.ExpireDate = dtpExpireDate.Value;
                 model.RecurrenceType = cmbRecurrenceType.Text;
                 model.OnDate = Convert.ToInt32(txtDay.Text);
-                model.OnMonth = Convert.ToInt32(((KeyValuePair<int, string>)cmbMonth.SelectedItem).Key);
+                model.OnMonth = cmbMonth.SelectedItem.ToString();
+                model.ExpireDate = dtpExpireDate.Value;
                 
                 transactionService.save(model);
 
@@ -244,14 +232,69 @@ namespace cw2.transaction
             }
         }
 
-        private void txtTxnTitle_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void onAmountKeyPress(object sender, KeyPressEventArgs e)
         {
             e.Handled = !char.IsDigit(e.KeyChar) || e.KeyChar.Equals(".");
+        }
+
+        private void onGridCellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex != -1) //Header row index will be zero
+            {
+                //Highlte the row
+                dataGridTransaction.Rows[dataGridTransaction.CurrentRow.Index].Selected = true;
+
+                DataGridViewRow selectedRow = dataGridTransaction.Rows[e.RowIndex];
+                int id = Convert.ToInt32(selectedRow.Cells["Id"].Value);
+                String title = Convert.ToString(selectedRow.Cells["Title"].Value);
+                double amount = Convert.ToDouble(selectedRow.Cells["Amount"].Value);
+                DateTime date = Convert.ToDateTime(selectedRow.Cells["Date"].Value);
+                DateTime expireDate = Convert.ToDateTime(selectedRow.Cells["ExpireDate"].Value);
+                String type = Convert.ToString(selectedRow.Cells["Type"].Value);
+                String occurence = Convert.ToString(selectedRow.Cells["Occurence"].Value);
+                String recurrenceType = Convert.ToString(selectedRow.Cells["RecurrenceType"].Value);
+                int onDate = Convert.ToInt32(selectedRow.Cells["OnDate"].Value);
+                String onMonth = Convert.ToString(selectedRow.Cells["OnMonth"].Value);
+
+                txtTxnTitle.Text = title;
+                txtTxnAmount.Text = amount.ToString();
+                dtpDate.Value = date;
+
+                //set income or expnse
+                if (type.Equals("INCOME"))
+                {
+                    rBtnIncome.Checked = true;
+                }
+                else
+                {
+                    rBtnExpense.Checked = true;
+                }
+
+                //Set occurence
+                if (occurence.Equals("RECURRENCE"))
+                {
+                    rBtnRecurrence.Checked = true;
+                }
+                else
+                {
+                    rBtnOneOff.Checked = true;
+                }
+
+                cmbRecurrenceType.SelectedItem = recurrenceType;
+                dtpExpireDate.Value = expireDate;
+                txtDay.Text = onDate.ToString();
+                cmbMonth.SelectedItem = onMonth;   
+
+                model.Id = id;
+                btnSave.Text = "Update";
+
+
+            }
+        }
+
+        private void onBtnResetClick(object sender, MouseEventArgs e)
+        {
+            reset();
         }
     }
 }

@@ -24,7 +24,7 @@
     <Property Name="Occurence" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="RecurrenceType" Type="varchar" MaxLength="10" />
     <Property Name="OnDate" Type="int" />
-    <Property Name="OnMonth" Type="int" />
+    <Property Name="OnMonth" Type="varchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="TransactionInstance">
     <Key>

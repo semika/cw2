@@ -23,7 +23,21 @@ namespace cw2.transaction
                     }
                     else
                     {
+                        foreach (TransactionInstance tins in transaction.TransactionInstances)
+                        {
+                            if (tins.Id != 0)
+                            {
+                                db.Entry(tins).State = EntityState.Modified;
+                            }
+                            else
+                            {
+                                db.Entry(tins).State = EntityState.Added;
+                                db.TransactionInstances.Add(tins);
+                            }
+                        }
+
                         db.Entry(transaction).State = EntityState.Modified;
+                        
                     }
 
                     db.SaveChanges();
@@ -71,6 +85,37 @@ namespace cw2.transaction
                 }
                 db.Transactions.Remove(transaction);
                 db.SaveChanges();
+            }
+        }
+
+        public void clearTransactionInstances(int transactionId)
+        {
+            using(Entities db = new Entities())
+            {
+                var transactionInstances = from tins in db.TransactionInstances where tins.TransactionId.Equals(transactionId) select tins;
+
+                List<TransactionInstance> list =  transactionInstances.ToList<TransactionInstance>();
+
+                foreach (TransactionInstance tins in list)
+                {
+                    db.TransactionInstances.Remove(tins);
+                }
+
+                db.SaveChanges();
+            }
+        }
+
+        public Transaction findById(int id, Boolean detached)
+        {
+            using(Entities db = new Entities())
+            {
+                Transaction transaction = db.Transactions.Where(t => t.Id == id).Include(t => t.TransactionInstances).FirstOrDefault(); 
+                
+                if (detached)
+                {
+                    db.Entry(transaction).State = EntityState.Detached;
+                }
+                return transaction;
             }
         }
 

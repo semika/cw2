@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using cw2.transaction;
+using cw2.common;
 
 namespace cw2
 {
@@ -16,6 +17,7 @@ namespace cw2
         public frmExplorer()
         {
             InitializeComponent();
+            DataSetProvider.Instance.readDataSet();
         }
 
         private void onManageEventMenuItemClick(object sender, EventArgs e)

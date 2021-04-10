@@ -124,6 +124,7 @@
       <DependentUpon>FormNewTransaction.cs</DependentUpon>
     </Compile>
     <Compile Include="transaction\TransactionDao.cs" />
+    <Compile Include="transaction\TransactionDataSetDao.cs" />
     <Compile Include="transaction\TransactionDto.cs" />
     <Compile Include="transaction\TransactionService.cs" />
     <Compile Include="transaction\TransactionTransformer.cs" />

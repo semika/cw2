@@ -10,18 +10,35 @@ namespace cw2.transaction
     class TransactionService
     {
 
-        public TransactionDto save(TransactionDto transactionDto)
+        public TransactionDto save(TransactionDto dto)
         {
             TransactionDao transactionDao = new TransactionDao();
             TransactionTransformer transformer = new TransactionTransformer();
-            Transaction transaction = transformer.dtoToDomain(transactionDto);
+            Transaction transaction = null;
 
-            saveTransactionInstance(transaction);
-
-            //save locally
-            saveLocalCopy(transaction);
+            if (dto.Id != 0) //Update
+            {
+                transaction = transactionDao.findById(dto.Id, false);
+                if (!transaction.ExpireDate.Equals(dto.ExpireDate))
+                {
+                    //recreate transaction instances
+                    transactionDao.clearTransactionInstances(dto.Id);
+                    transformer.dtoToDomain(dto, transaction);
+                    transaction.TransactionInstances.Clear();
+                    saveTransactionInstance(transaction);
+                }
+            }
+            else //create
+            {
+                transaction = new Transaction();
+                transformer.dtoToDomain(dto, transaction);
+                saveTransactionInstance(transaction);
+            }
 
             transaction = transactionDao.save(transaction);
+
+            //save locally
+            //saveLocalCopy(transaction)
 
             return transformer.domainToDto(transaction);
         }
@@ -39,7 +56,7 @@ namespace cw2.transaction
             transactionRow.RecurrenceType = transaction.RecurrenceType;
             transactionRow.OnDate = transaction.OnDate;
             transactionRow.OnMonth = transaction.OnMonth;
-
+            transactionRow.ExpireDate = transaction.ExpireDate;
 
             dataSet.Transaction.AddTransactionRow(transactionRow);
 
@@ -53,7 +70,9 @@ namespace cw2.transaction
             }
 
             dataSet.AcceptChanges();
-            dataSet.WriteXml(@"C:\Users\semika\Cw2DataSet.xml");
+
+            DataSetProvider.Instance.writeDataSet();
+          
         }
 
         private void saveTransactionInstance(Transaction transaction)
@@ -66,6 +85,7 @@ namespace cw2.transaction
                 TransactionInstance transactionInstance = new TransactionInstance();
                 transactionInstance.Date = day;
                 transactionInstance.Transaction = transaction;
+                transactionInstance.TransactionId = transaction.Id;
                 transaction.TransactionInstances.Add(transactionInstance);
             }
         }
@@ -84,6 +104,12 @@ namespace cw2.transaction
             }
 
             return transactionDtoList;
+        }
+
+        public List<TransactionDto> getAllTransactionsFromDataSet()
+        {
+            TransactionDataSetDao dataSetDao = new TransactionDataSetDao();
+            return dataSetDao.getAllTransactions();
         }
 
     }

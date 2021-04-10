@@ -13,5 +13,7 @@ namespace cw2.common
 
         public const string ONE_OFF = "ONE_OFF";
         public const string RECURRENCE = "RECURRENCE";
+
+        public const string LOCAL_DATA_SET_PATH = @"C:\Users\semika\Cw2DataSet.xml";
     }
 }

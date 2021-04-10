@@ -499,7 +499,7 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TransactionRow AddTransactionRow(string Title, double Amount, System.DateTime Date, System.DateTime ExpireDate, string Type, string Occuerence, string RecurrenceType, int OnDate, int OnMonth) {
+            public TransactionRow AddTransactionRow(string Title, double Amount, System.DateTime Date, System.DateTime ExpireDate, string Type, string Occuerence, string RecurrenceType, int OnDate, string OnMonth) {
                 TransactionRow rowTransactionRow = ((TransactionRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -574,7 +574,7 @@ namespace cw2 {
                 base.Columns.Add(this.columnRecurrenceType);
                 this.columnOnDate = new global::System.Data.DataColumn("OnDate", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOnDate);
-                this.columnOnMonth = new global::System.Data.DataColumn("OnMonth", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnOnMonth = new global::System.Data.DataColumn("OnMonth", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnOnMonth);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, true));
@@ -1153,10 +1153,10 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public int OnMonth {
+            public string OnMonth {
                 get {
                     try {
-                        return ((int)(this[this.tableTransaction.OnMonthColumn]));
+                        return ((string)(this[this.tableTransaction.OnMonthColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("The value for column \'OnMonth\' in table \'Transaction\' is DBNull.", e);

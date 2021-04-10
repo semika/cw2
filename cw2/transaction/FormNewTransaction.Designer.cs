@@ -31,6 +31,17 @@ namespace cw2.transaction
         {
             this.components = new System.ComponentModel.Container();
             this.groupTransactionDraft = new System.Windows.Forms.GroupBox();
+            this.dataGridTransaction = new System.Windows.Forms.DataGridView();
+            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.onDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.onMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExpireDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Occurence = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RecurrenceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupAddEditTransaction = new System.Windows.Forms.GroupBox();
             this.btnReset = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
@@ -54,20 +65,12 @@ namespace cw2.transaction
             this.lblTxnDate = new System.Windows.Forms.Label();
             this.lblDay = new System.Windows.Forms.Label();
             this.lblTxnTitle = new System.Windows.Forms.Label();
-            this.dataGridTransaction = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Occurence = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.RecurrenceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.groupTransactionDraft.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridTransaction)).BeginInit();
             this.groupAddEditTransaction.SuspendLayout();
             this.rBtnGroupType.SuspendLayout();
             this.rBtnGroupIncomeExpense.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridTransaction)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).BeginInit();
             this.SuspendLayout();
             // 
@@ -80,6 +83,86 @@ namespace cw2.transaction
             this.groupTransactionDraft.TabIndex = 0;
             this.groupTransactionDraft.TabStop = false;
             this.groupTransactionDraft.Text = "Draft Transactions";
+            // 
+            // dataGridTransaction
+            // 
+            this.dataGridTransaction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridTransaction.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Id,
+            this.onDate,
+            this.onMonth,
+            this.ExpireDate,
+            this.Title,
+            this.Date,
+            this.Amount,
+            this.Type,
+            this.Occurence,
+            this.RecurrenceType});
+            this.dataGridTransaction.Location = new System.Drawing.Point(15, 19);
+            this.dataGridTransaction.Name = "dataGridTransaction";
+            this.dataGridTransaction.Size = new System.Drawing.Size(701, 434);
+            this.dataGridTransaction.TabIndex = 0;
+            this.dataGridTransaction.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.onGridCellClick);
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            // 
+            // onDate
+            // 
+            this.onDate.DataPropertyName = "onDate";
+            this.onDate.HeaderText = "Day";
+            this.onDate.Name = "onDate";
+            // 
+            // onMonth
+            // 
+            this.onMonth.DataPropertyName = "onMonth";
+            this.onMonth.HeaderText = "Month";
+            this.onMonth.Name = "onMonth";
+            // 
+            // ExpireDate
+            // 
+            this.ExpireDate.DataPropertyName = "ExpireDate";
+            this.ExpireDate.HeaderText = "Expire Date";
+            this.ExpireDate.Name = "ExpireDate";
+            // 
+            // Title
+            // 
+            this.Title.DataPropertyName = "Title";
+            this.Title.HeaderText = "Title";
+            this.Title.Name = "Title";
+            // 
+            // Date
+            // 
+            this.Date.DataPropertyName = "Date";
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            // 
+            // Amount
+            // 
+            this.Amount.DataPropertyName = "Amount";
+            this.Amount.HeaderText = "Amount";
+            this.Amount.Name = "Amount";
+            // 
+            // Type
+            // 
+            this.Type.DataPropertyName = "Type";
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            // 
+            // Occurence
+            // 
+            this.Occurence.DataPropertyName = "Occurence";
+            this.Occurence.HeaderText = "Occurence";
+            this.Occurence.Name = "Occurence";
+            // 
+            // RecurrenceType
+            // 
+            this.RecurrenceType.DataPropertyName = "RecurrenceType";
+            this.RecurrenceType.HeaderText = "Recurrence Type";
+            this.RecurrenceType.Name = "RecurrenceType";
             // 
             // groupAddEditTransaction
             // 
@@ -107,8 +190,7 @@ namespace cw2.transaction
             this.groupAddEditTransaction.TabIndex = 1;
             this.groupAddEditTransaction.TabStop = false;
             this.groupAddEditTransaction.Text = "Add/Edit Transaction";
-            this.groupAddEditTransaction.Enter += new System.EventHandler(this.groupAddEditTransaction_Enter);
-            // 
+           
             // btnReset
             // 
             this.btnReset.Location = new System.Drawing.Point(299, 430);
@@ -117,6 +199,7 @@ namespace cw2.transaction
             this.btnReset.TabIndex = 13;
             this.btnReset.Text = "Reset";
             this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.MouseClick += new System.Windows.Forms.MouseEventHandler(this.onBtnResetClick);
             // 
             // btnSave
             // 
@@ -220,8 +303,7 @@ namespace cw2.transaction
             this.rBtnIncome.TabStop = true;
             this.rBtnIncome.Text = "Income";
             this.rBtnIncome.UseVisualStyleBackColor = true;
-            this.rBtnIncome.CheckedChanged += new System.EventHandler(this.rBtnIncome_CheckedChanged);
-            // 
+            
             // dtpExpireDate
             // 
             this.dtpExpireDate.CustomFormat = "MM/dd/yyyyy";
@@ -254,7 +336,6 @@ namespace cw2.transaction
             this.txtTxnTitle.Name = "txtTxnTitle";
             this.txtTxnTitle.Size = new System.Drawing.Size(200, 20);
             this.txtTxnTitle.TabIndex = 1;
-            this.txtTxnTitle.TextChanged += new System.EventHandler(this.txtTxnTitle_TextChanged);
             this.txtTxnTitle.Validating += new System.ComponentModel.CancelEventHandler(this.validateTitle);
             // 
             // dtpDate
@@ -320,64 +401,6 @@ namespace cw2.transaction
             this.lblTxnTitle.TabIndex = 0;
             this.lblTxnTitle.Text = "Title";
             // 
-            // dataGridTransaction
-            // 
-            this.dataGridTransaction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridTransaction.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.Title,
-            this.Date,
-            this.Amount,
-            this.Type,
-            this.Occurence,
-            this.RecurrenceType});
-            this.dataGridTransaction.Location = new System.Drawing.Point(15, 19);
-            this.dataGridTransaction.Name = "dataGridTransaction";
-            this.dataGridTransaction.Size = new System.Drawing.Size(701, 434);
-            this.dataGridTransaction.TabIndex = 0;
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            // 
-            // Title
-            // 
-            this.Title.DataPropertyName = "Title";
-            this.Title.HeaderText = "Title";
-            this.Title.Name = "Title";
-            // 
-            // Date
-            // 
-            this.Date.DataPropertyName = "Date";
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            // 
-            // Amount
-            // 
-            this.Amount.DataPropertyName = "Amount";
-            this.Amount.HeaderText = "Amount";
-            this.Amount.Name = "Amount";
-            // 
-            // Type
-            // 
-            this.Type.DataPropertyName = "Type";
-            this.Type.HeaderText = "Type";
-            this.Type.Name = "Type";
-            // 
-            // Occurence
-            // 
-            this.Occurence.DataPropertyName = "Occurence";
-            this.Occurence.HeaderText = "Occurence";
-            this.Occurence.Name = "Occurence";
-            // 
-            // RecurrenceType
-            // 
-            this.RecurrenceType.DataPropertyName = "RecurrenceType";
-            this.RecurrenceType.HeaderText = "Recurrence Type";
-            this.RecurrenceType.Name = "RecurrenceType";
-            // 
             // errorProvider
             // 
             this.errorProvider.ContainerControl = this;
@@ -393,13 +416,13 @@ namespace cw2.transaction
             this.Text = "FormNewTransaction";
             this.Load += new System.EventHandler(this.onNewTransactionFormLoad);
             this.groupTransactionDraft.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridTransaction)).EndInit();
             this.groupAddEditTransaction.ResumeLayout(false);
             this.groupAddEditTransaction.PerformLayout();
             this.rBtnGroupType.ResumeLayout(false);
             this.rBtnGroupType.PerformLayout();
             this.rBtnGroupIncomeExpense.ResumeLayout(false);
             this.rBtnGroupIncomeExpense.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridTransaction)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider)).EndInit();
             this.ResumeLayout(false);
 
@@ -432,13 +455,16 @@ namespace cw2.transaction
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.DataGridView dataGridTransaction;
+        private System.Windows.Forms.ErrorProvider errorProvider;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn onDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn onMonth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ExpireDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn Title;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Occurence;
         private System.Windows.Forms.DataGridViewTextBoxColumn RecurrenceType;
-        private System.Windows.Forms.ErrorProvider errorProvider;
     }
 }
