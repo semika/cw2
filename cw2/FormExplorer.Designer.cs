@@ -101,6 +101,7 @@ namespace cw2
             this.manageTransactionToolStripMenuItem.Name = "manageTransactionToolStripMenuItem";
             this.manageTransactionToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
             this.manageTransactionToolStripMenuItem.Text = "Manage Transaction";
+            this.manageTransactionToolStripMenuItem.Click += new System.EventHandler(this.onManageTransactionToolStripMenuItemClick);
             // 
             // newTransaactionToolStripMenuItem
             // 

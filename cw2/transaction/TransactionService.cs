@@ -139,6 +139,22 @@ namespace cw2.transaction
             return transactionDtoList;
         }
 
+        public List<TransactionDto> searchTransactionByCriteria(TransactionDto dto)
+        {
+            TransactionTransformer transformer = new TransactionTransformer();
+            TransactionDao transactionDao = new TransactionDao();
+            List<Transaction> transactionList = transactionDao.searchTransactionByCriteria(dto);
+
+            List<TransactionDto> transactionDtoList = new List<TransactionDto>();
+
+            foreach (var transaction in transactionList)
+            {
+                transactionDtoList.Add(transformer.domainToDto(transaction));
+            }
+
+            return transactionDtoList;
+        }
+
         public List<TransactionDto> getAllTransactionsFromDataSet()
         {
             TransactionTransformer transformer = new TransactionTransformer();

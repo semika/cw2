@@ -123,6 +123,12 @@
     <Compile Include="transaction\FormNewTransaction.Designer.cs">
       <DependentUpon>FormNewTransaction.cs</DependentUpon>
     </Compile>
+    <Compile Include="transaction\FormManageTransaction.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="transaction\FormManageTransaction.Designer.cs">
+      <DependentUpon>FormManageTransaction.cs</DependentUpon>
+    </Compile>
     <Compile Include="transaction\TransactionDao.cs" />
     <Compile Include="transaction\TransactionDataSetDao.cs" />
     <Compile Include="transaction\TransactionDto.cs" />
@@ -146,6 +152,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="transaction\FormManageTransaction.resx">
+      <DependentUpon>FormManageTransaction.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="transaction\FormNewTransaction.resx">
       <DependentUpon>FormNewTransaction.cs</DependentUpon>
     </EmbeddedResource>

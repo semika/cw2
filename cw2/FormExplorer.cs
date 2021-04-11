@@ -44,5 +44,11 @@ namespace cw2
             FormNewTransaction formNewTransaction = new FormNewTransaction();
             formNewTransaction.Show();
         }
+
+        private void onManageTransactionToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            FormManageTransaction formManageTransaction = new FormManageTransaction();
+            formManageTransaction.Show();
+        }
     }
 }

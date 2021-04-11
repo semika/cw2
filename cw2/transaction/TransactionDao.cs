@@ -73,6 +73,14 @@ namespace cw2.transaction
             return transactionList;
         }
 
+        public List<Transaction> searchTransactionByCriteria(TransactionDto dto)
+        {
+            using (Entities db = new Entities())
+            {
+                return db.Transactions.Where(txn => txn.Title.Contains(dto.Title)).ToList<Transaction>();
+            }
+        }
+
         public void delete(int id)
         {
             using (Entities db = new Entities())
@@ -96,10 +104,12 @@ namespace cw2.transaction
 
                 List<TransactionInstance> list =  transactionInstances.ToList<TransactionInstance>();
 
-                foreach (TransactionInstance tins in list)
+                db.TransactionInstances.RemoveRange(list);
+
+               /* foreach (TransactionInstance tins in list)
                 {
                     db.TransactionInstances.Remove(tins);
-                }
+                }*/
 
                 db.SaveChanges();
             }
