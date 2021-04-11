@@ -13,12 +13,18 @@ namespace cw2.transaction
 {
     public partial class FormNewTransaction : Form
     {
-        TransactionDto model = new TransactionDto(); //model
+        TransactionDto model = null;
 
         public FormNewTransaction()
         {
+            this.model = new TransactionDto();
             InitializeComponent();
-            
+        }
+
+        public FormNewTransaction(TransactionDto model)
+        {
+            this.model = model;
+            InitializeComponent();
         }
 
         private void onNewTransactionFormLoad(object sender, EventArgs e)
@@ -27,6 +33,11 @@ namespace cw2.transaction
             poulateOccurenceDropDown();
             populateMonth();
             populateGrid();
+
+            if(this.model.Id != 0)
+            {
+                populateFormFromDto(this.model);
+            }
         }
 
         private void populateGrid()
@@ -38,7 +49,7 @@ namespace cw2.transaction
             List<TransactionDto> dataSetList = service.getAllTransactionsFromDataSet();
 
             dataGridTransaction.DataSource = dataSetList;
-            reset();
+            //reset();
         }
 
 
@@ -261,53 +272,64 @@ namespace cw2.transaction
             {
                 //Highlte the row
                 dataGridTransaction.Rows[dataGridTransaction.CurrentRow.Index].Selected = true;
-
                 DataGridViewRow selectedRow = dataGridTransaction.Rows[e.RowIndex];
-                int id = Convert.ToInt32(selectedRow.Cells["Id"].Value);
-                String title = Convert.ToString(selectedRow.Cells["Title"].Value);
-                double amount = Convert.ToDouble(selectedRow.Cells["Amount"].Value);
-                DateTime date = Convert.ToDateTime(selectedRow.Cells["Date"].Value);
-                DateTime expireDate = Convert.ToDateTime(selectedRow.Cells["ExpireDate"].Value);
-                String type = Convert.ToString(selectedRow.Cells["Type"].Value);
-                String occurence = Convert.ToString(selectedRow.Cells["Occurence"].Value);
-                String recurrenceType = Convert.ToString(selectedRow.Cells["RecurrenceType"].Value);
-                int onDate = Convert.ToInt32(selectedRow.Cells["OnDate"].Value);
-                String onMonth = Convert.ToString(selectedRow.Cells["OnMonth"].Value);
-
-                txtTxnTitle.Text = title;
-                txtTxnAmount.Text = amount.ToString();
-                dtpDate.Value = date;
-
-                //set income or expnse
-                if (type.Equals("INCOME"))
-                {
-                    rBtnIncome.Checked = true;
-                }
-                else
-                {
-                    rBtnExpense.Checked = true;
-                }
-
-                //Set occurence
-                if (occurence.Equals("RECURRENCE"))
-                {
-                    rBtnRecurrence.Checked = true;
-                }
-                else
-                {
-                    rBtnOneOff.Checked = true;
-                }
-
-                cmbRecurrenceType.SelectedItem = recurrenceType;
-                dtpExpireDate.Value = expireDate;
-                txtDay.Text = onDate.ToString();
-                cmbMonth.SelectedItem = onMonth;   
-
-                model.Id = id;
-                btnSave.Text = "Update";
-
-
+                populateFromDataGridRow(selectedRow);
             }
+        }
+
+        private void populateFromDataGridRow(DataGridViewRow selectedRow)
+        {
+            TransactionTransformer transformer = new TransactionTransformer();
+            TransactionDto dto = transformer.dataGridRowToDto(selectedRow);
+            populateFormFromDto(dto);
+        }
+
+        private void populateFormFromDto(TransactionDto dto)
+        {
+
+           /* int id = Convert.ToInt32(selectedRow.Cells["Id"].Value);
+            String title = Convert.ToString(selectedRow.Cells["Title"].Value);
+            double amount = Convert.ToDouble(selectedRow.Cells["Amount"].Value);
+            DateTime date = Convert.ToDateTime(selectedRow.Cells["Date"].Value);
+            DateTime expireDate = Convert.ToDateTime(selectedRow.Cells["ExpireDate"].Value);
+            String type = Convert.ToString(selectedRow.Cells["Type"].Value);
+            String occurence = Convert.ToString(selectedRow.Cells["Occurence"].Value);
+            String recurrenceType = Convert.ToString(selectedRow.Cells["RecurrenceType"].Value);
+            int onDate = Convert.ToInt32(selectedRow.Cells["OnDate"].Value);
+            String onMonth = Convert.ToString(selectedRow.Cells["OnMonth"].Value);*/
+
+            txtTxnTitle.Text = dto.Title;
+            txtTxnAmount.Text = dto.Amount.ToString();
+            dtpDate.Value = dto.Date;
+
+            //set income or expnse
+            if (dto.Type.Equals("INCOME"))
+            {
+                rBtnIncome.Checked = true;
+            }
+            else
+            {
+                rBtnExpense.Checked = true;
+            }
+
+            //Set occurence
+            if (dto.Occurence.Equals("RECURRENCE"))
+            {
+                rBtnRecurrence.Checked = true;
+            }
+            else
+            {
+                rBtnOneOff.Checked = true;
+            }
+
+            cmbRecurrenceType.SelectedItem = dto.RecurrenceType;
+            dtpExpireDate.Value = dto.ExpireDate;
+            txtDay.Text = dto.OnDate.ToString();
+            cmbMonth.SelectedItem = dto.OnMonth;
+
+            model.Id = dto.Id;
+
+            btnSave.Text = "Update";
         }
 
         private void onBtnResetClick(object sender, MouseEventArgs e)

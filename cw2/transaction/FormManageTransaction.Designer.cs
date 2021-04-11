@@ -36,14 +36,18 @@ namespace cw2.transaction
             this.btnSearch = new System.Windows.Forms.Button();
             this.btnReset = new System.Windows.Forms.Button();
             this.dataGridTransaction = new System.Windows.Forms.DataGridView();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.btnDelete = new System.Windows.Forms.Button();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Titile = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExpireDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RecurrenceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OnMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Occurence = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
             this.groupBoxTransactionSearch.SuspendLayout();
             this.groupBoxTransactionDataGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridTransaction)).BeginInit();
@@ -115,7 +119,11 @@ namespace cw2.transaction
             this.dataGridTransaction.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridTransaction.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Id,
-            this.Titile,
+            this.ExpireDate,
+            this.RecurrenceType,
+            this.OnDate,
+            this.OnMonth,
+            this.Title,
             this.Amount,
             this.Date,
             this.Type,
@@ -124,41 +132,7 @@ namespace cw2.transaction
             this.dataGridTransaction.Name = "dataGridTransaction";
             this.dataGridTransaction.Size = new System.Drawing.Size(1164, 278);
             this.dataGridTransaction.TabIndex = 0;
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "Id";
-            this.Id.Name = "Id";
-            // 
-            // Titile
-            // 
-            this.Titile.DataPropertyName = "Title";
-            this.Titile.HeaderText = "Title";
-            this.Titile.Name = "Titile";
-            // 
-            // Amount
-            // 
-            this.Amount.DataPropertyName = "Amount";
-            this.Amount.HeaderText = "Amount";
-            this.Amount.Name = "Amount";
-            // 
-            // Date
-            // 
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            // 
-            // Type
-            // 
-            this.Type.DataPropertyName = "Type";
-            this.Type.HeaderText = "Type";
-            this.Type.Name = "Type";
-            // 
-            // Occurence
-            // 
-            this.Occurence.DataPropertyName = "Occurence";
-            this.Occurence.HeaderText = "Occurence";
-            this.Occurence.Name = "Occurence";
+            this.dataGridTransaction.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.onDataGridTransactionCellClick);
             // 
             // btnEdit
             // 
@@ -179,6 +153,66 @@ namespace cw2.transaction
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.onBtnDeleteClick);
+            // 
+            // Id
+            // 
+            this.Id.DataPropertyName = "Id";
+            this.Id.HeaderText = "Id";
+            this.Id.Name = "Id";
+            // 
+            // ExpireDate
+            // 
+            this.ExpireDate.DataPropertyName = "ExpireDate";
+            this.ExpireDate.HeaderText = "ExpireDate";
+            this.ExpireDate.Name = "ExpireDate";
+            // 
+            // RecurrenceType
+            // 
+            this.RecurrenceType.DataPropertyName = "RecurrenceType";
+            this.RecurrenceType.HeaderText = "RecurrenceType";
+            this.RecurrenceType.Name = "RecurrenceType";
+            // 
+            // OnDate
+            // 
+            this.OnDate.DataPropertyName = "OnDate";
+            this.OnDate.HeaderText = "OnDate";
+            this.OnDate.Name = "OnDate";
+            // 
+            // OnMonth
+            // 
+            this.OnMonth.DataPropertyName = "OnMonth";
+            this.OnMonth.HeaderText = "OnMonth";
+            this.OnMonth.Name = "OnMonth";
+            // 
+            // Title
+            // 
+            this.Title.DataPropertyName = "Title";
+            this.Title.HeaderText = "Title";
+            this.Title.Name = "Title";
+            // 
+            // Amount
+            // 
+            this.Amount.DataPropertyName = "Amount";
+            this.Amount.HeaderText = "Amount";
+            this.Amount.Name = "Amount";
+            // 
+            // Date
+            // 
+            this.Date.DataPropertyName = "Date";
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            // 
+            // Type
+            // 
+            this.Type.DataPropertyName = "Type";
+            this.Type.HeaderText = "Type";
+            this.Type.Name = "Type";
+            // 
+            // Occurence
+            // 
+            this.Occurence.DataPropertyName = "Occurence";
+            this.Occurence.HeaderText = "Occurence";
+            this.Occurence.Name = "Occurence";
             // 
             // FormManageTransaction
             // 
@@ -206,13 +240,17 @@ namespace cw2.transaction
         private System.Windows.Forms.TextBox txtTitle;
         private System.Windows.Forms.GroupBox groupBoxTransactionDataGrid;
         private System.Windows.Forms.DataGridView dataGridTransaction;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Titile;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ExpireDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RecurrenceType;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OnDate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OnMonth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Title;
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Occurence;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnEdit;
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using static cw2.Cw2DataSet;
 
 namespace cw2.transaction
@@ -95,6 +96,35 @@ namespace cw2.transaction
             row.ExpireDate = dto.ExpireDate;
 
             return row;
+        }
+
+        public TransactionDto dataGridRowToDto(DataGridViewRow selectedRow)
+        {
+
+            int id = Convert.ToInt32(selectedRow.Cells["Id"].Value);
+            String title = Convert.ToString(selectedRow.Cells["Title"].Value);
+            double amount = Convert.ToDouble(selectedRow.Cells["Amount"].Value);
+            DateTime date = Convert.ToDateTime(selectedRow.Cells["Date"].Value);
+            DateTime expireDate = Convert.ToDateTime(selectedRow.Cells["ExpireDate"].Value);
+            String type = Convert.ToString(selectedRow.Cells["Type"].Value);
+            String occurence = Convert.ToString(selectedRow.Cells["Occurence"].Value);
+            String recurrenceType = Convert.ToString(selectedRow.Cells["RecurrenceType"].Value);
+            int onDate = Convert.ToInt32(selectedRow.Cells["OnDate"].Value);
+            String onMonth = Convert.ToString(selectedRow.Cells["OnMonth"].Value);
+
+            TransactionDto dto = new TransactionDto();
+            dto.Id = id;
+            dto.Title = title;
+            dto.Amount = amount;
+            dto.Date = date;
+            dto.ExpireDate = expireDate;
+            dto.Type = type;
+            dto.Occurence = occurence;
+            dto.RecurrenceType = recurrenceType;
+            dto.OnDate = onDate;
+            dto.OnMonth = onMonth;
+
+            return dto;
         }
     }
 }

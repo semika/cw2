@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace cw2.transaction
 {
-    class TransactionDto
+    public class TransactionDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
