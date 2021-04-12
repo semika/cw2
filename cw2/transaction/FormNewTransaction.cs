@@ -43,12 +43,9 @@ namespace cw2.transaction
         private void populateGrid()
         {
             dataGridTransaction.AutoGenerateColumns = false;
-            TransactionService service = new TransactionService();
-            List<TransactionDto> transactionList = service.getAllTransactions();
+            CW2Response<TransactionDto> response = TransactionService.Instance.getAllTransactionsFromDataSet();
 
-            List<TransactionDto> dataSetList = service.getAllTransactionsFromDataSet();
-
-            dataGridTransaction.DataSource = dataSetList;
+            dataGridTransaction.DataSource = response.dataList;
             //reset();
         }
 
@@ -182,11 +179,9 @@ namespace cw2.transaction
         {
             if (ValidateChildren(ValidationConstraints.Enabled))
             {
-                TransactionService transactionService = new TransactionService();
-
                 model.Title = txtTxnTitle.Text;
                 model.Amount = Convert.ToDouble(txtTxnAmount.Text);
-                model.Date = dtpDate.Value;
+                model.CreatedDate = dtpDate.Value;
 
                 //set the type field.
 
@@ -232,8 +227,10 @@ namespace cw2.transaction
                 }
                 
                 model.ExpireDate = dtpExpireDate.Value;
-                
-                transactionService.save(model);
+
+                CW2Response<TransactionDto> response = TransactionService.Instance.save(model);
+
+                MessageBox.Show(response.Message);
 
                 populateGrid();
             } 
@@ -279,28 +276,15 @@ namespace cw2.transaction
 
         private void populateFromDataGridRow(DataGridViewRow selectedRow)
         {
-            TransactionTransformer transformer = new TransactionTransformer();
-            TransactionDto dto = transformer.dataGridRowToDto(selectedRow);
+            TransactionDto dto = TransactionTransformer.Instance.dataGridRowToDto(selectedRow);
             populateFormFromDto(dto);
         }
 
         private void populateFormFromDto(TransactionDto dto)
         {
-
-           /* int id = Convert.ToInt32(selectedRow.Cells["Id"].Value);
-            String title = Convert.ToString(selectedRow.Cells["Title"].Value);
-            double amount = Convert.ToDouble(selectedRow.Cells["Amount"].Value);
-            DateTime date = Convert.ToDateTime(selectedRow.Cells["Date"].Value);
-            DateTime expireDate = Convert.ToDateTime(selectedRow.Cells["ExpireDate"].Value);
-            String type = Convert.ToString(selectedRow.Cells["Type"].Value);
-            String occurence = Convert.ToString(selectedRow.Cells["Occurence"].Value);
-            String recurrenceType = Convert.ToString(selectedRow.Cells["RecurrenceType"].Value);
-            int onDate = Convert.ToInt32(selectedRow.Cells["OnDate"].Value);
-            String onMonth = Convert.ToString(selectedRow.Cells["OnMonth"].Value);*/
-
             txtTxnTitle.Text = dto.Title;
             txtTxnAmount.Text = dto.Amount.ToString();
-            dtpDate.Value = dto.Date;
+            dtpDate.Value = dto.CreatedDate;
 
             //set income or expnse
             if (dto.Type.Equals("INCOME"))
@@ -335,6 +319,12 @@ namespace cw2.transaction
         private void onBtnResetClick(object sender, MouseEventArgs e)
         {
             reset();
+        }
+
+        private void onBtnDeleteClick(object sender, MouseEventArgs e)
+        {
+            CW2Response<TransactionDto> response = TransactionService.Instance.removeDraft(model.Id);
+            MessageBox.Show(response.Message);
         }
     }
 }

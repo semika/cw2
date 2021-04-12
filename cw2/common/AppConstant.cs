@@ -15,5 +15,8 @@ namespace cw2.common
         public const string RECURRENCE = "RECURRENCE";
 
         public const string LOCAL_DATA_SET_PATH = @"C:\Users\semika\Cw2DataSet.xml";
+
+        public const string ERROR = "error";
+        public const string SUCCESS = "success";
     }
 }

@@ -22,7 +22,7 @@
           <ScalarProperty Name="Occurence" ColumnName="Occurence" />
           <ScalarProperty Name="Type" ColumnName="Type" />
           <ScalarProperty Name="ExpireDate" ColumnName="ExpireDate" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
           <ScalarProperty Name="Title" ColumnName="Title" />
           <ScalarProperty Name="Id" ColumnName="Id" />
@@ -33,7 +33,7 @@
       <EntityTypeMapping TypeName="cw2.TransactionInstance">
         <MappingFragment StoreEntitySet="TransactionInstance">
           <ScalarProperty Name="TransactionId" ColumnName="TransactionId" />
-          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
           <ScalarProperty Name="Id" ColumnName="Id" />
         </MappingFragment>
       </EntityTypeMapping>

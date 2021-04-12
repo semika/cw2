@@ -15,7 +15,7 @@ namespace cw2
     public partial class TransactionInstance
     {
         public int Id { get; set; }
-        public System.DateTime Date { get; set; }
+        public System.DateTime TransactionDate { get; set; }
         public int TransactionId { get; set; }
     
         public virtual Transaction Transaction { get; set; }

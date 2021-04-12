@@ -18,7 +18,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Title" Type="varchar" MaxLength="500" Nullable="false" />
     <Property Name="Amount" Type="float" Nullable="false" />
-    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="CreatedDate" Type="date" Nullable="false" />
     <Property Name="ExpireDate" Type="date" />
     <Property Name="Type" Type="varchar" MaxLength="10" Nullable="false" />
     <Property Name="Occurence" Type="varchar" MaxLength="10" Nullable="false" />
@@ -31,7 +31,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="TransactionDate" Type="date" Nullable="false" />
     <Property Name="TransactionId" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="FK_TransactionInstance_Transaction">

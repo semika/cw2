@@ -27,7 +27,7 @@
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Title" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
     <Property Name="Amount" Type="Double" Nullable="false" />
-    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="ExpireDate" Type="DateTime" Precision="0" />
     <Property Name="Type" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
     <Property Name="Occurence" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
@@ -41,7 +41,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="TransactionId" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Transaction" Relationship="cw2.FK_TransactionInstance_Transaction" FromRole="TransactionInstance" ToRole="Transaction" />
   </EntityType>

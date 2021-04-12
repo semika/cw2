@@ -5,16 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using System.Data.Entity.Core;
+using cw2.common.exception;
 
 namespace cw2.transaction
 {
-    class TransactionDao
+    public sealed class TransactionDao
     {
+        private static TransactionDao instance = null;
+
+        private TransactionDao()
+        {
+        }
+        public static TransactionDao Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TransactionDao();
+                }
+                return instance;
+            }
+        }
+
         public Transaction save(Transaction transaction)
         {
-            try
+            using (Entities db = new Entities())
             {
-                using (Entities db = new Entities())
+                if (db.Database.Exists())
                 {
                     if (transaction.Id == 0) //Add new record
                     {
@@ -37,37 +56,35 @@ namespace cw2.transaction
                         }
 
                         db.Entry(transaction).State = EntityState.Modified;
-                        
                     }
 
                     db.SaveChanges();
                 }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
+                else
                 {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
                 }
-                throw;
+            
+                
             }
-
             return transaction;
         }
 
         public List<Transaction> getAllTransactions()
         {
             List<Transaction> transactionList = new List<Transaction>();
-
+            
             using (Entities db = new Entities())
             {
-                transactionList = db.Transactions.ToList<Transaction>();
+                if (db.Database.Exists())
+                {
+                    transactionList = db.Transactions.ToList<Transaction>();
+                }
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
+               
             }
 
             return transactionList;
@@ -75,24 +92,65 @@ namespace cw2.transaction
 
         public List<Transaction> searchTransactionByCriteria(TransactionDto dto)
         {
+            List<Transaction> transactionList = new List<Transaction>();
+
             using (Entities db = new Entities())
             {
-                return db.Transactions.Where(txn => txn.Title.Contains(dto.Title)).ToList<Transaction>();
+                if (db.Database.Exists())
+                {
+                    var query = db.Transactions.Where(txn => (txn.Title.Contains(dto.Title)));
+
+                    //string dateParam = dto.Date.ToString("MM/dd/yyyy");
+
+                    var searchQuery = from txn in db.Transactions
+                                      join tins in db.TransactionInstances on txn.Id equals tins.TransactionId
+                                        where txn.Title.Contains(dto.Title) 
+                                            //&& txn.Type.Equals(dto.Type) 
+                                            && (txn.ExpireDate == dto.CreatedDate) 
+                                            //&& (tins.TransactionDate == dto.CreatedDate)
+
+                                      select txn;
+
+                    if (dto.Type.Trim().Length > 0)
+                    {
+                        query = query.Where(txn => (txn.Type.Equals(dto.Type)));
+                    }
+
+                    if (dto.CreatedDate != null)
+                    {
+                        //query.Join(db.TransactionInstances, txn => txn.Id, tins => tins.TransactionId, (txn, tins) => new { Transaction = txn, TransactionInstance = tins }).Where(tins => tins.Date);
+                    }
+                    transactionList.AddRange(searchQuery.ToList<Transaction>());
+
+                }
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
+                
             }
+            return transactionList;
         }
 
         public void delete(int id)
         {
             using (Entities db = new Entities())
             {
-                Transaction transaction = db.Transactions.First(e => e.Id == id);
-                var entry = db.Entry(transaction);
-                if (entry.State == EntityState.Detached)
+                if (db.Database.Exists())
                 {
-                    db.Transactions.Attach(transaction);
+                    Transaction transaction = db.Transactions.First(e => e.Id == id);
+                    var entry = db.Entry(transaction);
+                    if (entry.State == EntityState.Detached)
+                    {
+                        db.Transactions.Attach(transaction);
+                    }
+                    db.Transactions.Remove(transaction);
+                    db.SaveChanges();
                 }
-                db.Transactions.Remove(transaction);
-                db.SaveChanges();
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
             }
         }
 
@@ -100,18 +158,25 @@ namespace cw2.transaction
         {
             using(Entities db = new Entities())
             {
-                var transactionInstances = from tins in db.TransactionInstances where tins.TransactionId.Equals(transactionId) select tins;
-
-                List<TransactionInstance> list =  transactionInstances.ToList<TransactionInstance>();
-
-                db.TransactionInstances.RemoveRange(list);
-
-               /* foreach (TransactionInstance tins in list)
+                if (db.Database.Exists())
                 {
-                    db.TransactionInstances.Remove(tins);
-                }*/
+                    var transactionInstances = from tins in db.TransactionInstances where tins.TransactionId.Equals(transactionId) select tins;
 
-                db.SaveChanges();
+                    List<TransactionInstance> list = transactionInstances.ToList<TransactionInstance>();
+
+                    db.TransactionInstances.RemoveRange(list);
+
+                    /* foreach (TransactionInstance tins in list)
+                     {
+                         db.TransactionInstances.Remove(tins);
+                     }*/
+
+                    db.SaveChanges();
+                }
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
             }
         }
 
@@ -119,21 +184,29 @@ namespace cw2.transaction
         {
             using(Entities db = new Entities())
             {
-                Transaction transaction = db.Transactions.Where(t => t.Id == id).Include(t => t.TransactionInstances).FirstOrDefault(); 
-                
-                if (detached)
+                if (db.Database.Exists())
                 {
-                    db.Entry(transaction).State = EntityState.Detached;
+                    Transaction transaction = db.Transactions.Where(t => t.Id == id).Include(t => t.TransactionInstances).FirstOrDefault();
+
+                    if (detached)
+                    {
+                        db.Entry(transaction).State = EntityState.Detached;
+                    }
+                    return transaction;
                 }
-                return transaction;
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
+                
             }
         }
 
         public TransactionInstance saveTransactionInstace(TransactionInstance transactionInstance)
         {
-            try
+            using (Entities db = new Entities())
             {
-                using (Entities db = new Entities())
+                if (db.Database.Exists())
                 {
                     if (transactionInstance.Id == 0) //Add new record
                     {
@@ -146,24 +219,14 @@ namespace cw2.transaction
                     }
 
                     db.SaveChanges();
-                }
-            }
-            catch (DbEntityValidationException e)
-            {
-                foreach (var eve in e.EntityValidationErrors)
-                {
-                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
-                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
-                    foreach (var ve in eve.ValidationErrors)
-                    {
-                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
-                            ve.PropertyName, ve.ErrorMessage);
-                    }
-                }
-                throw;
-            }
 
-            return transactionInstance;
+                    return transactionInstance;
+                }
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
+            }
         }
     }
 }

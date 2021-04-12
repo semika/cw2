@@ -1,4 +1,5 @@
-﻿using System;
+﻿using cw2.common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +19,14 @@ namespace cw2.transaction
         {
             InitializeComponent();
             fetchDataByCriteria();
+            populateSearchForm();
+        }
+
+        private void populateSearchForm()
+        {
+            cmbType.Items.Add("");
+            cmbType.Items.Add(AppConstant.INCOME);
+            cmbType.Items.Add(AppConstant.EXPENSE);
         }
 
         private void onBtnSearchClick(object sender, EventArgs e)
@@ -35,14 +44,16 @@ namespace cw2.transaction
         {
             TransactionDto dto = new TransactionDto
             {
-                Title = txtTitle.Text
+                Title = txtTitle.Text,
+                CreatedDate = dtpDate.Value,
+                Type = cmbType.Text
             };
 
             dataGridTransaction.AutoGenerateColumns = false;
-            TransactionService service = new TransactionService();
-            List<TransactionDto> transactionList = service.searchTransactionByCriteria(dto);
+            CW2Response<TransactionDto> response  = TransactionService.Instance.searchTransactionByCriteria(dto);
 
-            dataGridTransaction.DataSource = transactionList;
+            dataGridTransaction.DataSource = response.dataList;
+
             reset();
         }
 
@@ -73,13 +84,14 @@ namespace cw2.transaction
             model.Id = id;
             model.Title = title;
             model.Amount = amount;
-            model.Date = date;
+            model.CreatedDate = date;
             model.ExpireDate = expireDate;
             model.Type = type;
             model.Occurence = occurence;
             model.RecurrenceType = recurrenceType;
             model.OnDate = onDate;
             model.OnMonth = onMonth;
+            model.DbEntityId = id;
 
             FormNewTransaction formNewTransaction = new FormNewTransaction(model);
             formNewTransaction.Show();
@@ -93,6 +105,11 @@ namespace cw2.transaction
                 dataGridTransaction.Rows[dataGridTransaction.CurrentRow.Index].Selected = true;
                 this.selectedRow = dataGridTransaction.Rows[e.RowIndex];
             }
+
+        }
+
+        private void groupBoxTransactionSearch_Enter(object sender, EventArgs e)
+        {
 
         }
     }

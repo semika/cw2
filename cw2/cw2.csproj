@@ -58,8 +58,11 @@
   <ItemGroup>
     <Compile Include="common\AppConstant.cs" />
     <Compile Include="common\CommonUtil.cs" />
+    <Compile Include="common\CW2Response.cs" />
     <Compile Include="common\DataSetProvider.cs" />
     <Compile Include="common\DBConnection.cs" />
+    <Compile Include="common\exception\CW2DatabaseException - Copy.cs" />
+    <Compile Include="common\exception\CW2DatabaseException.cs" />
     <Compile Include="common\GenericTransformer.cs" />
     <Compile Include="Contact.cs">
       <DependentUpon>Entities.tt</DependentUpon>
@@ -132,6 +135,7 @@
     <Compile Include="transaction\TransactionDao.cs" />
     <Compile Include="transaction\TransactionDataSetDao.cs" />
     <Compile Include="transaction\TransactionDto.cs" />
+    <Compile Include="transaction\TransactionDtoTemp.cs" />
     <Compile Include="transaction\TransactionService.cs" />
     <Compile Include="transaction\TransactionTransformer.cs" />
     <EmbeddedResource Include="FormExplorer.resx">

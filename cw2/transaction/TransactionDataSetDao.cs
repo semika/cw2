@@ -12,6 +12,23 @@ namespace cw2.transaction
 {
     class TransactionDataSetDao
     {
+        private static TransactionDataSetDao instance = null;
+
+        private TransactionDataSetDao()
+        {
+        }
+        public static TransactionDataSetDao Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TransactionDataSetDao();
+                }
+                return instance;
+            }
+        }
+
         public List<TransactionRow> getAllTransactions()
         {
             List<TransactionRow> transactionList = new List<TransactionRow>();

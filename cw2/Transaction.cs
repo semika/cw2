@@ -23,8 +23,8 @@ namespace cw2
         public int Id { get; set; }
         public string Title { get; set; }
         public double Amount { get; set; }
-        public System.DateTime Date { get; set; }
-        public System.DateTime ExpireDate { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public Nullable<System.DateTime> ExpireDate { get; set; }
         public string Type { get; set; }
         public string Occurence { get; set; }
         public string RecurrenceType { get; set; }

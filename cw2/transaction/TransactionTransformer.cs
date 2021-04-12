@@ -11,6 +11,23 @@ namespace cw2.transaction
 {
     class TransactionTransformer
     {
+        private static TransactionTransformer instance = null;
+
+        private TransactionTransformer()
+        {
+        }
+        public static TransactionTransformer Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new TransactionTransformer();
+                }
+                return instance;
+            }
+        }
+
         public TransactionDto domainToDto(Transaction domain)
         {
             TransactionDto dto = new TransactionDto();
@@ -18,21 +35,22 @@ namespace cw2.transaction
             dto.Id = domain.Id;
             dto.Occurence = domain.Occurence;
             dto.OnDate = domain.OnDate;
-            dto.ExpireDate = domain.ExpireDate; 
+            dto.ExpireDate = (DateTime)domain.ExpireDate; 
             dto.OnMonth = domain.OnMonth;
             dto.RecurrenceType = domain.RecurrenceType;
             dto.Title = domain.Title;
             dto.Type = domain.Type;
             dto.Amount = domain.Amount;
-            dto.Date = domain.Date;
-            dto.ExpireDate = domain.ExpireDate;
+            dto.CreatedDate = domain.CreatedDate;
+            dto.ExpireDate = (DateTime)domain.ExpireDate;
+            dto.DbEntityId = domain.Id;
 
             return dto;
         }
 
         public Transaction dtoToDomain(TransactionDto dto, Transaction domain)
         {
-            domain.Id = dto.Id;
+           // domain.Id = dto.Id; No need to set the ID
             domain.Occurence = dto.Occurence;
             if (dto.OnDate != null)
             {
@@ -49,7 +67,7 @@ namespace cw2.transaction
             domain.Title = dto.Title;
             domain.Type = dto.Type;
             domain.Amount = dto.Amount;
-            domain.Date = dto.Date;
+            domain.CreatedDate = dto.CreatedDate;
             domain.ExpireDate = domain.ExpireDate;
 
             return domain;
@@ -63,7 +81,7 @@ namespace cw2.transaction
             dto.Title = row.Title;
             dto.Amount = row.Amount;
             dto.Type = row.Type;
-            dto.Date = row.Date;
+            dto.CreatedDate = row.Date;
             dto.Occurence = row.Occuerence;
             
             if (row.RecurrenceType != null)
@@ -83,7 +101,7 @@ namespace cw2.transaction
             row.Amount = dto.Amount;
             row.Title = dto.Title;
             row.Type = dto.Type;
-            row.Date = dto.Date;
+            row.Date = dto.CreatedDate;
             row.Occuerence = dto.Occurence;
             row.RecurrenceType = dto.RecurrenceType;
 
@@ -116,7 +134,7 @@ namespace cw2.transaction
             dto.Id = id;
             dto.Title = title;
             dto.Amount = amount;
-            dto.Date = date;
+            dto.CreatedDate = date;
             dto.ExpireDate = expireDate;
             dto.Type = type;
             dto.Occurence = occurence;

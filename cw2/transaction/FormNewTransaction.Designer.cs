@@ -66,6 +66,7 @@ namespace cw2.transaction
             this.lblDay = new System.Windows.Forms.Label();
             this.lblTxnTitle = new System.Windows.Forms.Label();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.btnDelete = new System.Windows.Forms.Button();
             this.groupTransactionDraft.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridTransaction)).BeginInit();
             this.groupAddEditTransaction.SuspendLayout();
@@ -76,6 +77,7 @@ namespace cw2.transaction
             // 
             // groupTransactionDraft
             // 
+            this.groupTransactionDraft.Controls.Add(this.btnDelete);
             this.groupTransactionDraft.Controls.Add(this.dataGridTransaction);
             this.groupTransactionDraft.Location = new System.Drawing.Point(12, 21);
             this.groupTransactionDraft.Name = "groupTransactionDraft";
@@ -100,7 +102,7 @@ namespace cw2.transaction
             this.RecurrenceType});
             this.dataGridTransaction.Location = new System.Drawing.Point(15, 19);
             this.dataGridTransaction.Name = "dataGridTransaction";
-            this.dataGridTransaction.Size = new System.Drawing.Size(701, 434);
+            this.dataGridTransaction.Size = new System.Drawing.Size(701, 386);
             this.dataGridTransaction.TabIndex = 0;
             this.dataGridTransaction.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.onGridCellClick);
             // 
@@ -306,7 +308,7 @@ namespace cw2.transaction
             // 
             // dtpExpireDate
             // 
-            this.dtpExpireDate.CustomFormat = "MM/dd/yyyyy";
+            this.dtpExpireDate.CustomFormat = "MM/dd/yyyy";
             this.dtpExpireDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtpExpireDate.Location = new System.Drawing.Point(202, 309);
             this.dtpExpireDate.Name = "dtpExpireDate";
@@ -405,6 +407,16 @@ namespace cw2.transaction
             // 
             this.errorProvider.ContainerControl = this;
             // 
+            // btnDelete
+            // 
+            this.btnDelete.Location = new System.Drawing.Point(15, 430);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 1;
+            this.btnDelete.Text = "Delete Draft";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.MouseClick += new System.Windows.Forms.MouseEventHandler(this.onBtnDeleteClick);
+            // 
             // FormNewTransaction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -466,5 +478,6 @@ namespace cw2.transaction
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn Occurence;
         private System.Windows.Forms.DataGridViewTextBoxColumn RecurrenceType;
+        private System.Windows.Forms.Button btnDelete;
     }
 }
