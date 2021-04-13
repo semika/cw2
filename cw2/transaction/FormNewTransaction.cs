@@ -122,11 +122,8 @@ namespace cw2.transaction
             }
         }
 
-        private void onRecurrenceTypeChanged(object sender, EventArgs e)
+        private void reDrowFormOnRecurrenceTypeChanged(string recurrentType)
         {
-            ComboBox comboBox = sender as ComboBox;
-            string recurrentType = comboBox.Text;
-
             switch (recurrentType)
             {
                 case "none":
@@ -173,6 +170,13 @@ namespace cw2.transaction
                     cmbMonth.Visible = true;
                     break;
             }
+        }
+
+        private void onRecurrenceTypeChanged(object sender, EventArgs e)
+        {
+            ComboBox comboBox = sender as ComboBox;
+            string recurrentType = comboBox.Text;
+            reDrowFormOnRecurrenceTypeChanged(recurrentType);
         }
 
         private void onBtnSaveTransactionClick(object sender, EventArgs e)
@@ -230,9 +234,14 @@ namespace cw2.transaction
 
                 CW2Response<TransactionDto> response = TransactionService.Instance.save(model);
 
-                MessageBox.Show(response.Message);
-
-                populateGrid();
+                if(response.Status.Equals(AppConstant.ERROR))
+                {
+                    MessageBox.Show(response.Message);
+                } else
+                {
+                    populateGrid();
+                    reset();
+                }
             } 
         }
 
@@ -282,6 +291,8 @@ namespace cw2.transaction
 
         private void populateFormFromDto(TransactionDto dto)
         {
+            reDrowFormOnRecurrenceTypeChanged(dto.RecurrenceType);
+
             txtTxnTitle.Text = dto.Title;
             txtTxnAmount.Text = dto.Amount.ToString();
             dtpDate.Value = dto.CreatedDate;
@@ -323,8 +334,13 @@ namespace cw2.transaction
 
         private void onBtnDeleteClick(object sender, MouseEventArgs e)
         {
-            CW2Response<TransactionDto> response = TransactionService.Instance.removeDraft(model.Id);
-            MessageBox.Show(response.Message);
+            var confirm = MessageBox.Show("Are you sure, you want to delete this transaction", "Confirm Transaction Delete", MessageBoxButtons.YesNo);
+            if (confirm == DialogResult.Yes)
+            {
+                CW2Response<TransactionDto> response = TransactionService.Instance.removeDraft(model.Id);
+                MessageBox.Show(response.Message);
+                populateGrid();
+            }
         }
     }
 }

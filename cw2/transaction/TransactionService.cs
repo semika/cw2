@@ -34,8 +34,6 @@ namespace cw2.transaction
 
             try
             {
-                //TransactionDao transactionDao = new TransactionDao();
-                //TransactionTransformer transformer = new TransactionTransformer();
                 Transaction transaction = null;
 
                 if (dto.DbEntityId != 0) //Update
@@ -47,7 +45,7 @@ namespace cw2.transaction
                     {
                         //recreate transaction instances
                         TransactionDao.Instance.clearTransactionInstances(dto.Id);
-                        populateTransactionInstances(transaction);
+                        populateTransactionInstances(transaction, dto);
                         //transaction.TransactionInstances.Clear();
                     }
                 }
@@ -56,7 +54,7 @@ namespace cw2.transaction
                     transaction = new Transaction();
                     TransactionTransformer.Instance.dtoToDomain(dto, transaction);
                     transaction.Id = 0;
-                    populateTransactionInstances(transaction);
+                    populateTransactionInstances(transaction, dto);
                 }
 
                 transaction = TransactionDao.Instance.save(transaction);
@@ -81,10 +79,8 @@ namespace cw2.transaction
 
             try
             {
-                //TransactionDataSetDao transactionDataSetDao = new TransactionDataSetDao();
                 Cw2DataSet dataSet = DataSetProvider.Instance.getDataSet();
 
-                //TransactionTransformer transformer = new TransactionTransformer();
                 TransactionRow transactionRow = null;
 
                 if (dto.DbEntityId == 0) //Entity not saved to database.
@@ -161,6 +157,12 @@ namespace cw2.transaction
          */
         public CW2Response<TransactionDto> save(TransactionDto dto)
         {
+            CW2Response<TransactionDto> validated = validateSave(dto);
+            if (validated.Status.Equals(AppConstant.ERROR))
+            {
+                Console.WriteLine("Validation Error : Saving transaction failed");
+                return validated;
+            }
 
             //save local copy
             CW2Response<TransactionDto> saveDraftResponse = saveDraft(dto);
@@ -204,12 +206,134 @@ namespace cw2.transaction
             return saveToDBResponse;
         }
 
-        private void populateTransactionInstances(Transaction transaction)
+        private List<DateTime> getTransactionInstanceDates(TransactionDto dto)
+        {
+            List<DateTime> dateTimeList = new List<DateTime>();
+
+            string recurrentType = dto.RecurrenceType;
+
+            switch (recurrentType)
+            {
+                case "none":
+
+                    break;
+                case "Daily":
+                    
+                    DateTime dailyDate = dto.CreatedDate;
+
+                    while(dailyDate <= dto.ExpireDate)
+                    {
+                        dateTimeList.Add(dailyDate);
+                        dailyDate = dailyDate.AddDays(1);
+                    }
+                   
+                    break;
+                case "Weekly":
+
+                    DateTime weeklyDate = dto.CreatedDate;
+
+                    while (weeklyDate <= dto.ExpireDate)
+                    {
+                        dateTimeList.Add(weeklyDate);
+                        weeklyDate = weeklyDate.AddDays(7);
+                    }
+
+                    break;
+                case "Monthly":
+
+                    DateTime monthlyDate = dto.CreatedDate;
+
+                    while (monthlyDate <= dto.ExpireDate)
+                    {
+                        dateTimeList.Add(monthlyDate);
+                        monthlyDate = monthlyDate.AddMonths(1);
+                    }
+                    break;
+
+                case "Yearly":
+                    DateTime yearlyDate = dto.CreatedDate;
+
+                    while (yearlyDate <= dto.ExpireDate)
+                    {
+                        dateTimeList.Add(yearlyDate);
+                        yearlyDate = yearlyDate.AddYears(1);
+                    }
+                    break;
+            }
+
+            return dateTimeList;
+        }
+
+        private CW2Response<TransactionDto> validateSave(TransactionDto dto)
+        {
+            CW2Response<TransactionDto> response = new CW2Response<TransactionDto>();
+
+            try
+            {
+                validateDateRange(dto);
+                response.Status = AppConstant.SUCCESS;
+            }
+            catch(CW2DataValidationException e)
+            {
+                response.Status = AppConstant.ERROR;
+                response.Message = e.Message;
+                Console.WriteLine(e.Message);
+            }
+
+            return response;
+        }
+
+        private void validateDateRange(TransactionDto dto)
+        {
+
+            string recurrentType = dto.RecurrenceType;
+
+            switch (recurrentType)
+            {
+                case "none":
+                       
+                    break;
+                case "Daily":
+                    if (dto.ExpireDate <= dto.CreatedDate)
+                    {
+                        throw new CW2DataValidationException("The expire date can not be same or earlier than the created date");
+                    }
+                    break;
+                case "Weekly":
+                    DateTime nextWeekDay = dto.CreatedDate.AddDays(7);
+                    if (dto.ExpireDate.Date < nextWeekDay.Date)
+                    {
+                        throw new CW2DataValidationException("Invalid date range for weekly recurring transaction");
+                    }
+                    break;
+                case "Monthly":
+                    DateTime nextMonthDay = dto.CreatedDate.AddMonths(1);
+                    if (dto.ExpireDate.Date < nextMonthDay.Date)
+                    {
+                        throw new CW2DataValidationException("Invalid date range for monthly recurring transaction");
+                    }
+                    break;
+                case "Yearly":
+                    DateTime nextYearDay = dto.CreatedDate.AddYears(1);
+                    if (dto.ExpireDate.Date < nextYearDay.Date)
+                    {
+                        throw new CW2DataValidationException("Invalid date range for yearly recurring transaction");
+                    }
+                    break;
+                    break;
+            }
+            
+        }
+
+        private void populateTransactionInstances(Transaction transaction, TransactionDto dto)
         {
             DateTime startDate = transaction.CreatedDate;
             DateTime expireDate = (DateTime)transaction.ExpireDate;
 
-            foreach (DateTime day in CommonUtil.eachDay(startDate, expireDate))
+
+            List<DateTime> instanceDateList = getTransactionInstanceDates(dto);
+
+            foreach (DateTime day in instanceDateList)
             {
                 TransactionInstance transactionInstance = new TransactionInstance();
                 transactionInstance.TransactionDate = day;
@@ -217,6 +341,15 @@ namespace cw2.transaction
                 transactionInstance.TransactionId = transaction.Id;
                 transaction.TransactionInstances.Add(transactionInstance);
             }
+
+           /* foreach (DateTime day in CommonUtil.eachDay(startDate, expireDate))
+            {
+                TransactionInstance transactionInstance = new TransactionInstance();
+                transactionInstance.TransactionDate = day;
+                transactionInstance.Transaction = transaction;
+                transactionInstance.TransactionId = transaction.Id;
+                transaction.TransactionInstances.Add(transactionInstance);
+            }*/
         }
 
         public CW2Response<TransactionDto> getAllTransactions()
@@ -227,8 +360,6 @@ namespace cw2.transaction
 
             try
             {
-                //TransactionTransformer transformer = new TransactionTransformer();
-                //TransactionDao transactionDao = new TransactionDao();
                 List<Transaction> transactionList = TransactionDao.Instance.getAllTransactions();
                 foreach (var transaction in transactionList)
                 {
@@ -294,8 +425,6 @@ namespace cw2.transaction
 
             try
             {
-                //TransactionTransformer transformer = new TransactionTransformer();
-                //TransactionDataSetDao dataSetDao = new TransactionDataSetDao();
                 List<TransactionRow> transactionRows = TransactionDataSetDao.Instance.getAllTransactions();
 
                 foreach (var transactionRow in transactionRows)

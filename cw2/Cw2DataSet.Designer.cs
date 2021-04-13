@@ -335,7 +335,7 @@ namespace cw2 {
             
             private global::System.Data.DataColumn columnAmount;
             
-            private global::System.Data.DataColumn columnDate;
+            private global::System.Data.DataColumn columnCreatedDate;
             
             private global::System.Data.DataColumn columnExpireDate;
             
@@ -408,9 +408,9 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn DateColumn {
+            public global::System.Data.DataColumn CreatedDateColumn {
                 get {
-                    return this.columnDate;
+                    return this.columnCreatedDate;
                 }
             }
             
@@ -499,13 +499,13 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TransactionRow AddTransactionRow(string Title, double Amount, System.DateTime Date, System.DateTime ExpireDate, string Type, string Occuerence, string RecurrenceType, int OnDate, string OnMonth) {
+            public TransactionRow AddTransactionRow(string Title, double Amount, System.DateTime CreatedDate, System.DateTime ExpireDate, string Type, string Occuerence, string RecurrenceType, int OnDate, string OnMonth) {
                 TransactionRow rowTransactionRow = ((TransactionRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         Title,
                         Amount,
-                        Date,
+                        CreatedDate,
                         ExpireDate,
                         Type,
                         Occuerence,
@@ -544,7 +544,7 @@ namespace cw2 {
                 this.columnId = base.Columns["Id"];
                 this.columnTitle = base.Columns["Title"];
                 this.columnAmount = base.Columns["Amount"];
-                this.columnDate = base.Columns["Date"];
+                this.columnCreatedDate = base.Columns["CreatedDate"];
                 this.columnExpireDate = base.Columns["ExpireDate"];
                 this.columnType = base.Columns["Type"];
                 this.columnOccuerence = base.Columns["Occuerence"];
@@ -562,8 +562,8 @@ namespace cw2 {
                 base.Columns.Add(this.columnTitle);
                 this.columnAmount = new global::System.Data.DataColumn("Amount", typeof(double), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAmount);
-                this.columnDate = new global::System.Data.DataColumn("Date", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnDate);
+                this.columnCreatedDate = new global::System.Data.DataColumn("CreatedDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCreatedDate);
                 this.columnExpireDate = new global::System.Data.DataColumn("ExpireDate", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnExpireDate);
                 this.columnType = new global::System.Data.DataColumn("Type", typeof(string), null, global::System.Data.MappingType.Element);
@@ -1057,17 +1057,17 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public System.DateTime Date {
+            public System.DateTime CreatedDate {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableTransaction.DateColumn]));
+                        return ((global::System.DateTime)(this[this.tableTransaction.CreatedDateColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'Date\' in table \'Transaction\' is DBNull.", e);
+                        throw new global::System.Data.StrongTypingException("The value for column \'CreatedDate\' in table \'Transaction\' is DBNull.", e);
                     }
                 }
                 set {
-                    this[this.tableTransaction.DateColumn] = value;
+                    this[this.tableTransaction.CreatedDateColumn] = value;
                 }
             }
             
@@ -1123,11 +1123,11 @@ namespace cw2 {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public string RecurrenceType {
                 get {
-                    try {
-                        return ((string)(this[this.tableTransaction.RecurrenceTypeColumn]));
+                    if (this.IsRecurrenceTypeNull()) {
+                        return null;
                     }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'RecurrenceType\' in table \'Transaction\' is DBNull.", e);
+                    else {
+                        return ((string)(this[this.tableTransaction.RecurrenceTypeColumn]));
                     }
                 }
                 set {
@@ -1139,11 +1139,11 @@ namespace cw2 {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public int OnDate {
                 get {
-                    try {
-                        return ((int)(this[this.tableTransaction.OnDateColumn]));
+                    if (this.IsOnDateNull()) {
+                        return 0;
                     }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'OnDate\' in table \'Transaction\' is DBNull.", e);
+                    else {
+                        return ((int)(this[this.tableTransaction.OnDateColumn]));
                     }
                 }
                 set {
@@ -1155,11 +1155,11 @@ namespace cw2 {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public string OnMonth {
                 get {
-                    try {
-                        return ((string)(this[this.tableTransaction.OnMonthColumn]));
+                    if (this.IsOnMonthNull()) {
+                        return "0";
                     }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("The value for column \'OnMonth\' in table \'Transaction\' is DBNull.", e);
+                    else {
+                        return ((string)(this[this.tableTransaction.OnMonthColumn]));
                     }
                 }
                 set {
@@ -1193,14 +1193,14 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsDateNull() {
-                return this.IsNull(this.tableTransaction.DateColumn);
+            public bool IsCreatedDateNull() {
+                return this.IsNull(this.tableTransaction.CreatedDateColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetDateNull() {
-                this[this.tableTransaction.DateColumn] = global::System.Convert.DBNull;
+            public void SetCreatedDateNull() {
+                this[this.tableTransaction.CreatedDateColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

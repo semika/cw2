@@ -81,7 +81,7 @@ namespace cw2.transaction
             dto.Title = row.Title;
             dto.Amount = row.Amount;
             dto.Type = row.Type;
-            dto.CreatedDate = row.Date;
+            dto.CreatedDate = row.CreatedDate;
             dto.Occurence = row.Occuerence;
             
             if (row.RecurrenceType != null)
@@ -101,7 +101,7 @@ namespace cw2.transaction
             row.Amount = dto.Amount;
             row.Title = dto.Title;
             row.Type = dto.Type;
-            row.Date = dto.CreatedDate;
+            row.CreatedDate = dto.CreatedDate;
             row.Occuerence = dto.Occurence;
             row.RecurrenceType = dto.RecurrenceType;
 

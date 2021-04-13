@@ -61,7 +61,8 @@
     <Compile Include="common\CW2Response.cs" />
     <Compile Include="common\DataSetProvider.cs" />
     <Compile Include="common\DBConnection.cs" />
-    <Compile Include="common\exception\CW2DatabaseException - Copy.cs" />
+    <Compile Include="common\exception\CW2DataValidationException.cs" />
+    <Compile Include="common\exception\CW2DatabaseUnavaiableException.cs" />
     <Compile Include="common\exception\CW2DatabaseException.cs" />
     <Compile Include="common\GenericTransformer.cs" />
     <Compile Include="Contact.cs">
