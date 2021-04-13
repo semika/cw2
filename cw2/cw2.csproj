@@ -69,6 +69,7 @@
       <DependentUpon>Entities.tt</DependentUpon>
     </Compile>
     <Compile Include="contact\ContactDao.cs" />
+    <Compile Include="contact\ContactDataSetDao.cs" />
     <Compile Include="contact\ContactDto.cs" />
     <Compile Include="contact\ContactService.cs" />
     <Compile Include="contact\ContactTransformer.cs" />

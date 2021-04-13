@@ -3,23 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using static cw2.Cw2DataSet;
 
 namespace cw2.contact
 {
     public class ContactTransformer
     {
-        public Contact dtoToDomain(ContactDto dto)
+        private static ContactTransformer instance = null;
+
+        private ContactTransformer()
         {
-            Contact contact = new Contact();
+        }
+        public static ContactTransformer Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ContactTransformer();
+                }
+                return instance;
+            }
+        }
+
+        public Contact dtoToDomain(ContactDto dto, Contact domain)
+        {
           
-            contact.Id = dto.Id;
-            contact.Name = dto.Name;
-            contact.Email = dto.Email;
-            contact.Tel = dto.Tel;
-            contact.Type = dto.Type;
-            contact.Address = dto.Address;
+            //domain.Id = dto.Id; No need to set the ID
+            domain.Name = dto.Name;
+            domain.Email = dto.Email;
+            domain.Tel = dto.Tel;
+            domain.Type = dto.Type;
+            domain.Address = dto.Address;
            
-            return contact;
+            return domain;
         }
 
         public ContactDto domainToDto(Contact domain)
@@ -31,6 +49,52 @@ namespace cw2.contact
             dto.Tel = domain.Tel;
             dto.Type = domain.Type;
             dto.Address = domain.Address;
+            return dto;
+        }
+
+        public ContactDto dataSetRowToDto(ContactRow row)
+        {
+            ContactDto dto = new ContactDto();
+
+            dto.Id = row.Id;
+            dto.Name = row.Name;
+            dto.Address = row.Address;
+            dto.Type = row.Tel;
+            dto.Email = row.Email;
+            dto.Type = row.Type;
+
+            return dto;
+        }
+
+        public ContactRow dtoToDataSetRow(ContactDto dto, ContactRow row)
+        {
+            row.Name = dto.Name;
+            row.Address = dto.Address;
+            row.Type = dto.Type;
+            row.Tel = dto.Tel;
+            row.Email = dto.Email;
+
+            return row;
+        }
+
+        public ContactDto dataGridRowToDto(DataGridViewRow selectedRow)
+        {
+
+            int id = Convert.ToInt32(selectedRow.Cells["Id"].Value);
+            string name = Convert.ToString(selectedRow.Cells["Name"].Value);
+            string address = Convert.ToString(selectedRow.Cells["Address"].Value);
+            string type = Convert.ToString(selectedRow.Cells["Type"].Value);
+            string tel = Convert.ToString(selectedRow.Cells["Tel"].Value);
+            string email = Convert.ToString(selectedRow.Cells["Email"].Value);
+
+            ContactDto dto = new ContactDto();
+            dto.Id = id;
+            dto.Name = name;
+            dto.Address = address;
+            dto.Type = type;
+            dto.Tel = tel;
+            dto.Email = email;
+
             return dto;
         }
     }

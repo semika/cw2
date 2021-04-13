@@ -108,9 +108,5 @@ namespace cw2.transaction
 
         }
 
-        private void groupBoxTransactionSearch_Enter(object sender, EventArgs e)
-        {
-
-        }
     }
 }

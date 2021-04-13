@@ -214,7 +214,7 @@ namespace cw2
             this.dataGridContact.Size = new System.Drawing.Size(683, 242);
             this.dataGridContact.TabIndex = 0;
             this.dataGridContact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.onGridCellClick);
-            this.dataGridContact.MouseClick += new System.Windows.Forms.MouseEventHandler(this.onGridClick);
+            
             // 
             // Id
             // 
@@ -286,7 +286,7 @@ namespace cw2
             this.btnSubmit.TabIndex = 1;
             this.btnSubmit.Text = "Submit";
             this.btnSubmit.UseVisualStyleBackColor = true;
-            this.btnSubmit.Click += new System.EventHandler(this.onBtnSubmitClick);
+            
             // 
             // FormNewContact
             // 

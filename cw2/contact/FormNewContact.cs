@@ -11,6 +11,7 @@ using System.Data.SqlClient;
 using System.Data.Entity;
 using cw2;
 using cw2.contact;
+using cw2.common;
 
 namespace cw2
 {
@@ -43,73 +44,27 @@ namespace cw2
 
         private void onSaveButtonClick(object sender, EventArgs e)
         {
-
             model.Name = txtName.Text.Trim();
             model.Address = txtAddress.Text.Trim();
             model.Email = txtEmail.Text.Trim();
             model.Tel = txtTel.Text.Trim();
             model.Type = cmbType.Text.Trim();
 
-            ContactService service = new ContactService();
-            model = service.save(model);
-            showSuccessStatus("Contact was saved successfully:" + model.Id);
-            populateGrid();
-
-            //SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-9KUI6OD;Initial Catalog=IIT-EAD;Integrated Security=True");
-            try
+            CW2Response< ContactDto> reponse = ContactService.Instance.save(model);
+            showSuccessStatus(reponse.Message);
+            if (reponse.Status.Equals(AppConstant.SUCCESS))
             {
-
-                
-                /*SqlCommand command = new SqlCommand("insert into contact values(1, 'Semika Siriwardana', 'Athurugiriya', 'semika.siriwardana@gmail.com', '0713258253')", con);
-                con.Open();
-                command.ExecuteNonQuery();*/
-                
-
-               /* SqlDataAdapter adapter = new SqlDataAdapter("select * from contact", con);
-                DataTable dT = new DataTable();
-                adapter.Fill(dT);
-
-                foreach(DataRow row in dT.Rows)
-                {
-                    Console.WriteLine(row["NAME"]);
-                }*/
-
-                //int rowsAffected = adapter.InsertCommand.ExecuteNonQuery();
-
-               // SqlTransaction sqlTransaction =  con.BeginTransaction();
-                //int rowsAffected = command.ExecuteNonQuery();
-
-                //con.Close();
-
-                
-               // sqlTransaction.Commit();
+                populateGrid();
             } 
-            catch (Exception exe)
-            {
-                Console.WriteLine(exe.StackTrace);
-                MessageBox.Show("Contact save failed..!" + exe.StackTrace);
-            } 
-            finally
-            {
-              /*  if (con != null)
-                {
-                    con.Close();
-                }*/
-            }
-
-           
         }
 
         private void populateGrid()
         {
             dataGridContact.AutoGenerateColumns = false;
-            ContactService service = new ContactService();
-            List<ContactDto> contactList = service.getAllContacts();
-            dataGridContact.DataSource = contactList;
+            CW2Response<ContactDto> response = ContactService.Instance.getAllContactsFromDataSet();
+            dataGridContact.DataSource = response.dataList;
             reset();
         }
-
-     
 
         private void onBtnResetClick(object sender, EventArgs e)
         {
@@ -121,12 +76,6 @@ namespace cw2
             txtName.Text = txtAddress.Text = txtTel.Text = txtEmail.Text = cmbType.Text = null;
             btnSave.Text = "Save";
             model.Id = 0;
-        }
-
-        private void onGridClick(object sender, MouseEventArgs e)
-        {
-            
-            
         }
 
         private void onGridCellClick(object sender, DataGridViewCellEventArgs e)
@@ -155,10 +104,6 @@ namespace cw2
             }
         }
 
-        private void contactStatusStrip_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
 
         private void showSuccessStatus(string message)
         {
@@ -178,22 +123,11 @@ namespace cw2
             {
                 if (MessageBox.Show("Are you sure to delete this record?", "Delete Contact", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    ContactService service = new ContactService();
-                    service.delete(model.Id);
+                    ContactService.Instance.delete(model.Id);
                     populateGrid();
                     showSuccessStatus("Record Deleted Successfully");
                 }
             }
-        }
-
-        private void txtType_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void onBtnSubmitClick(object sender, EventArgs e)
-        {
-            // Read all JSON data and save those into the database.
         }
     }
 }

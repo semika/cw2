@@ -5,11 +5,29 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
+using cw2.common.exception;
 
 namespace cw2.contact
 {
     public class ContactDao
     {
+        private static ContactDao instance = null;
+
+        private ContactDao()
+        {
+        }
+        public static ContactDao Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    instance = new ContactDao();
+                }
+                return instance;
+            }
+        }
+
         public Contact save(Contact contact)
         {
             try
@@ -71,6 +89,24 @@ namespace cw2.contact
                 }
                 db.Contacts.Remove(contact);
                 db.SaveChanges();
+            }
+        }
+
+        public Contact findById(int id)
+        {
+            using (Entities db = new Entities())
+            {
+                if (db.Database.Exists())
+                {
+                    Contact contact = db.Contacts.Where(t => t.Id == id).FirstOrDefault();
+
+                    return contact;
+                }
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
+
             }
         }
     }

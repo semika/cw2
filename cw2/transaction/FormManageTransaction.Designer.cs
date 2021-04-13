@@ -73,7 +73,7 @@ namespace cw2.transaction
             this.groupBoxTransactionSearch.TabIndex = 0;
             this.groupBoxTransactionSearch.TabStop = false;
             this.groupBoxTransactionSearch.Text = "Search Transaction";
-            this.groupBoxTransactionSearch.Enter += new System.EventHandler(this.groupBoxTransactionSearch_Enter);
+         
             // 
             // groupBoxTransactionDataGrid
             // 
