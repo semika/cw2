@@ -18,5 +18,8 @@ namespace cw2.common
 
         public const string ERROR = "error";
         public const string SUCCESS = "success";
+
+        public const string PAYER = "Payer";
+        public const string PAYEE = "Payee";
     }
 }

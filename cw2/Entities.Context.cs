@@ -25,8 +25,8 @@ namespace cw2
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Contact> Contacts { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
         public virtual DbSet<TransactionInstance> TransactionInstances { get; set; }
+        public virtual DbSet<Contact> Contacts { get; set; }
     }
 }

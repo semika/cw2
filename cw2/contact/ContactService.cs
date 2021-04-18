@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using cw2.common;
+using cw2.common.exception;
 using static cw2.Cw2DataSet;
 
 namespace cw2.contact
@@ -243,6 +244,41 @@ namespace cw2.contact
         public void delete(int id)
         {
             ContactDao.Instance.delete(id);
+        }
+
+
+        public CW2Response<ContactDto> searchContactByCriteria(ContactDto dto)
+        {
+            CW2Response<ContactDto> response = new CW2Response<ContactDto>();
+
+            List<ContactDto> contactDtoList = new List<ContactDto>();
+
+            try
+            {
+                List<Contact> contactList = ContactDao.Instance.searchTransactionByCriteria(dto);
+
+                foreach (var contact in contactList)
+                {
+                    contactDtoList.Add(ContactTransformer.Instance.domainToDto(contact));
+                }
+
+                response.Status = AppConstant.SUCCESS;
+            }
+            catch (CW2DatabaseUnavaiableException e)
+            {
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine("Database not available..");
+                response.Status = AppConstant.ERROR; //workin offline mode
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.StackTrace);
+                response.Status = AppConstant.ERROR;
+            }
+
+            response.dataList = contactDtoList;
+
+            return response;
         }
     }
 }

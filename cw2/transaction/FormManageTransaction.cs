@@ -18,6 +18,10 @@ namespace cw2.transaction
         public FormManageTransaction()
         {
             InitializeComponent();
+        }
+
+        private void onManageTransactionFormLoad(object sender, EventArgs e)
+        {
             fetchDataByCriteria();
             populateSearchForm();
         }
@@ -108,5 +112,6 @@ namespace cw2.transaction
 
         }
 
+       
     }
 }

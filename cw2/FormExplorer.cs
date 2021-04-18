@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using cw2.transaction;
 using cw2.common;
+using cw2.contact;
 
 namespace cw2
 {
@@ -48,6 +49,12 @@ namespace cw2
         private void onManageTransactionToolStripMenuItemClick(object sender, EventArgs e)
         {
             FormManageTransaction formManageTransaction = new FormManageTransaction();
+            formManageTransaction.Show();
+        }
+
+        private void onManageContactToolStripMenuItemClick(object sender, EventArgs e)
+        {
+            FormManageContact formManageTransaction = new FormManageContact();
             formManageTransaction.Show();
         }
     }

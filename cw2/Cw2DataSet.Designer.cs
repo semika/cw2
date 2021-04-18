@@ -1042,7 +1042,7 @@ namespace cw2 {
             
             private global::System.Data.DataColumn columnId;
             
-            private global::System.Data.DataColumn columnName;
+            private global::System.Data.DataColumn columnContactName;
             
             private global::System.Data.DataColumn columnAddress;
             
@@ -1095,9 +1095,9 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public global::System.Data.DataColumn NameColumn {
+            public global::System.Data.DataColumn ContactNameColumn {
                 get {
-                    return this.columnName;
+                    return this.columnContactName;
                 }
             }
             
@@ -1170,11 +1170,11 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ContactRow AddContactRow(string Name, string Address, string Email, string Tel, string Type) {
+            public ContactRow AddContactRow(string ContactName, string Address, string Email, string Tel, string Type) {
                 ContactRow rowContactRow = ((ContactRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        Name,
+                        ContactName,
                         Address,
                         Email,
                         Tel,
@@ -1209,7 +1209,7 @@ namespace cw2 {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             internal void InitVars() {
                 this.columnId = base.Columns["Id"];
-                this.columnName = base.Columns["Name"];
+                this.columnContactName = base.Columns["ContactName"];
                 this.columnAddress = base.Columns["Address"];
                 this.columnEmail = base.Columns["Email"];
                 this.columnTel = base.Columns["Tel"];
@@ -1221,8 +1221,8 @@ namespace cw2 {
             private void InitClass() {
                 this.columnId = new global::System.Data.DataColumn("Id", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnId);
-                this.columnName = new global::System.Data.DataColumn("Name", typeof(string), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnName);
+                this.columnContactName = new global::System.Data.DataColumn("ContactName", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnContactName);
                 this.columnAddress = new global::System.Data.DataColumn("Address", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnAddress);
                 this.columnEmail = new global::System.Data.DataColumn("Email", typeof(string), null, global::System.Data.MappingType.Element);
@@ -1236,7 +1236,7 @@ namespace cw2 {
                 this.columnId.AutoIncrement = true;
                 this.columnId.AllowDBNull = false;
                 this.columnId.Unique = true;
-                this.columnName.AllowDBNull = false;
+                this.columnContactName.AllowDBNull = false;
                 this.columnAddress.AllowDBNull = false;
             }
             
@@ -1773,12 +1773,12 @@ namespace cw2 {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public string Name {
+            public string ContactName {
                 get {
-                    return ((string)(this[this.tableContact.NameColumn]));
+                    return ((string)(this[this.tableContact.ContactNameColumn]));
                 }
                 set {
-                    this[this.tableContact.NameColumn] = value;
+                    this[this.tableContact.ContactNameColumn] = value;
                 }
             }
             

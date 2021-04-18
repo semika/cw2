@@ -17,3 +17,4 @@ C:\Users\semika\source\repos\cw2\cw2\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\semika\source\repos\cw2\cw2\obj\Debug\cw2.csproj.CopyComplete
 C:\Users\semika\source\repos\cw2\cw2\obj\Debug\cw2.transaction.FormNewTransaction.resources
 C:\Users\semika\source\repos\cw2\cw2\obj\Debug\cw2.transaction.FormManageTransaction.resources
+C:\Users\semika\source\repos\cw2\cw2\obj\Debug\cw2.contact.FormManageContact.resources

@@ -17,10 +17,17 @@ namespace cw2
 {
     public partial class FormNewContact : Form
     {
-        ContactDto model = new ContactDto(); //model
+        ContactDto model;
 
         public FormNewContact()
         {
+            this.model = new ContactDto();
+            InitializeComponent();
+        }
+
+        public FormNewContact(ContactDto model)
+        {
+            this.model = model;
             InitializeComponent();
         }
 
@@ -28,7 +35,12 @@ namespace cw2
         {
             populateGrid();
             populateTypeComboBox();
-            reset();
+            //reset();
+
+            if (this.model.Id != 0)
+            {
+                populateFormFromDto(this.model);
+            }
         }
 
         private void populateTypeComboBox()
@@ -37,14 +49,9 @@ namespace cw2
             cmbType.Items.Add("Payee");
         }
 
-        private void contactGroup_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void onSaveButtonClick(object sender, EventArgs e)
         {
-            model.Name = txtName.Text.Trim();
+            model.ContactName = txtName.Text.Trim();
             model.Address = txtAddress.Text.Trim();
             model.Email = txtEmail.Text.Trim();
             model.Tel = txtTel.Text.Trim();
@@ -63,7 +70,7 @@ namespace cw2
             dataGridContact.AutoGenerateColumns = false;
             CW2Response<ContactDto> response = ContactService.Instance.getAllContactsFromDataSet();
             dataGridContact.DataSource = response.dataList;
-            reset();
+            //reset();
         }
 
         private void onBtnResetClick(object sender, EventArgs e)
@@ -86,6 +93,7 @@ namespace cw2
                 dataGridContact.Rows[dataGridContact.CurrentRow.Index].Selected = true;
 
                 DataGridViewRow selectedRow = dataGridContact.Rows[e.RowIndex];
+                
                 int id = Convert.ToInt32(selectedRow.Cells["Id"].Value);
                 String name = Convert.ToString(selectedRow.Cells["contactName"].Value);
                 String address = Convert.ToString(selectedRow.Cells["Address"].Value);
@@ -102,6 +110,25 @@ namespace cw2
                 model.Id = id;
                 
             }
+        }
+
+        private void populateFromDataGridRow(DataGridViewRow selectedRow)
+        {
+            ContactDto dto = ContactTransformer.Instance.dataGridRowToDto(selectedRow);
+            populateFormFromDto(dto);
+        }
+
+        private void populateFormFromDto(ContactDto dto)
+        {
+            txtName.Text = dto.ContactName;
+            txtAddress.Text = dto.Address;
+            cmbType.Text = dto.Type;
+            txtTel.Text = dto.Tel;
+            txtEmail.Text = dto.Email;
+           
+            model.Id = dto.Id;
+
+            btnSave.Text = "Update";
         }
 
 

@@ -31,7 +31,7 @@ namespace cw2.contact
         {
           
             //domain.Id = dto.Id; No need to set the ID
-            domain.Name = dto.Name;
+            domain.ContactName = dto.ContactName;
             domain.Email = dto.Email;
             domain.Tel = dto.Tel;
             domain.Type = dto.Type;
@@ -44,7 +44,7 @@ namespace cw2.contact
         {
             ContactDto dto = new ContactDto();
             dto.Id = domain.Id;
-            dto.Name = domain.Name;
+            dto.ContactName = domain.ContactName;
             dto.Email = domain.Email;
             dto.Tel = domain.Tel;
             dto.Type = domain.Type;
@@ -57,7 +57,7 @@ namespace cw2.contact
             ContactDto dto = new ContactDto();
 
             dto.Id = row.Id;
-            dto.Name = row.Name;
+            dto.ContactName = row.ContactName;
             dto.Address = row.Address;
             dto.Type = row.Tel;
             dto.Email = row.Email;
@@ -68,7 +68,7 @@ namespace cw2.contact
 
         public ContactRow dtoToDataSetRow(ContactDto dto, ContactRow row)
         {
-            row.Name = dto.Name;
+            row.ContactName = dto.ContactName;
             row.Address = dto.Address;
             row.Type = dto.Type;
             row.Tel = dto.Tel;
@@ -81,7 +81,7 @@ namespace cw2.contact
         {
 
             int id = Convert.ToInt32(selectedRow.Cells["Id"].Value);
-            string name = Convert.ToString(selectedRow.Cells["Name"].Value);
+            string name = Convert.ToString(selectedRow.Cells["ContactName"].Value);
             string address = Convert.ToString(selectedRow.Cells["Address"].Value);
             string type = Convert.ToString(selectedRow.Cells["Type"].Value);
             string tel = Convert.ToString(selectedRow.Cells["Tel"].Value);
@@ -89,7 +89,7 @@ namespace cw2.contact
 
             ContactDto dto = new ContactDto();
             dto.Id = id;
-            dto.Name = name;
+            dto.ContactName = name;
             dto.Address = address;
             dto.Type = type;
             dto.Tel = tel;

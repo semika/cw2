@@ -73,6 +73,12 @@
     <Compile Include="contact\ContactDto.cs" />
     <Compile Include="contact\ContactService.cs" />
     <Compile Include="contact\ContactTransformer.cs" />
+    <Compile Include="contact\FormManageContact.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="contact\FormManageContact.Designer.cs">
+      <DependentUpon>FormManageContact.cs</DependentUpon>
+    </Compile>
     <Compile Include="Cw2DataSet.cs">
       <DependentUpon>Cw2DataSet.xsd</DependentUpon>
     </Compile>
@@ -140,6 +146,9 @@
     <Compile Include="transaction\TransactionDtoTemp.cs" />
     <Compile Include="transaction\TransactionService.cs" />
     <Compile Include="transaction\TransactionTransformer.cs" />
+    <EmbeddedResource Include="contact\FormManageContact.resx">
+      <DependentUpon>FormManageContact.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormExplorer.resx">
       <DependentUpon>FormExplorer.cs</DependentUpon>
     </EmbeddedResource>

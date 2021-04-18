@@ -128,13 +128,14 @@ namespace cw2
             // manageContactToolStripMenuItem
             // 
             this.manageContactToolStripMenuItem.Name = "manageContactToolStripMenuItem";
-            this.manageContactToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.manageContactToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.manageContactToolStripMenuItem.Text = "Manage Contact";
+            this.manageContactToolStripMenuItem.Click += new System.EventHandler(this.onManageContactToolStripMenuItemClick);
             // 
             // newContactToolStripMenuItem
             // 
             this.newContactToolStripMenuItem.Name = "newContactToolStripMenuItem";
-            this.newContactToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.newContactToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.newContactToolStripMenuItem.Text = "New Contact";
             this.newContactToolStripMenuItem.Click += new System.EventHandler(this.onNewContactToolStripMenuItemClick);
             // 

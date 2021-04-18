@@ -117,7 +117,7 @@ namespace cw2
             this.contactGroup.TabIndex = 4;
             this.contactGroup.TabStop = false;
             this.contactGroup.Text = "Contact Add/Edit";
-            this.contactGroup.Enter += new System.EventHandler(this.contactGroup_Enter);
+            
             // 
             // btnDelete
             // 

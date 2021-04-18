@@ -30,18 +30,18 @@ namespace cw2.transaction
         private void InitializeComponent()
         {
             this.groupBoxTransactionSearch = new System.Windows.Forms.GroupBox();
-            this.groupBoxTransactionDataGrid = new System.Windows.Forms.GroupBox();
-            this.txtTitle = new System.Windows.Forms.TextBox();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.dataGridTransaction = new System.Windows.Forms.DataGridView();
-            this.btnEdit = new System.Windows.Forms.Button();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.dtpDate = new System.Windows.Forms.DateTimePicker();
-            this.lblDate = new System.Windows.Forms.Label();
-            this.lblType = new System.Windows.Forms.Label();
             this.cmbType = new System.Windows.Forms.ComboBox();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblDate = new System.Windows.Forms.Label();
+            this.dtpDate = new System.Windows.Forms.DateTimePicker();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.lblTitle = new System.Windows.Forms.Label();
+            this.txtTitle = new System.Windows.Forms.TextBox();
+            this.groupBoxTransactionDataGrid = new System.Windows.Forms.GroupBox();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.dataGridTransaction = new System.Windows.Forms.DataGridView();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Title = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -73,7 +73,78 @@ namespace cw2.transaction
             this.groupBoxTransactionSearch.TabIndex = 0;
             this.groupBoxTransactionSearch.TabStop = false;
             this.groupBoxTransactionSearch.Text = "Search Transaction";
-         
+            // 
+            // cmbType
+            // 
+            this.cmbType.FormattingEnabled = true;
+            this.cmbType.Location = new System.Drawing.Point(492, 21);
+            this.cmbType.Name = "cmbType";
+            this.cmbType.Size = new System.Drawing.Size(121, 21);
+            this.cmbType.TabIndex = 7;
+            // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(438, 23);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(31, 13);
+            this.lblType.TabIndex = 6;
+            this.lblType.Text = "Type";
+            // 
+            // lblDate
+            // 
+            this.lblDate.AutoSize = true;
+            this.lblDate.Location = new System.Drawing.Point(255, 24);
+            this.lblDate.Name = "lblDate";
+            this.lblDate.Size = new System.Drawing.Size(30, 13);
+            this.lblDate.TabIndex = 5;
+            this.lblDate.Text = "Date";
+            // 
+            // dtpDate
+            // 
+            this.dtpDate.CustomFormat = "MM/dd/yyyy";
+            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dtpDate.Location = new System.Drawing.Point(291, 21);
+            this.dtpDate.Name = "dtpDate";
+            this.dtpDate.Size = new System.Drawing.Size(104, 20);
+            this.dtpDate.TabIndex = 4;
+            this.dtpDate.Value = new System.DateTime(2021, 4, 12, 0, 0, 0, 0);
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(128, 75);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 3;
+            this.btnReset.Text = "Clear";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.onBtnResetClick);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(23, 75);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.TabIndex = 2;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.onBtnSearchClick);
+            // 
+            // lblTitle
+            // 
+            this.lblTitle.AutoSize = true;
+            this.lblTitle.Location = new System.Drawing.Point(20, 23);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(29, 13);
+            this.lblTitle.TabIndex = 1;
+            this.lblTitle.Text = "Titile";
+            // 
+            // txtTitle
+            // 
+            this.txtTitle.Location = new System.Drawing.Point(55, 21);
+            this.txtTitle.Name = "txtTitle";
+            this.txtTitle.Size = new System.Drawing.Size(172, 20);
+            this.txtTitle.TabIndex = 0;
             // 
             // groupBoxTransactionDataGrid
             // 
@@ -87,41 +158,25 @@ namespace cw2.transaction
             this.groupBoxTransactionDataGrid.TabStop = false;
             this.groupBoxTransactionDataGrid.Text = "Transaction List";
             // 
-            // txtTitle
+            // btnDelete
             // 
-            this.txtTitle.Location = new System.Drawing.Point(55, 21);
-            this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(172, 20);
-            this.txtTitle.TabIndex = 0;
+            this.btnDelete.Location = new System.Drawing.Point(109, 315);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 2;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.onBtnDeleteClick);
             // 
-            // lblTitle
+            // btnEdit
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Location = new System.Drawing.Point(20, 23);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(29, 13);
-            this.lblTitle.TabIndex = 1;
-            this.lblTitle.Text = "Titile";
-            // 
-            // btnSearch
-            // 
-            this.btnSearch.Location = new System.Drawing.Point(23, 75);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 23);
-            this.btnSearch.TabIndex = 2;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.onBtnSearchClick);
-            // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(128, 75);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(75, 23);
-            this.btnReset.TabIndex = 3;
-            this.btnReset.Text = "Clear";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.onBtnResetClick);
+            this.btnEdit.Location = new System.Drawing.Point(6, 315);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 1;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.onBtnEditClick);
             // 
             // dataGridTransaction
             // 
@@ -142,62 +197,6 @@ namespace cw2.transaction
             this.dataGridTransaction.Size = new System.Drawing.Size(1164, 278);
             this.dataGridTransaction.TabIndex = 0;
             this.dataGridTransaction.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.onDataGridTransactionCellClick);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(6, 315);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 1;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.onBtnEditClick);
-            // 
-            // btnDelete
-            // 
-            this.btnDelete.Location = new System.Drawing.Point(109, 315);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 2;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.onBtnDeleteClick);
-            // 
-            // dtpDate
-            // 
-            this.dtpDate.CustomFormat = "MM/dd/yyyy";
-            this.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpDate.Location = new System.Drawing.Point(291, 21);
-            this.dtpDate.Name = "dtpDate";
-            this.dtpDate.Size = new System.Drawing.Size(104, 20);
-            this.dtpDate.TabIndex = 4;
-            this.dtpDate.Value = new System.DateTime(2021, 4, 12, 0, 0, 0, 0);
-            // 
-            // lblDate
-            // 
-            this.lblDate.AutoSize = true;
-            this.lblDate.Location = new System.Drawing.Point(255, 24);
-            this.lblDate.Name = "lblDate";
-            this.lblDate.Size = new System.Drawing.Size(30, 13);
-            this.lblDate.TabIndex = 5;
-            this.lblDate.Text = "Date";
-            // 
-            // lblType
-            // 
-            this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(438, 23);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(31, 13);
-            this.lblType.TabIndex = 6;
-            this.lblType.Text = "Type";
-            // 
-            // cmbType
-            // 
-            this.cmbType.FormattingEnabled = true;
-            this.cmbType.Location = new System.Drawing.Point(492, 21);
-            this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(121, 21);
-            this.cmbType.TabIndex = 7;
             // 
             // Id
             // 
@@ -268,6 +267,7 @@ namespace cw2.transaction
             this.Controls.Add(this.groupBoxTransactionSearch);
             this.Name = "FormManageTransaction";
             this.Text = "ManageTransaction";
+            this.Load += new System.EventHandler(this.onManageTransactionFormLoad);
             this.groupBoxTransactionSearch.ResumeLayout(false);
             this.groupBoxTransactionSearch.PerformLayout();
             this.groupBoxTransactionDataGrid.ResumeLayout(false);

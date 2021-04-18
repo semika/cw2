@@ -109,5 +109,28 @@ namespace cw2.contact
 
             }
         }
+
+        public List<Contact> searchTransactionByCriteria(ContactDto dto)
+        {
+            List<Contact> contactList = new List<Contact>();
+
+            using (Entities db = new Entities())
+            {
+                if (db.Database.Exists())
+                {
+                    var query = db.Contacts
+                        .Where(cont => ( (dto.ContactName == null || cont.ContactName.Contains(dto.ContactName)) && 
+                                         (dto.Type == null || cont.Type.Equals(dto.Type)) ));
+
+                    contactList.AddRange(query.ToList<Contact>());
+                }
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
+
+            }
+            return contactList;
+        }
     }
 }

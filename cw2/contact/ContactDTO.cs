@@ -9,7 +9,7 @@ namespace cw2.contact
     public class ContactDto
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string ContactName { get; set; }
         public string Address { get; set; }
         public string Email { get; set; }
         public string Tel { get; set; }
