@@ -1,5 +1,6 @@
 ﻿using cw2.common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -57,10 +58,18 @@ namespace cw2.contact
                 dto.Type = cmbType.Text;
             }
 
-            dataGridContact.AutoGenerateColumns = false;
-            CW2Response<ContactDto> response = ContactService.Instance.searchContactByCriteria(dto);
+            var dataList = new ArrayList();
 
-            dataGridContact.DataSource = response.dataList;
+            dataGridContact.AutoGenerateColumns = false;
+
+            //Add Draft data first
+            CW2Response<ContactDto> response1 = ContactService.Instance.getAllContactsFromDataSet();
+            dataList.AddRange(response1.dataList);
+
+            CW2Response<ContactDto> response = ContactService.Instance.searchContactByCriteria(dto);
+            dataList.AddRange(response.dataList);
+
+            dataGridContact.DataSource = dataList;
 
             reset();
         }
@@ -72,7 +81,21 @@ namespace cw2.contact
 
         private void onBtnDeleteClick(object sender, EventArgs e)
         {
+            int id = Convert.ToInt32(this.selectedRow.Cells["Id"].Value);
+            string status = Convert.ToString(this.selectedRow.Cells["Status"].Value);
 
+            if (AppConstant.DRAFT.Equals(status))
+            {
+                CW2Response<ContactDto> reponse = ContactService.Instance.removeDraft(id);
+                MessageBox.Show(reponse.Message);
+            }
+            else
+            {
+                CW2Response<ContactDto> reponse = ContactService.Instance.delete(id);
+                MessageBox.Show(reponse.Message);
+            }
+
+            fetchDataByCriteria();
         }
 
         private void onBtnEditClick(object sender, EventArgs e)
@@ -83,6 +106,7 @@ namespace cw2.contact
             string email = Convert.ToString(this.selectedRow.Cells["Email"].Value);
             string tel = Convert.ToString(this.selectedRow.Cells["Tel"].Value);
             string type = Convert.ToString(this.selectedRow.Cells["Type"].Value);
+            string status = Convert.ToString(this.selectedRow.Cells["Status"].Value);
 
             ContactDto model = new ContactDto();
             model.Id = id;
@@ -91,7 +115,11 @@ namespace cw2.contact
             model.Email= email;
             model.Tel = tel;
             model.Type = type;
-            model.DbEntityId = id;
+
+            if (!AppConstant.DRAFT.Equals(status))
+            {
+                model.DbEntityId = id;
+            }
 
             FormNewContact formNewContact = new FormNewContact(model);
             formNewContact.Show();

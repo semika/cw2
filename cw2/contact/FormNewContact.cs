@@ -12,6 +12,7 @@ using System.Data.Entity;
 using cw2;
 using cw2.contact;
 using cw2.common;
+using System.Threading;
 
 namespace cw2
 {
@@ -33,7 +34,7 @@ namespace cw2
 
         private void onContactFormLoad(object sender, EventArgs e)
         {
-            populateGrid();
+            //populateGrid();
             populateTypeComboBox();
             //reset();
 
@@ -57,21 +58,21 @@ namespace cw2
             model.Tel = txtTel.Text.Trim();
             model.Type = cmbType.Text.Trim();
 
-            CW2Response< ContactDto> reponse = ContactService.Instance.save(model);
+            CW2Response<ContactDto> reponse = ContactService.Instance.save(model);
             showSuccessStatus(reponse.Message);
             if (reponse.Status.Equals(AppConstant.SUCCESS))
             {
-                populateGrid();
-            } 
+                //populateGrid();
+            }
         }
 
-        private void populateGrid()
+       /* private void populateGrid()
         {
             dataGridContact.AutoGenerateColumns = false;
             CW2Response<ContactDto> response = ContactService.Instance.getAllContactsFromDataSet();
             dataGridContact.DataSource = response.dataList;
             //reset();
-        }
+        }*/
 
         private void onBtnResetClick(object sender, EventArgs e)
         {
@@ -85,7 +86,7 @@ namespace cw2
             model.Id = 0;
         }
 
-        private void onGridCellClick(object sender, DataGridViewCellEventArgs e)
+       /* private void onGridCellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1) //Header row index will be zero
             {
@@ -110,7 +111,7 @@ namespace cw2
                 model.Id = id;
                 
             }
-        }
+        }*/
 
         private void populateFromDataGridRow(DataGridViewRow selectedRow)
         {
@@ -144,7 +145,7 @@ namespace cw2
             contactStatusStrip.Text = message;
         }
 
-        private void onBtnDeleteClick(object sender, EventArgs e)
+     /*   private void onBtnDeleteClick(object sender, EventArgs e)
         {
             if (dataGridContact.SelectedRows.Count > 0)
             {
@@ -155,6 +156,13 @@ namespace cw2
                     showSuccessStatus("Record Deleted Successfully");
                 }
             }
-        }
+        }*/
+
+       /* private void onBtnDeleteDraftClick(object sender, EventArgs e)
+        {
+            CW2Response<ContactDto> reponse = ContactService.Instance.removeDraft(model.Id);
+            MessageBox.Show(reponse.Message);
+            populateGrid();
+        }*/
     }
 }

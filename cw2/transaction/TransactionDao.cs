@@ -98,30 +98,15 @@ namespace cw2.transaction
             {
                 if (db.Database.Exists())
                 {
-                    var query = db.Transactions.Where(txn => (txn.Title.Contains(dto.Title)));
-
-                    //string dateParam = dto.Date.ToString("MM/dd/yyyy");
-
                     var searchQuery = from txn in db.Transactions
                                       join tins in db.TransactionInstances on txn.Id equals tins.TransactionId
-                                        where txn.Title.Contains(dto.Title) 
-                                            //&& txn.Type.Equals(dto.Type) 
-                                            && (txn.ExpireDate == dto.CreatedDate) 
+                                      where  (dto.Title == null || txn.Title.Contains(dto.Title))
+                                          && (dto.Type == null || txn.Type.Equals(dto.Type)) 
+                                            //&& (dto.CreatedDate == null || txn.ExpireDate == dto.CreatedDate) 
                                             //&& (tins.TransactionDate == dto.CreatedDate)
 
                                       select txn;
-
-                    if (dto.Type.Trim().Length > 0)
-                    {
-                        query = query.Where(txn => (txn.Type.Equals(dto.Type)));
-                    }
-
-                    if (dto.CreatedDate != null)
-                    {
-                        //query.Join(db.TransactionInstances, txn => txn.Id, tins => tins.TransactionId, (txn, tins) => new { Transaction = txn, TransactionInstance = tins }).Where(tins => tins.Date);
-                    }
                     transactionList.AddRange(searchQuery.ToList<Transaction>());
-
                 }
                 else
                 {
@@ -134,17 +119,27 @@ namespace cw2.transaction
 
         public void delete(int id)
         {
+            clearTransactionInstances(id);
+
             using (Entities db = new Entities())
             {
                 if (db.Database.Exists())
                 {
                     Transaction transaction = db.Transactions.First(e => e.Id == id);
+
                     var entry = db.Entry(transaction);
                     if (entry.State == EntityState.Detached)
                     {
                         db.Transactions.Attach(transaction);
                     }
                     db.Transactions.Remove(transaction);
+
+                    //remove trnsaction instances
+                    /*foreach (TransactionInstance tins in transaction.TransactionInstances)
+                    {
+                        transaction.TransactionInstances.Remove(tins);
+                    }*/
+
                     db.SaveChanges();
                 }
                 else
@@ -165,11 +160,6 @@ namespace cw2.transaction
                     List<TransactionInstance> list = transactionInstances.ToList<TransactionInstance>();
 
                     db.TransactionInstances.RemoveRange(list);
-
-                    /* foreach (TransactionInstance tins in list)
-                     {
-                         db.TransactionInstances.Remove(tins);
-                     }*/
 
                     db.SaveChanges();
                 }

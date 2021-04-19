@@ -905,6 +905,7 @@ namespace cw2 {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, true));
                 this.columnId.AutoIncrement = true;
+                this.columnId.AutoIncrementSeed = 1;
                 this.columnId.AllowDBNull = false;
                 this.columnId.Unique = true;
             }
@@ -1234,6 +1235,7 @@ namespace cw2 {
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnId}, true));
                 this.columnId.AutoIncrement = true;
+                this.columnId.AutoIncrementSeed = 1;
                 this.columnId.AllowDBNull = false;
                 this.columnId.Unique = true;
                 this.columnContactName.AllowDBNull = false;

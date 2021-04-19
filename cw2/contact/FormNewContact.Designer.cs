@@ -34,6 +34,7 @@ namespace cw2
             this.lblEmail = new System.Windows.Forms.Label();
             this.lblContactNumber = new System.Windows.Forms.Label();
             this.contactGroup = new System.Windows.Forms.GroupBox();
+            this.cmbType = new System.Windows.Forms.ComboBox();
             this.btnDelete = new System.Windows.Forms.Button();
             this.lblType = new System.Windows.Forms.Label();
             this.btnReset = new System.Windows.Forms.Button();
@@ -42,21 +43,9 @@ namespace cw2
             this.txtTel = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.txtName = new System.Windows.Forms.TextBox();
-            this.grpContactGrid = new System.Windows.Forms.GroupBox();
-            this.dataGridContact = new System.Windows.Forms.DataGridView();
-            this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.contactName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Tel = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.contactStatusStrip = new System.Windows.Forms.ToolStripStatusLabel();
-            this.cmbType = new System.Windows.Forms.ComboBox();
-            this.btnSubmit = new System.Windows.Forms.Button();
             this.contactGroup.SuspendLayout();
-            this.grpContactGrid.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridContact)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -111,13 +100,23 @@ namespace cw2
             this.contactGroup.Controls.Add(this.lblEmail);
             this.contactGroup.Controls.Add(this.lblContactNumber);
             this.contactGroup.Controls.Add(this.lblAddress);
-            this.contactGroup.Location = new System.Drawing.Point(825, 29);
+            this.contactGroup.Location = new System.Drawing.Point(12, 12);
             this.contactGroup.Name = "contactGroup";
-            this.contactGroup.Size = new System.Drawing.Size(446, 340);
+            this.contactGroup.Size = new System.Drawing.Size(460, 344);
             this.contactGroup.TabIndex = 4;
             this.contactGroup.TabStop = false;
             this.contactGroup.Text = "Contact Add/Edit";
-            
+            // 
+            // cmbType
+            // 
+            this.cmbType.DropDownHeight = 150;
+            this.cmbType.FormattingEnabled = true;
+            this.cmbType.IntegralHeight = false;
+            this.cmbType.ItemHeight = 13;
+            this.cmbType.Location = new System.Drawing.Point(152, 250);
+            this.cmbType.Name = "cmbType";
+            this.cmbType.Size = new System.Drawing.Size(250, 21);
+            this.cmbType.TabIndex = 17;
             // 
             // btnDelete
             // 
@@ -127,7 +126,6 @@ namespace cw2
             this.btnDelete.TabIndex = 16;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.onBtnDeleteClick);
             // 
             // lblType
             // 
@@ -154,7 +152,7 @@ namespace cw2
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(99, 23);
             this.btnSave.TabIndex = 5;
-            this.btnSave.Text = "Save As Draft";
+            this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.onSaveButtonClick);
             // 
@@ -186,79 +184,13 @@ namespace cw2
             this.txtName.Size = new System.Drawing.Size(250, 20);
             this.txtName.TabIndex = 2;
             // 
-            // grpContactGrid
-            // 
-            this.grpContactGrid.Controls.Add(this.btnSubmit);
-            this.grpContactGrid.Controls.Add(this.dataGridContact);
-            this.grpContactGrid.Location = new System.Drawing.Point(35, 29);
-            this.grpContactGrid.Name = "grpContactGrid";
-            this.grpContactGrid.Size = new System.Drawing.Size(758, 340);
-            this.grpContactGrid.TabIndex = 5;
-            this.grpContactGrid.TabStop = false;
-            this.grpContactGrid.Text = "Contact List";
-            // 
-            // dataGridContact
-            // 
-            this.dataGridContact.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridContact.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Id,
-            this.contactName,
-            this.Address,
-            this.Tel,
-            this.Email,
-            this.Type});
-            this.dataGridContact.Location = new System.Drawing.Point(28, 30);
-            this.dataGridContact.MultiSelect = false;
-            this.dataGridContact.Name = "dataGridContact";
-            this.dataGridContact.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridContact.Size = new System.Drawing.Size(683, 242);
-            this.dataGridContact.TabIndex = 0;
-            this.dataGridContact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.onGridCellClick);
-            
-            // 
-            // Id
-            // 
-            this.Id.DataPropertyName = "Id";
-            this.Id.HeaderText = "ID";
-            this.Id.Name = "Id";
-            // 
-            // contactName
-            // 
-            this.contactName.DataPropertyName = "Name";
-            this.contactName.HeaderText = "Name";
-            this.contactName.Name = "contactName";
-            // 
-            // Address
-            // 
-            this.Address.DataPropertyName = "Address";
-            this.Address.HeaderText = "Address";
-            this.Address.Name = "Address";
-            // 
-            // Tel
-            // 
-            this.Tel.DataPropertyName = "Tel";
-            this.Tel.HeaderText = "Contact Number";
-            this.Tel.Name = "Tel";
-            // 
-            // Email
-            // 
-            this.Email.DataPropertyName = "Email";
-            this.Email.HeaderText = "Email";
-            this.Email.Name = "Email";
-            // 
-            // Type
-            // 
-            this.Type.DataPropertyName = "Type";
-            this.Type.HeaderText = "Type";
-            this.Type.Name = "Type";
-            // 
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.contactStatusStrip});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 399);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 367);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(1298, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(494, 22);
             this.statusStrip1.TabIndex = 6;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -267,42 +199,18 @@ namespace cw2
             this.contactStatusStrip.Name = "contactStatusStrip";
             this.contactStatusStrip.Size = new System.Drawing.Size(0, 17);
             // 
-            // cmbType
-            // 
-            this.cmbType.DropDownHeight = 150;
-            this.cmbType.FormattingEnabled = true;
-            this.cmbType.IntegralHeight = false;
-            this.cmbType.ItemHeight = 13;
-            this.cmbType.Location = new System.Drawing.Point(152, 250);
-            this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(250, 21);
-            this.cmbType.TabIndex = 17;
-            // 
-            // btnSubmit
-            // 
-            this.btnSubmit.Location = new System.Drawing.Point(28, 298);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(75, 23);
-            this.btnSubmit.TabIndex = 1;
-            this.btnSubmit.Text = "Submit";
-            this.btnSubmit.UseVisualStyleBackColor = true;
-            
-            // 
             // FormNewContact
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1298, 421);
+            this.ClientSize = new System.Drawing.Size(494, 389);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.grpContactGrid);
             this.Controls.Add(this.contactGroup);
             this.Name = "FormNewContact";
             this.Text = "New Contact";
             this.Load += new System.EventHandler(this.onContactFormLoad);
             this.contactGroup.ResumeLayout(false);
             this.contactGroup.PerformLayout();
-            this.grpContactGrid.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridContact)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -324,18 +232,9 @@ namespace cw2
         private System.Windows.Forms.Button btnReset;
         private System.Windows.Forms.Button btnSave;
         private System.Windows.Forms.Label lblType;
-        private System.Windows.Forms.GroupBox grpContactGrid;
-        private System.Windows.Forms.DataGridView dataGridContact;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn contactName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Address;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Tel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Email;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel contactStatusStrip;
         private System.Windows.Forms.Button btnDelete;
         private System.Windows.Forms.ComboBox cmbType;
-        private System.Windows.Forms.Button btnSubmit;
     }
 }

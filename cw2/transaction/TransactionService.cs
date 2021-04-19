@@ -172,17 +172,21 @@ namespace cw2.transaction
             }
 
             //save data on DB
-            CW2Response<TransactionDto> saveToDBResponse =  saveOnDB(dto);
-            
-            if (saveToDBResponse.Status.Equals(AppConstant.SUCCESS))
-            {
-                //saving data to database success. 
-                //remove the local copy.
-                Console.WriteLine("Record saved into the database successfully.");
-                CW2Response<TransactionDto> removeDraftResponse = removeDraft(saveDraftResponse.dto.Id);
-            }
+            Task saveToDbTask = Task.Run(() => {
+                CW2Response<TransactionDto> saveToDBResponse = saveOnDB(dto);
+                if (saveToDBResponse.Status.Equals(AppConstant.SUCCESS))
+                {
+                    //saving data to database success. 
+                    //remove the local copy.
+                    Console.WriteLine("Record saved into the database successfully.");
+                    CW2Response<TransactionDto> removeDraftResponse = removeDraft(saveDraftResponse.dto.Id);
+                }
+            });
 
-            if (saveDraftResponse.Status.Equals(AppConstant.SUCCESS) && saveToDBResponse.Status.Equals(AppConstant.SUCCESS))
+            //CW2Response<TransactionDto> saveToDBResponse =  saveOnDB(dto);
+            
+            
+           /* if (saveDraftResponse.Status.Equals(AppConstant.SUCCESS) && saveToDBResponse.Status.Equals(AppConstant.SUCCESS))
             {
                 saveToDBResponse.Message = "Record saved successfully";
                 saveToDBResponse.Status = AppConstant.SUCCESS;
@@ -201,9 +205,9 @@ namespace cw2.transaction
             {
                 saveToDBResponse.Status = AppConstant.ERROR;
                 saveToDBResponse.Message = "Record saved failed";
-            }
+            }*/
 
-            return saveToDBResponse;
+            return saveDraftResponse;
         }
 
         private List<DateTime> getTransactionInstanceDates(TransactionDto dto)
@@ -320,7 +324,6 @@ namespace cw2.transaction
                         throw new CW2DataValidationException("Invalid date range for yearly recurring transaction");
                     }
                     break;
-                    break;
             }
             
         }
@@ -341,15 +344,6 @@ namespace cw2.transaction
                 transactionInstance.TransactionId = transaction.Id;
                 transaction.TransactionInstances.Add(transactionInstance);
             }
-
-           /* foreach (DateTime day in CommonUtil.eachDay(startDate, expireDate))
-            {
-                TransactionInstance transactionInstance = new TransactionInstance();
-                transactionInstance.TransactionDate = day;
-                transactionInstance.Transaction = transaction;
-                transactionInstance.TransactionId = transaction.Id;
-                transaction.TransactionInstances.Add(transactionInstance);
-            }*/
         }
 
         public CW2Response<TransactionDto> getAllTransactions()
@@ -440,6 +434,26 @@ namespace cw2.transaction
             }
 
             response.dataList = transactionDtoList;
+            return response;
+        }
+
+        public CW2Response<TransactionDto> delete(int id)
+        {
+            CW2Response<TransactionDto> response = new CW2Response<TransactionDto>();
+
+            try
+            {
+                TransactionDao.Instance.delete(id);
+                response.Status = AppConstant.SUCCESS;
+                response.Message = "Record deleted successfully";
+            }
+            catch (Exception e)
+            {
+                response.Status = AppConstant.ERROR;
+                response.Message = "Internal System Failure";
+                Console.WriteLine(e.StackTrace);
+            }
+
             return response;
         }
 

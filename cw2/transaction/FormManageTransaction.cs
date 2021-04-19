@@ -1,5 +1,6 @@
 ﻿using cw2.common;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -46,17 +47,38 @@ namespace cw2.transaction
 
         private void fetchDataByCriteria()
         {
-            TransactionDto dto = new TransactionDto
+            TransactionDto dto = new TransactionDto();
+            if (txtTitle.Text.Trim().Length > 0)
             {
-                Title = txtTitle.Text,
-                CreatedDate = dtpDate.Value,
-                Type = cmbType.Text
-            };
+                dto.Title = txtTitle.Text;
+            }
+
+            if (cmbType.Text.Trim().Length > 0)
+            {
+                dto.Type = cmbType.Text;
+            }
+
+            if (dtpDate.Value != null)
+            {
+                //dto.CreatedDate = dtpDate.Value;
+            } else
+            {
+               // dto.CreatedDate = null;
+            }
 
             dataGridTransaction.AutoGenerateColumns = false;
-            CW2Response<TransactionDto> response  = TransactionService.Instance.searchTransactionByCriteria(dto);
+            
+            var dataList = new ArrayList();
 
-            dataGridTransaction.DataSource = response.dataList;
+            //Add Draft data first
+            CW2Response<TransactionDto> response1 = TransactionService.Instance.getAllTransactionsFromDataSet();
+            dataList.AddRange(response1.dataList);
+
+            //Add DB saved data
+            CW2Response<TransactionDto> response  = TransactionService.Instance.searchTransactionByCriteria(dto);
+            dataList.AddRange(response.dataList);
+
+            dataGridTransaction.DataSource = dataList;
 
             reset();
         }
@@ -68,21 +90,36 @@ namespace cw2.transaction
 
         private void onBtnDeleteClick(object sender, EventArgs e)
         {
+            int id = Convert.ToInt32(this.selectedRow.Cells["Id"].Value);
+            string status = Convert.ToString(this.selectedRow.Cells["Status"].Value);
 
+            if (AppConstant.DRAFT.Equals(status))
+            {
+                CW2Response<TransactionDto> reponse = TransactionService.Instance.removeDraft(id);
+                MessageBox.Show(reponse.Message);
+            }
+            else
+            {
+                CW2Response<TransactionDto> reponse = TransactionService.Instance.delete(id);
+                MessageBox.Show(reponse.Message);
+            }
+
+            fetchDataByCriteria();
         }
 
         private void onBtnEditClick(object sender, EventArgs e)
         {
             int id = Convert.ToInt32(this.selectedRow.Cells["Id"].Value);
-            String title = Convert.ToString(this.selectedRow.Cells["Title"].Value);
+            string title = Convert.ToString(this.selectedRow.Cells["Title"].Value);
             double amount = Convert.ToDouble(this.selectedRow.Cells["Amount"].Value);
             DateTime date = Convert.ToDateTime(this.selectedRow.Cells["Date"].Value);
             DateTime expireDate = Convert.ToDateTime(this.selectedRow.Cells["ExpireDate"].Value);
-            String type = Convert.ToString(this.selectedRow.Cells["Type"].Value);
-            String occurence = Convert.ToString(this.selectedRow.Cells["Occurence"].Value);
-            String recurrenceType = Convert.ToString(this.selectedRow.Cells["RecurrenceType"].Value);
+            string type = Convert.ToString(this.selectedRow.Cells["Type"].Value);
+            string occurence = Convert.ToString(this.selectedRow.Cells["Occurence"].Value);
+            string recurrenceType = Convert.ToString(this.selectedRow.Cells["RecurrenceType"].Value);
             int onDate = Convert.ToInt32(this.selectedRow.Cells["OnDate"].Value);
-            String onMonth = Convert.ToString(this.selectedRow.Cells["OnMonth"].Value);
+            string onMonth = Convert.ToString(this.selectedRow.Cells["OnMonth"].Value);
+            string status = Convert.ToString(this.selectedRow.Cells["Status"].Value);
 
             TransactionDto model = new TransactionDto();
             model.Id = id;
@@ -95,7 +132,11 @@ namespace cw2.transaction
             model.RecurrenceType = recurrenceType;
             model.OnDate = onDate;
             model.OnMonth = onMonth;
-            model.DbEntityId = id;
+
+            if (!AppConstant.DRAFT.Equals(status))
+            {
+                model.DbEntityId = id;
+            }
 
             FormNewTransaction formNewTransaction = new FormNewTransaction(model);
             formNewTransaction.Show();

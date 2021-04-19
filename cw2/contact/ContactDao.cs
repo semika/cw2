@@ -71,7 +71,14 @@ namespace cw2.contact
 
             using (Entities db = new Entities())
             {
-                contactList = db.Contacts.ToList<Contact>();
+                if (db.Database.Exists())
+                {
+                    contactList = db.Contacts.ToList<Contact>();
+                } 
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
             }
 
             return contactList;
@@ -81,14 +88,22 @@ namespace cw2.contact
         {
             using (Entities db = new Entities())
             {
-                Contact contact = db.Contacts.First(e => e.Id == id);
-                var entry = db.Entry(contact);
-                if (entry.State == EntityState.Detached)
+                if (db.Database.Exists())
                 {
-                    db.Contacts.Attach(contact);
+                    Contact contact = db.Contacts.First(e => e.Id == id);
+                    var entry = db.Entry(contact);
+                    if (entry.State == EntityState.Detached)
+                    {
+                        db.Contacts.Attach(contact);
+                    }
+                    db.Contacts.Remove(contact);
+                    db.SaveChanges();
                 }
-                db.Contacts.Remove(contact);
-                db.SaveChanges();
+                else
+                {
+                    throw new CW2DatabaseUnavaiableException("Database Unavailable");
+                }
+               
             }
         }
 

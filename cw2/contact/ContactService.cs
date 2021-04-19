@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using cw2.common;
 using cw2.common.exception;
@@ -64,7 +65,7 @@ namespace cw2.contact
             return response; ;
         }
 
-        private CW2Response<ContactDto> saveDraft(ContactDto dto)
+        public CW2Response<ContactDto> saveDraft(ContactDto dto)
         {
             CW2Response<ContactDto> response = new CW2Response<ContactDto>();
 
@@ -160,38 +161,19 @@ namespace cw2.contact
             }
 
             //save data on DB
-            CW2Response<ContactDto> saveToDBResponse = saveOnDB(dto);
 
-            if (saveToDBResponse.Status.Equals(AppConstant.SUCCESS))
-            {
-                //saving data to database success. 
-                //remove the local copy.
-                Console.WriteLine("Record saved into the database successfully.");
-                CW2Response<ContactDto> removeDraftResponse = removeDraft(saveDraftResponse.dto.Id);
-            }
+            Task saveToDbTask = Task.Run(() => {
+                CW2Response<ContactDto> saveToDBResponse = saveOnDB(dto);
+                if (saveToDBResponse.Status.Equals(AppConstant.SUCCESS))
+                {
+                    //saving data to database success. 
+                    //remove the local copy.
+                    Console.WriteLine("Record saved into the database successfully.");
+                    CW2Response<ContactDto> removeDraftResponse = removeDraft(saveDraftResponse.dto.Id);
+                }
+            });
 
-            if (saveDraftResponse.Status.Equals(AppConstant.SUCCESS) && saveToDBResponse.Status.Equals(AppConstant.SUCCESS))
-            {
-                saveToDBResponse.Message = "Record saved successfully";
-                saveToDBResponse.Status = AppConstant.SUCCESS;
-            }
-            else if (saveDraftResponse.Status.Equals(AppConstant.SUCCESS) && saveToDBResponse.Status.Equals(AppConstant.ERROR))
-            {
-                saveToDBResponse.Message = "System was unable to connect to the database. Record was saved as a draft";
-                saveToDBResponse.Status = AppConstant.SUCCESS;
-            }
-            else if (saveDraftResponse.Status.Equals(AppConstant.ERROR) && saveToDBResponse.Status.Equals(AppConstant.SUCCESS))
-            {
-                saveToDBResponse.Message = "Record saved successfully";
-                saveToDBResponse.Status = AppConstant.SUCCESS;
-            }
-            else if (saveDraftResponse.Status.Equals(AppConstant.ERROR) && saveToDBResponse.Status.Equals(AppConstant.ERROR))
-            {
-                saveToDBResponse.Status = AppConstant.ERROR;
-                saveToDBResponse.Message = "Record saved failed";
-            }
-
-            return saveToDBResponse;
+            return saveDraftResponse;
         }
 
         private CW2Response<ContactDto> validateSave(ContactDto dto)
@@ -235,15 +217,31 @@ namespace cw2.contact
             {
                 response.Status = AppConstant.ERROR;
                 response.Message = "Internal System Failure";
+                Console.WriteLine(e.StackTrace); 
             }
 
             response.dataList = contactDtoList;
             return response;
         }
 
-        public void delete(int id)
+        public CW2Response<ContactDto> delete(int id)
         {
-            ContactDao.Instance.delete(id);
+            CW2Response<ContactDto> response = new CW2Response<ContactDto>();
+
+            try
+            {
+                ContactDao.Instance.delete(id);
+                response.Status = AppConstant.SUCCESS;
+                response.Message = "Record deleted successfully";
+            }
+            catch(Exception e)
+            {
+                response.Status = AppConstant.ERROR;
+                response.Message = "Internal System Failure";
+                Console.WriteLine(e.StackTrace);
+            }
+
+            return response;
         }
 
 

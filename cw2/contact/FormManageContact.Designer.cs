@@ -30,22 +30,23 @@ namespace cw2.contact
         private void InitializeComponent()
         {
             this.groupBoxContactSearchForm = new System.Windows.Forms.GroupBox();
-            this.groupBoxContactList = new System.Windows.Forms.GroupBox();
-            this.btnSearch = new System.Windows.Forms.Button();
-            this.btnReset = new System.Windows.Forms.Button();
-            this.dataGridContact = new System.Windows.Forms.DataGridView();
-            this.cmbType = new System.Windows.Forms.ComboBox();
-            this.lblType = new System.Windows.Forms.Label();
-            this.lblName = new System.Windows.Forms.Label();
             this.txtName = new System.Windows.Forms.TextBox();
+            this.lblName = new System.Windows.Forms.Label();
+            this.lblType = new System.Windows.Forms.Label();
+            this.cmbType = new System.Windows.Forms.ComboBox();
+            this.btnReset = new System.Windows.Forms.Button();
+            this.btnSearch = new System.Windows.Forms.Button();
+            this.groupBoxContactList = new System.Windows.Forms.GroupBox();
+            this.btnDelete = new System.Windows.Forms.Button();
+            this.dataGridContact = new System.Windows.Forms.DataGridView();
+            this.btnEdit = new System.Windows.Forms.Button();
             this.Id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ContactName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Tel = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.btnDelete = new System.Windows.Forms.Button();
-            this.btnEdit = new System.Windows.Forms.Button();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBoxContactSearchForm.SuspendLayout();
             this.groupBoxContactList.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridContact)).BeginInit();
@@ -66,6 +67,59 @@ namespace cw2.contact
             this.groupBoxContactSearchForm.TabStop = false;
             this.groupBoxContactSearchForm.Text = "Search Contacts";
             // 
+            // txtName
+            // 
+            this.txtName.Location = new System.Drawing.Point(258, 42);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(100, 20);
+            this.txtName.TabIndex = 5;
+            // 
+            // lblName
+            // 
+            this.lblName.AutoSize = true;
+            this.lblName.Location = new System.Drawing.Point(217, 42);
+            this.lblName.Name = "lblName";
+            this.lblName.Size = new System.Drawing.Size(35, 13);
+            this.lblName.TabIndex = 4;
+            this.lblName.Text = "Name";
+            // 
+            // lblType
+            // 
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(13, 42);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(31, 13);
+            this.lblType.TabIndex = 3;
+            this.lblType.Text = "Type";
+            // 
+            // cmbType
+            // 
+            this.cmbType.FormattingEnabled = true;
+            this.cmbType.Location = new System.Drawing.Point(50, 42);
+            this.cmbType.Name = "cmbType";
+            this.cmbType.Size = new System.Drawing.Size(121, 21);
+            this.cmbType.TabIndex = 2;
+            // 
+            // btnReset
+            // 
+            this.btnReset.Location = new System.Drawing.Point(120, 87);
+            this.btnReset.Name = "btnReset";
+            this.btnReset.Size = new System.Drawing.Size(75, 23);
+            this.btnReset.TabIndex = 1;
+            this.btnReset.Text = "Clear";
+            this.btnReset.UseVisualStyleBackColor = true;
+            this.btnReset.Click += new System.EventHandler(this.onBtnResetClick);
+            // 
+            // btnSearch
+            // 
+            this.btnSearch.Location = new System.Drawing.Point(16, 87);
+            this.btnSearch.Name = "btnSearch";
+            this.btnSearch.Size = new System.Drawing.Size(75, 23);
+            this.btnSearch.TabIndex = 0;
+            this.btnSearch.Text = "Search";
+            this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.onBtnSearchClick);
+            // 
             // groupBoxContactList
             // 
             this.groupBoxContactList.Controls.Add(this.btnDelete);
@@ -78,25 +132,15 @@ namespace cw2.contact
             this.groupBoxContactList.TabStop = false;
             this.groupBoxContactList.Text = "Contact List";
             // 
-            // btnSearch
+            // btnDelete
             // 
-            this.btnSearch.Location = new System.Drawing.Point(16, 87);
-            this.btnSearch.Name = "btnSearch";
-            this.btnSearch.Size = new System.Drawing.Size(75, 23);
-            this.btnSearch.TabIndex = 0;
-            this.btnSearch.Text = "Search";
-            this.btnSearch.UseVisualStyleBackColor = true;
-            this.btnSearch.Click += new System.EventHandler(this.onBtnSearchClick);
-            // 
-            // btnReset
-            // 
-            this.btnReset.Location = new System.Drawing.Point(120, 87);
-            this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(75, 23);
-            this.btnReset.TabIndex = 1;
-            this.btnReset.Text = "Clear";
-            this.btnReset.UseVisualStyleBackColor = true;
-            this.btnReset.Click += new System.EventHandler(this.onBtnResetClick);
+            this.btnDelete.Location = new System.Drawing.Point(108, 279);
+            this.btnDelete.Name = "btnDelete";
+            this.btnDelete.Size = new System.Drawing.Size(75, 23);
+            this.btnDelete.TabIndex = 3;
+            this.btnDelete.Text = "Delete";
+            this.btnDelete.UseVisualStyleBackColor = true;
+            this.btnDelete.Click += new System.EventHandler(this.onBtnDeleteClick);
             // 
             // dataGridContact
             // 
@@ -107,45 +151,23 @@ namespace cw2.contact
             this.Address,
             this.Tel,
             this.Email,
-            this.Type});
+            this.Type,
+            this.Status});
             this.dataGridContact.Location = new System.Drawing.Point(16, 19);
             this.dataGridContact.Name = "dataGridContact";
             this.dataGridContact.Size = new System.Drawing.Size(1140, 238);
             this.dataGridContact.TabIndex = 0;
             this.dataGridContact.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.onDataGridContactCellClick);
             // 
-            // cmbType
+            // btnEdit
             // 
-            this.cmbType.FormattingEnabled = true;
-            this.cmbType.Location = new System.Drawing.Point(50, 42);
-            this.cmbType.Name = "cmbType";
-            this.cmbType.Size = new System.Drawing.Size(121, 21);
-            this.cmbType.TabIndex = 2;
-            // 
-            // lblType
-            // 
-            this.lblType.AutoSize = true;
-            this.lblType.Location = new System.Drawing.Point(13, 42);
-            this.lblType.Name = "lblType";
-            this.lblType.Size = new System.Drawing.Size(31, 13);
-            this.lblType.TabIndex = 3;
-            this.lblType.Text = "Type";
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.Location = new System.Drawing.Point(217, 42);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(35, 13);
-            this.lblName.TabIndex = 4;
-            this.lblName.Text = "Name";
-            // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(258, 42);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(100, 20);
-            this.txtName.TabIndex = 5;
+            this.btnEdit.Location = new System.Drawing.Point(16, 279);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(75, 23);
+            this.btnEdit.TabIndex = 2;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.onBtnEditClick);
             // 
             // Id
             // 
@@ -183,25 +205,11 @@ namespace cw2.contact
             this.Type.HeaderText = "Type";
             this.Type.Name = "Type";
             // 
-            // btnDelete
+            // Status
             // 
-            this.btnDelete.Location = new System.Drawing.Point(108, 279);
-            this.btnDelete.Name = "btnDelete";
-            this.btnDelete.Size = new System.Drawing.Size(75, 23);
-            this.btnDelete.TabIndex = 3;
-            this.btnDelete.Text = "Delete";
-            this.btnDelete.UseVisualStyleBackColor = true;
-            this.btnDelete.Click += new System.EventHandler(this.onBtnDeleteClick);
-            // 
-            // btnEdit
-            // 
-            this.btnEdit.Location = new System.Drawing.Point(16, 279);
-            this.btnEdit.Name = "btnEdit";
-            this.btnEdit.Size = new System.Drawing.Size(75, 23);
-            this.btnEdit.TabIndex = 2;
-            this.btnEdit.Text = "Edit";
-            this.btnEdit.UseVisualStyleBackColor = true;
-            this.btnEdit.Click += new System.EventHandler(this.onBtnEditClick);
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
             // 
             // FormManageContact
             // 
@@ -232,13 +240,14 @@ namespace cw2.contact
         private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.Label lblType;
         private System.Windows.Forms.ComboBox cmbType;
+        private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.Button btnEdit;
         private System.Windows.Forms.DataGridViewTextBoxColumn Id;
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Address;
         private System.Windows.Forms.DataGridViewTextBoxColumn Tel;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
-        private System.Windows.Forms.Button btnDelete;
-        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
     }
 }

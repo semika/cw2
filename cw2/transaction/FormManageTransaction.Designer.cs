@@ -52,6 +52,7 @@ namespace cw2.transaction
             this.RecurrenceType = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OnDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.OnMonth = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBoxTransactionSearch.SuspendLayout();
             this.groupBoxTransactionDataGrid.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridTransaction)).BeginInit();
@@ -191,7 +192,8 @@ namespace cw2.transaction
             this.ExpireDate,
             this.RecurrenceType,
             this.OnDate,
-            this.OnMonth});
+            this.OnMonth,
+            this.Status});
             this.dataGridTransaction.Location = new System.Drawing.Point(6, 19);
             this.dataGridTransaction.Name = "dataGridTransaction";
             this.dataGridTransaction.Size = new System.Drawing.Size(1164, 278);
@@ -258,6 +260,12 @@ namespace cw2.transaction
             this.OnMonth.HeaderText = "OnMonth";
             this.OnMonth.Name = "OnMonth";
             // 
+            // Status
+            // 
+            this.Status.DataPropertyName = "Status";
+            this.Status.HeaderText = "Status";
+            this.Status.Name = "Status";
+            // 
             // FormManageTransaction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -301,5 +309,6 @@ namespace cw2.transaction
         private System.Windows.Forms.DataGridViewTextBoxColumn RecurrenceType;
         private System.Windows.Forms.DataGridViewTextBoxColumn OnDate;
         private System.Windows.Forms.DataGridViewTextBoxColumn OnMonth;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Status;
     }
 }

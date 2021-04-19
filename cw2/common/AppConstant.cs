@@ -21,5 +21,7 @@ namespace cw2.common
 
         public const string PAYER = "Payer";
         public const string PAYEE = "Payee";
+
+        public const string DRAFT = "DRAFT";
     }
 }

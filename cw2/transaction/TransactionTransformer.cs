@@ -83,6 +83,7 @@ namespace cw2.transaction
             dto.Type = row.Type;
             dto.CreatedDate = row.CreatedDate;
             dto.Occurence = row.Occuerence;
+            dto.Status = AppConstant.DRAFT;
             
             if (row.RecurrenceType != null)
             {

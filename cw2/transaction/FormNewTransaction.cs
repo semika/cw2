@@ -32,7 +32,7 @@ namespace cw2.transaction
             pupulateDefault();
             poulateOccurenceDropDown();
             populateMonth();
-            populateGrid();
+            //populateGrid();
 
             if(this.model.Id != 0)
             {
@@ -40,7 +40,7 @@ namespace cw2.transaction
             }
         }
 
-        private void populateGrid()
+       /* private void populateGrid()
         {
             dataGridTransaction.AutoGenerateColumns = false;
             CW2Response<TransactionDto> response = TransactionService.Instance.getAllTransactionsFromDataSet();
@@ -48,7 +48,7 @@ namespace cw2.transaction
             dataGridTransaction.DataSource = response.dataList;
             //reset();
         }
-
+*/
 
         private void pupulateDefault()
         {
@@ -239,7 +239,7 @@ namespace cw2.transaction
                     MessageBox.Show(response.Message);
                 } else
                 {
-                    populateGrid();
+                    MessageBox.Show(response.Message);
                     reset();
                 }
             } 
@@ -272,7 +272,7 @@ namespace cw2.transaction
             e.Handled = !char.IsDigit(e.KeyChar) || e.KeyChar.Equals(".");
         }
 
-        private void onGridCellClick(object sender, DataGridViewCellEventArgs e)
+       /* private void onGridCellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex != -1) //Header row index will be zero
             {
@@ -281,7 +281,7 @@ namespace cw2.transaction
                 DataGridViewRow selectedRow = dataGridTransaction.Rows[e.RowIndex];
                 populateFromDataGridRow(selectedRow);
             }
-        }
+        }*/
 
         private void populateFromDataGridRow(DataGridViewRow selectedRow)
         {
@@ -332,7 +332,7 @@ namespace cw2.transaction
             reset();
         }
 
-        private void onBtnDeleteClick(object sender, MouseEventArgs e)
+    /*    private void onBtnDeleteClick(object sender, MouseEventArgs e)
         {
             var confirm = MessageBox.Show("Are you sure, you want to delete this transaction", "Confirm Transaction Delete", MessageBoxButtons.YesNo);
             if (confirm == DialogResult.Yes)
@@ -340,6 +340,15 @@ namespace cw2.transaction
                 CW2Response<TransactionDto> response = TransactionService.Instance.removeDraft(model.Id);
                 MessageBox.Show(response.Message);
                 populateGrid();
+            }
+        }*/
+
+        private void onBtnDeleteClick(object sender, EventArgs e)
+        {
+            CW2Response<TransactionDto> response = TransactionService.Instance.removeDraft(model.Id);
+            if (response.Status.Equals(AppConstant.SUCCESS))
+            {
+                MessageBox.Show(response.Message);
             }
         }
     }

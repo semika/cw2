@@ -1,4 +1,5 @@
-﻿using System;
+﻿using cw2.common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,6 +63,7 @@ namespace cw2.contact
             dto.Type = row.Tel;
             dto.Email = row.Email;
             dto.Type = row.Type;
+            dto.Status = AppConstant.DRAFT;
 
             return dto;
         }

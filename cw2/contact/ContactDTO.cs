@@ -14,7 +14,8 @@ namespace cw2.contact
         public string Email { get; set; }
         public string Tel { get; set; }
         public string Type { get; set; }
-
         public int DbEntityId { get; set; }
+
+        public string Status { get; set; }
     }
 }
