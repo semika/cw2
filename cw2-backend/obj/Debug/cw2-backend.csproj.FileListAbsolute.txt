@@ -1,7 +1,0 @@
-C:\Users\semika\source\repos\cw2\cw2-backend\bin\Debug\cw2-backend.exe.config
-C:\Users\semika\source\repos\cw2\cw2-backend\bin\Debug\cw2-backend.exe
-C:\Users\semika\source\repos\cw2\cw2-backend\bin\Debug\cw2-backend.pdb
-C:\Users\semika\source\repos\cw2\cw2-backend\obj\Debug\cw2-backend.csprojAssemblyReference.cache
-C:\Users\semika\source\repos\cw2\cw2-backend\obj\Debug\cw2-backend.csproj.CoreCompileInputs.cache
-C:\Users\semika\source\repos\cw2\cw2-backend\obj\Debug\cw2-backend.exe
-C:\Users\semika\source\repos\cw2\cw2-backend\obj\Debug\cw2-backend.pdb
